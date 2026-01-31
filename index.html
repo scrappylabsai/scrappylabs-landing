@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ScrappyLabs — Build Anything. Ship Everything.</title>
+<meta name="description" content="ScrappyLabs — 35+ years of building at the edge. AI, robotics, infrastructure, software, hardware, CNC, and consulting. Founded by an OG internet builder.">
+<meta property="og:title" content="ScrappyLabs — Build Anything. Ship Everything.">
+<meta property="og:description" content="Consulting, infrastructure, and development — from software and AI to robotics and physical builds. 35+ years of shipping.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://scrappylabs.ai">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131c;
+  --surface-2: #1a1a28;
+  --border: #2a2a3e;
+  --border-hover: #3a3a52;
+  --text: #f0f0f5;
+  --text-muted: #8a8aa0;
+  --text-dim: #5a5a72;
+  --accent: #ff6b35;
+  --accent-hover: #ff8555;
+  --accent-glow: rgba(255, 107, 53, 0.15);
+  --cyan: #00d4ff;
+  --cyan-glow: rgba(0, 212, 255, 0.1);
+  --green: #2ed573;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-hover); }
+
+/* Grain overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+/* ---- HEADER ---- */
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.logo span {
+  font-weight: 500;
+  opacity: 0.7;
+}
+
+nav { display: flex; gap: 2rem; align-items: center; }
+
+nav a {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+nav a:hover { color: var(--text); }
+
+.nav-cta {
+  background: var(--accent);
+  color: var(--bg) !important;
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.5px;
+  transition: all 0.2s;
+}
+.nav-cta:hover {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px var(--accent-glow);
+}
+
+.mobile-menu { display: none; background: none; border: none; color: var(--text); cursor: pointer; padding: 0.5rem; }
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8rem 2rem 4rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 0.4rem 1rem;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: var(--mono);
+  width: fit-content;
+  margin-bottom: 2rem;
+}
+
+.hero-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 8vw, 6rem);
+  font-weight: 900;
+  line-height: 0.95;
+  letter-spacing: -2px;
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 .gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  color: var(--text-muted);
+  max-width: 640px;
+  line-height: 1.7;
+  margin-bottom: 1rem;
+}
+
+.hero-sub strong { color: var(--text); font-weight: 600; }
+
+.hero-origin {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  margin-bottom: 3rem;
+}
+
+.hero-origin a { color: var(--cyan); }
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 2rem;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: 0.3px;
+  transition: all 0.25s;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+}
+.btn-primary:hover {
+  background: var(--accent-hover);
+  color: var(--bg);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+.btn-secondary:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-2px);
+  background: var(--surface-2);
+}
+
+/* ---- SCROLLING TICKER ---- */
+.ticker-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem 0;
+  background: var(--surface);
+}
+
+.ticker {
+  display: flex;
+  gap: 3rem;
+  animation: scroll 30s linear infinite;
+  width: max-content;
+}
+
+.ticker span {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ticker .sep { color: var(--accent); opacity: 0.4; }
+
+@keyframes scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ---- SECTIONS ---- */
+section {
+  padding: 6rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1rem;
+}
+
+.section-title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 1rem;
+}
+
+.section-desc {
+  color: var(--text-muted);
+  max-width: 600px;
+  font-size: 1.05rem;
+  line-height: 1.7;
+  margin-bottom: 3rem;
+}
+
+/* ---- SERVICES GRID ---- */
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.service-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--cyan));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.service-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+
+.service-card:hover::before { opacity: 1; }
+
+.service-icon {
+  font-size: 1.75rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.service-card h3 {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 0.6rem;
+  letter-spacing: -0.3px;
+}
+
+.service-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+.service-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-top: 1rem;
+}
+
+.service-tags span {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 0.25rem 0.6rem;
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-dim);
+}
+
+/* ---- LIVE PROJECTS ---- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.25rem;
+}
+
+.project-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.project-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 30px var(--accent-glow);
+}
+
+.project-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  width: fit-content;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+}
+
+.status-live {
+  color: var(--green);
+  background: rgba(46, 213, 115, 0.1);
+  border: 1px solid rgba(46, 213, 115, 0.2);
+}
+
+.status-beta {
+  color: var(--cyan);
+  background: rgba(0, 212, 255, 0.1);
+  border: 1px solid rgba(0, 212, 255, 0.2);
+}
+
+.status-soon {
+  color: var(--text-dim);
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+}
+
+.project-card h3 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.3px;
+}
+
+.project-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
+.project-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-top: 1.25rem;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.project-link svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s;
+}
+
+.project-link:hover svg { transform: translateX(3px); }
+
+/* ---- EXPERIENCE BAR ---- */
+.exp-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.exp-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 5rem 2rem;
+}
+
+.exp-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+
+.exp-stat .number {
+  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-weight: 900;
+  letter-spacing: -2px;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+
+.exp-stat .label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 0.5rem;
+}
+
+/* ---- PHILOSOPHY ---- */
+.philosophy-block {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 3rem;
+  position: relative;
+}
+
+.philosophy-block blockquote {
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
+  font-weight: 600;
+  line-height: 1.6;
+  color: var(--text);
+  font-style: italic;
+}
+
+.philosophy-block blockquote span { color: var(--accent); }
+
+.philosophy-block .attr {
+  margin-top: 1.5rem;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+/* ---- CONTACT / CTA ---- */
+.cta-section { text-align: center; padding: 8rem 2rem; }
+
+.cta-section .section-title {
+  margin-bottom: 1.5rem;
+}
+
+.cta-section .section-desc {
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+
+.contact-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.contact-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: all 0.2s;
+}
+
+.contact-chip:hover {
+  border-color: var(--accent);
+  color: var(--text);
+  background: var(--surface-2);
+}
+
+/* ---- FOOTER ---- */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2rem;
+  text-align: center;
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-copy {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-family: var(--mono);
+}
+
+.footer-links {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.footer-links a {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--text); }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 768px) {
+  header { padding: 0 1rem; }
+  nav .nav-link { display: none; }
+  .mobile-menu { display: block; }
+  .hero { padding: 7rem 1.25rem 3rem; }
+  .hero h1 { letter-spacing: -1px; }
+  .services-grid { grid-template-columns: 1fr; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .exp-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .philosophy-block { padding: 2rem 1.5rem; }
+  section { padding: 4rem 1.25rem; }
+  .footer-inner { flex-direction: column; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .hero-actions { flex-direction: column; }
+  .btn { width: 100%; justify-content: center; }
+  .contact-links { flex-direction: column; align-items: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo">ScrappyLabs<span>.ai</span></div>
+  <nav>
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#contact" class="nav-cta">Get in Touch</a>
+    <button class="mobile-menu" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Menu">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+    </button>
+  </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">
+    <span class="dot"></span>
+    shipping since the 90s
+  </div>
+  <h1>
+    Build anything.<br>
+    <span class="gradient">Ship everything.</span>
+  </h1>
+  <p class="hero-sub">
+    <strong>Consulting, infrastructure, and development</strong> from software and AI
+    to robotics and physical builds. 35+ years of turning ideas into things that work.
+  </p>
+  <p class="hero-origin">// brian@loser.com &mdash; OG internet, est. ~1993</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn btn-primary">Start a Conversation</a>
+    <a href="#projects" class="btn btn-secondary">See What We're Building</a>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span>AI / ML</span><span class="sep">/</span>
+    <span>Robotics</span><span class="sep">/</span>
+    <span>Infrastructure</span><span class="sep">/</span>
+    <span>CNC &amp; Fabrication</span><span class="sep">/</span>
+    <span>Software Dev</span><span class="sep">/</span>
+    <span>Hardware</span><span class="sep">/</span>
+    <span>Training &amp; Fine-Tuning</span><span class="sep">/</span>
+    <span>Construction Consulting</span><span class="sep">/</span>
+    <span>GPU Clusters</span><span class="sep">/</span>
+    <span>Voice AI</span><span class="sep">/</span>
+    <span>Edge Compute</span><span class="sep">/</span>
+    <span>Prototyping</span><span class="sep">/</span>
+    <!-- duplicate for seamless loop -->
+    <span>AI / ML</span><span class="sep">/</span>
+    <span>Robotics</span><span class="sep">/</span>
+    <span>Infrastructure</span><span class="sep">/</span>
+    <span>CNC &amp; Fabrication</span><span class="sep">/</span>
+    <span>Software Dev</span><span class="sep">/</span>
+    <span>Hardware</span><span class="sep">/</span>
+    <span>Training &amp; Fine-Tuning</span><span class="sep">/</span>
+    <span>Construction Consulting</span><span class="sep">/</span>
+    <span>GPU Clusters</span><span class="sep">/</span>
+    <span>Voice AI</span><span class="sep">/</span>
+    <span>Edge Compute</span><span class="sep">/</span>
+    <span>Prototyping</span><span class="sep">/</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <span class="section-label">// What We Do</span>
+  <h2 class="section-title">Full-stack, full-spectrum.</h2>
+  <p class="section-desc">
+    From writing firmware to training models to pouring concrete foundations.
+    If it can be built, we've probably built one before.
+  </p>
+  <div class="services-grid">
+    <div class="service-card">
+      <span class="service-icon">&#x1F9E0;</span>
+      <h3>AI & Machine Learning</h3>
+      <p>Model training, fine-tuning, inference infrastructure, and production deployment. Local GPU clusters, not just cloud bills.</p>
+      <div class="service-tags">
+        <span>LLMs</span><span>TTS</span><span>Vision</span><span>Fine-tuning</span><span>Edge AI</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">&#x2699;&#xFE0F;</span>
+      <h3>Infrastructure & DevOps</h3>
+      <p>Bare-metal to cloud. Fleet orchestration, networking, CI/CD, monitoring, and the kind of uptime that lets you sleep.</p>
+      <div class="service-tags">
+        <span>Linux</span><span>Tailscale</span><span>Cloudflare</span><span>Docker</span><span>GPU Infra</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">&#x1F4BB;</span>
+      <h3>Software Development</h3>
+      <p>Web apps, APIs, real-time systems, embedded software. Frontend to backend to everything in between.</p>
+      <div class="service-tags">
+        <span>Full-stack</span><span>APIs</span><span>Real-time</span><span>Embedded</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">&#x1F916;</span>
+      <h3>Robotics & Hardware</h3>
+      <p>Sensor integration, motor control, PCB design, embedded systems. Bridging the gap between code and the physical world.</p>
+      <div class="service-tags">
+        <span>ROS</span><span>MCUs</span><span>Sensors</span><span>PCB</span><span>3D Print</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">&#x1F3ED;</span>
+      <h3>CNC & Fabrication</h3>
+      <p>CNC machining, laser cutting, additive manufacturing. From prototype to small-batch production runs.</p>
+      <div class="service-tags">
+        <span>CNC Mill</span><span>Laser</span><span>3D Print</span><span>CAD/CAM</span>
+      </div>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">&#x1F3D7;&#xFE0F;</span>
+      <h3>Construction Consulting</h3>
+      <p>Decades of hands-on construction experience. Project planning, structural consulting, and builds that don't fall apart.</p>
+      <div class="service-tags">
+        <span>Structural</span><span>Planning</span><span>Builds</span><span>Renovation</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE STATS -->
+<div class="exp-section">
+  <div class="exp-inner">
+    <div class="exp-grid">
+      <div class="exp-stat">
+        <div class="number">35+</div>
+        <div class="label">Years Building</div>
+      </div>
+      <div class="exp-stat">
+        <div class="number">90s</div>
+        <div class="label">Internet OG</div>
+      </div>
+      <div class="exp-stat">
+        <div class="number">&infin;</div>
+        <div class="label">Stack Depth</div>
+      </div>
+      <div class="exp-stat">
+        <div class="number">0</div>
+        <div class="label">Corporate BS</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <span class="section-label">// Live Projects</span>
+  <h2 class="section-title">Currently shipping.</h2>
+  <p class="section-desc">
+    Open tools, platforms, and experiments. Some polished, some rough around the edges &mdash; all real.
+  </p>
+  <div class="projects-grid">
+    <div class="project-card">
+      <div class="project-status status-live">
+        <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--green);"></span>
+        Live
+      </div>
+      <h3>ScrappyLabs TTS</h3>
+      <p>Voice AI platform with 50+ voices. Text-to-speech, voice cloning, voice design, and a full production studio. Powered by Qwen3-TTS on local GPU.</p>
+      <a href="https://tts.scrappylabs.ai" class="project-link" target="_blank">
+        Launch App
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="project-card">
+      <div class="project-status status-beta">
+        <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--cyan);"></span>
+        Beta
+      </div>
+      <h3>ScrappyLabs Beta</h3>
+      <p>Bleeding edge. New features land here first &mdash; production studio, voice management, community features, and whatever we're cooking up next.</p>
+      <a href="https://beta.scrappylabs.ai" class="project-link" target="_blank">
+        Try Beta
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+    <div class="project-card">
+      <div class="project-status status-soon">Coming Soon</div>
+      <h3>Open Source Releases</h3>
+      <p>Tools, utilities, and frameworks from the lab. Built for real problems, released for anyone to use. GitHub coming soon.</p>
+      <span class="project-link" style="color: var(--text-dim); cursor: default;">
+        GitHub &mdash; Soon
+      </span>
+    </div>
+  </div>
+</section>
+
+<!-- PHILOSOPHY -->
+<section id="about">
+  <span class="section-label">// Philosophy</span>
+  <h2 class="section-title">How we work.</h2>
+  <div class="philosophy-block" style="margin-bottom: 1.5rem;">
+    <blockquote>
+      "The best infrastructure is the kind <span>nobody notices</span> &mdash;
+      it just works, at 3 AM, on a holiday, while you're sleeping.
+      That's what 35 years teaches you to build."
+    </blockquote>
+    <div class="attr">&mdash; Brian, ScrappyLabs</div>
+  </div>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem; margin-top: 2.5rem;">
+    <div style="padding: 1.5rem;">
+      <h3 style="font-weight: 800; margin-bottom: 0.5rem; font-size: 1rem;">Ship first, polish second.</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Working software beats perfect proposals. We build, deploy, iterate, and improve in production &mdash; not in committee.</p>
+    </div>
+    <div style="padding: 1.5rem;">
+      <h3 style="font-weight: 800; margin-bottom: 0.5rem; font-size: 1rem;">Own the stack.</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Local GPUs over cloud lock-in. Bare metal when it matters. Understanding every layer means fixing anything, anywhere.</p>
+    </div>
+    <div style="padding: 1.5rem;">
+      <h3 style="font-weight: 800; margin-bottom: 0.5rem; font-size: 1rem;">No gatekeeping.</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Knowledge should be shared. Tools should be accessible. The best tech is the tech that gets into people's hands.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="cta-section">
+  <span class="section-label">// Let's Build Something</span>
+  <h2 class="section-title">Got an idea? Let's talk.</h2>
+  <p class="section-desc">
+    Whether it's a quick consult or a full build, reach out. No sales pitch, just a conversation about what you need.
+  </p>
+  <div class="contact-links">
+    <a href="mailto:brian@loser.com" class="contact-chip">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M22 4L12 13 2 4"/></svg>
+      brian@loser.com
+    </a>
+    <a href="https://github.com/loserbcc" class="contact-chip" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      GitHub
+    </a>
+    <a href="https://tts.scrappylabs.ai" class="contact-chip" target="_blank">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg>
+      TTS Platform
+    </a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-copy">&copy; 2026 ScrappyLabs. Building since before Y2K.</div>
+    <div class="footer-links">
+      <a href="https://tts.scrappylabs.ai">TTS</a>
+      <a href="https://beta.scrappylabs.ai">Beta</a>
+      <a href="https://github.com/loserbcc">GitHub</a>
+      <a href="mailto:brian@loser.com">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
