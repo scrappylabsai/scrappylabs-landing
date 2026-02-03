@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — ScrappyLabs</title>
+<meta name="description" content="ScrappyLabs Privacy Policy for Poo Bear and related services.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131c;
+  --border: #2a2a3e;
+  --text: #f0f0f5;
+  --text-muted: #8a8aa0;
+  --accent: #ff6b35;
+  --accent-hover: #ff8555;
+  --cyan: #00d4ff;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-hover); }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 120px 2rem 80px;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+.last-updated {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text);
+}
+
+p, li {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+ul {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.card h3 {
+  margin-top: 0;
+  color: var(--accent);
+}
+
+.badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+
+.badge-collected {
+  background: rgba(255, 107, 53, 0.15);
+  color: var(--accent);
+}
+
+.badge-not-collected {
+  background: rgba(46, 213, 115, 0.15);
+  color: #2ed573;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  main { padding: 100px 1.25rem 60px; }
+  header { padding: 0 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo" aria-label="ScrappyLabs home">ScrappyLabs</a>
+</header>
+
+<main>
+  <span class="section-label">// Legal</span>
+  <h1>Privacy Policy</h1>
+  <p class="last-updated">Last updated: February 2, 2026</p>
+
+  <p>ScrappyLabs ("we", "us", "our") operates the Poo Bear mobile application. This policy describes what data we collect, how we use it, and your choices.</p>
+
+  <h2>What We Collect</h2>
+
+  <div class="card">
+    <h3>Voice Recordings</h3>
+    <span class="badge badge-collected">Collected</span>
+    <p>When you use voice cloning, we process your audio recording to create a voice model. Recordings are uploaded to our servers for processing and stored only as long as needed to generate your cloned voice. You can delete your cloned voices at any time.</p>
+  </div>
+
+  <div class="card">
+    <h3>Account Information</h3>
+    <span class="badge badge-collected">Collected</span>
+    <p>If you create a ScrappyLabs account, we store your email address and authentication credentials (managed by Supabase). Account creation is optional — the app works without an account using your own API keys.</p>
+  </div>
+
+  <div class="card">
+    <h3>Usage Data</h3>
+    <span class="badge badge-collected">Collected</span>
+    <p>We track character counts and generation counts to manage your monthly usage allocation. This data is associated with your account or device identifier. We do not track which words or stories you generate.</p>
+  </div>
+
+  <div class="card">
+    <h3>Text Content</h3>
+    <span class="badge badge-collected">Collected</span>
+    <p>Text you submit for speech generation or story creation is sent to our servers (or your configured third-party provider) for processing. We do not permanently store the content of your generations. Text is processed in real-time and discarded.</p>
+  </div>
+
+  <h2>What We Don't Collect</h2>
+
+  <div class="card">
+    <h3>None of the following</h3>
+    <span class="badge badge-not-collected">Not Collected</span>
+    <ul>
+      <li>Location data</li>
+      <li>Contacts or address book</li>
+      <li>Photos or camera data</li>
+      <li>Browsing or search history</li>
+      <li>Financial or payment information (payments handled by Apple)</li>
+      <li>Health or fitness data</li>
+      <li>Advertising identifiers or tracking data</li>
+    </ul>
+  </div>
+
+  <h2>Device Permissions</h2>
+
+  <ul>
+    <li><strong>Bluetooth</strong> — Required to connect to and control compatible AI toys (e.g., Poe AI Story Bear). Used only for device communication.</li>
+    <li><strong>Microphone</strong> — Used for voice input (speech-to-text) and voice cloning. Audio is only captured when you actively press the record button.</li>
+    <li><strong>Local Network</strong> — Used when you configure a self-hosted TTS or LLM server on your local network. Not used with ScrappyLabs cloud services.</li>
+  </ul>
+
+  <h2>Third-Party Services</h2>
+
+  <p>If you choose to use your own API keys (BYOK), your text and audio data is sent directly to the provider you configure:</p>
+  <ul>
+    <li><strong>OpenAI</strong> — <a href="https://openai.com/privacy" aria-label="OpenAI privacy policy">openai.com/privacy</a></li>
+    <li><strong>Anthropic</strong> — <a href="https://anthropic.com/privacy" aria-label="Anthropic privacy policy">anthropic.com/privacy</a></li>
+    <li><strong>ElevenLabs</strong> — <a href="https://elevenlabs.io/privacy" aria-label="ElevenLabs privacy policy">elevenlabs.io/privacy</a></li>
+  </ul>
+  <p>When using ScrappyLabs services, your data is processed on our own infrastructure and is not shared with third parties.</p>
+
+  <h2>Data Storage & Security</h2>
+
+  <ul>
+    <li>Account data is stored in Supabase (hosted in the US).</li>
+    <li>API keys you enter are stored locally in your device's iOS Keychain (encrypted, never sent to our servers).</li>
+    <li>Audio files generated are stored locally on your device. Files pushed to your toy are stored on the toy's local storage.</li>
+    <li>All network communication uses HTTPS/TLS encryption.</li>
+  </ul>
+
+  <h2>Children's Privacy</h2>
+
+  <p>Poo Bear is rated 17+ and is intended for adult use. We do not knowingly collect personal information from children under 13. The app includes a Grizzly Mode feature (mature content) that is PIN-protected and disabled by default.</p>
+
+  <h2>Your Rights</h2>
+
+  <ul>
+    <li><strong>Delete your account</strong> — Contact us to delete your ScrappyLabs account and all associated data.</li>
+    <li><strong>Delete cloned voices</strong> — Remove any voice clones from your account at any time within the app.</li>
+    <li><strong>Delete local data</strong> — Clear all locally stored audio from the Audio Library in the app.</li>
+    <li><strong>Export your data</strong> — Contact us to request a copy of your data.</li>
+  </ul>
+
+  <h2>Changes to This Policy</h2>
+
+  <p>We may update this policy from time to time. Changes will be posted on this page with an updated "last updated" date. Continued use of the app after changes constitutes acceptance of the updated policy.</p>
+
+  <h2>Contact</h2>
+
+  <p>Questions about this privacy policy? Contact us at:</p>
+  <p><a href="mailto:privacy@scrappylabs.ai">privacy@scrappylabs.ai</a></p>
+</main>
+
+<footer>
+  &copy; 2026 ScrappyLabs. All rights reserved. | <a href="/">Home</a>
+</footer>
+
+</body>
+</html>
