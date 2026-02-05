@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multilingual TTS Demo — ScrappyLabs</title>
+<meta name="description" content="Try ScrappyLabs multilingual text-to-speech. 28 languages, natural voices, instant generation.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- WCAG 2.2 AA: All text meets 4.5:1 contrast, UI components 3:1, no opacity for dimming -->
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131c;
+  --surface-2: #1a1a28;
+  --border: #4a4a6a;
+  --border-interactive: #6e6e82;
+  --text: #f0f0f5;
+  --text-muted: #8a8aa0;
+  --accent: #ff6b35;
+  --accent-hover: #ff8555;
+  --accent-glow: rgba(255, 107, 53, 0.15);
+  --cyan: #00d4ff;
+  --cyan-glow: rgba(0, 212, 255, 0.1);
+  --green: #2ed573;
+  --error: #ff4757;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-hover); }
+
+/* ---- HEADER ---- */
+header {
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.back-link {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+.back-link:hover { color: var(--text); }
+
+/* ---- MAIN ---- */
+main {
+  flex: 1;
+  max-width: 720px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 3rem 2rem 4rem;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 5vw, 2.5rem);
+  font-weight: 900;
+  letter-spacing: -1px;
+  margin-bottom: 0.5rem;
+  line-height: 1.1;
+}
+
+h1 .gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.lang-count {
+  font-family: var(--mono);
+  color: var(--cyan);
+  font-weight: 600;
+}
+
+/* ---- FORM ---- */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+select, textarea {
+  width: 100%;
+  background: var(--surface);
+  color: var(--text);
+  border: 1px solid var(--border-interactive);
+  border-radius: 10px;
+  padding: 0.85rem 1rem;
+  font-family: var(--font);
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+}
+
+select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%238a8aa0' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 120px;
+  line-height: 1.6;
+}
+
+select:focus, textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-color: var(--accent);
+}
+
+select:hover, textarea:hover {
+  border-color: var(--text-muted);
+}
+
+/* optgroup styling */
+select optgroup {
+  font-weight: 700;
+  color: var(--text-muted);
+}
+
+select option {
+  background: var(--surface);
+  color: var(--text);
+  padding: 0.5rem;
+}
+
+.char-count {
+  text-align: right;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+}
+
+.char-count.over {
+  color: var(--error);
+  font-weight: 600;
+}
+
+/* ---- GENERATE BUTTON ---- */
+.generate-btn {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  border-radius: 12px;
+  background: var(--accent);
+  color: var(--bg);
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.25s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.generate-btn:hover:not(:disabled) {
+  background: var(--accent-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+.generate-btn:disabled {
+  cursor: not-allowed;
+  background: var(--surface-2);
+  color: var(--text-muted);
+}
+
+.generate-btn:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
+}
+
+.spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2px solid transparent;
+  border-top-color: currentColor;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.generate-btn.loading .spinner { display: block; }
+.generate-btn.loading .btn-text { display: none; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---- RESULT ---- */
+.result {
+  margin-top: 2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  display: none;
+}
+
+.result.visible { display: block; }
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.result-label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+}
+
+.result-provider {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  background: rgba(0, 212, 255, 0.1);
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+
+audio {
+  width: 100%;
+  border-radius: 8px;
+  outline: none;
+}
+
+audio:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ---- ERROR ---- */
+.error-msg {
+  margin-top: 1rem;
+  background: rgba(255, 71, 87, 0.1);
+  border: 1px solid rgba(255, 71, 87, 0.3);
+  border-radius: 10px;
+  padding: 1rem;
+  color: var(--error);
+  font-size: 0.9rem;
+  display: none;
+}
+
+.error-msg.visible { display: block; }
+
+/* ---- EXAMPLES ---- */
+.examples {
+  margin-top: 3rem;
+  border-top: 1px solid var(--border);
+  padding-top: 2rem;
+}
+
+.examples h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+.example-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.example-chip {
+  background: var(--surface-2);
+  border: 1px solid var(--border-interactive);
+  border-radius: 8px;
+  padding: 0.5rem 0.85rem;
+  font-size: 0.8rem;
+  color: var(--text);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: var(--font);
+}
+
+.example-chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-glow);
+}
+
+.example-chip:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.example-chip .flag {
+  margin-right: 0.35rem;
+}
+
+/* ---- FOOTER ---- */
+footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 600px) {
+  header { padding: 0 1rem; }
+  main { padding: 2rem 1rem 3rem; }
+  .example-chips { gap: 0.4rem; }
+  .example-chip { font-size: 0.75rem; padding: 0.4rem 0.7rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo" aria-label="ScrappyLabs home">ScrappyLabs</a>
+  <a href="/" class="back-link" aria-label="Back to home">Home</a>
+</header>
+
+<main>
+  <h1>Multilingual <span class="gradient">Voice Demo</span></h1>
+  <p class="subtitle">
+    Type in any of <span class="lang-count">28 languages</span> and hear it spoken naturally.
+  </p>
+
+  <div class="form-group">
+    <label for="lang-select">Language</label>
+    <select id="lang-select" aria-label="Select language">
+      <optgroup label="Popular">
+        <option value="en" selected>English</option>
+        <option value="es">Spanish</option>
+        <option value="fr">French</option>
+        <option value="de">German</option>
+        <option value="pt">Portuguese</option>
+        <option value="it">Italian</option>
+        <option value="zh">Chinese</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+      </optgroup>
+      <optgroup label="European">
+        <option value="nl">Dutch</option>
+        <option value="pl">Polish</option>
+        <option value="ru">Russian</option>
+        <option value="uk">Ukrainian</option>
+        <option value="cs">Czech</option>
+        <option value="ro">Romanian</option>
+        <option value="hu">Hungarian</option>
+        <option value="bg">Bulgarian</option>
+        <option value="hr">Croatian</option>
+        <option value="sk">Slovak</option>
+        <option value="sl">Slovenian</option>
+      </optgroup>
+      <optgroup label="Nordic">
+        <option value="da">Danish</option>
+        <option value="fi">Finnish</option>
+        <option value="sv">Swedish</option>
+        <option value="no">Norwegian</option>
+      </optgroup>
+      <optgroup label="Other">
+        <option value="el">Greek</option>
+        <option value="tr">Turkish</option>
+        <option value="ca">Catalan</option>
+        <option value="vi">Vietnamese</option>
+      </optgroup>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="text-input">Text</label>
+    <textarea id="text-input" placeholder="Type or paste text to speak..." maxlength="500" aria-label="Text to speak">Welcome to ScrappyLabs. We create unique voices for unique creators.</textarea>
+    <div class="char-count" aria-live="polite"><span id="char-num">65</span> / 500</div>
+  </div>
+
+  <button class="generate-btn" id="generate-btn" aria-label="Generate speech">
+    <span class="btn-text">Generate Speech</span>
+    <span class="spinner" aria-hidden="true"></span>
+  </button>
+
+  <div class="error-msg" id="error-msg" role="alert"></div>
+
+  <div class="result" id="result">
+    <div class="result-header">
+      <span class="result-label">Generated Audio</span>
+    </div>
+    <audio id="audio-player" controls></audio>
+  </div>
+
+  <div class="examples">
+    <h2>Try an example</h2>
+    <div class="example-chips" role="list">
+      <button class="example-chip" role="listitem" data-lang="de" data-text="Willkommen bei ScrappyLabs. Wir schaffen einzigartige Stimmen f&uuml;r einzigartige Creator.">
+        <span class="flag">DE</span> German
+      </button>
+      <button class="example-chip" role="listitem" data-lang="fr" data-text="Bienvenue sur ScrappyLabs. Nous cr&eacute;ons des voix uniques pour des cr&eacute;ateurs uniques.">
+        <span class="flag">FR</span> French
+      </button>
+      <button class="example-chip" role="listitem" data-lang="es" data-text="Bienvenido a ScrappyLabs. Creamos voces &uacute;nicas para creadores &uacute;nicos.">
+        <span class="flag">ES</span> Spanish
+      </button>
+      <button class="example-chip" role="listitem" data-lang="it" data-text="Benvenuto su ScrappyLabs. Creiamo voci uniche per creator unici.">
+        <span class="flag">IT</span> Italian
+      </button>
+      <button class="example-chip" role="listitem" data-lang="pt" data-text="Bem-vindo ao ScrappyLabs. Criamos vozes &uacute;nicas para criadores &uacute;nicos.">
+        <span class="flag">PT</span> Portuguese
+      </button>
+      <button class="example-chip" role="listitem" data-lang="ru" data-text="&#1044;&#1086;&#1073;&#1088;&#1086; &#1087;&#1086;&#1078;&#1072;&#1083;&#1086;&#1074;&#1072;&#1090;&#1100; &#1074; ScrappyLabs. &#1052;&#1099; &#1089;&#1086;&#1079;&#1076;&#1072;&#1105;&#1084; &#1091;&#1085;&#1080;&#1082;&#1072;&#1083;&#1100;&#1085;&#1099;&#1077; &#1075;&#1086;&#1083;&#1086;&#1089;&#1072; &#1076;&#1083;&#1103; &#1091;&#1085;&#1080;&#1082;&#1072;&#1083;&#1100;&#1085;&#1099;&#1093; &#1072;&#1074;&#1090;&#1086;&#1088;&#1086;&#1074;.">
+        <span class="flag">RU</span> Russian
+      </button>
+      <button class="example-chip" role="listitem" data-lang="sv" data-text="V&auml;lkommen till ScrappyLabs. Vi skapar unika r&ouml;ster f&ouml;r unika creators.">
+        <span class="flag">SV</span> Swedish
+      </button>
+      <button class="example-chip" role="listitem" data-lang="el" data-text="&#922;&#945;&#955;&#974;&#962; &#942;&#961;&#952;&#945;&#964;&#949; &#963;&#964;&#959; ScrappyLabs. &#916;&#951;&#956;&#953;&#959;&#965;&#961;&#947;&#959;&#973;&#956;&#949; &#956;&#959;&#957;&#945;&#948;&#953;&#954;&#941;&#962; &#966;&#969;&#957;&#941;&#962;.">
+        <span class="flag">EL</span> Greek
+      </button>
+      <button class="example-chip" role="listitem" data-lang="zh" data-text="&#27426;&#36814;&#26469;&#21040;ScrappyLabs&#12290;&#25105;&#20204;&#20026;&#29420;&#29305;&#30340;&#21019;&#20316;&#32773;&#21019;&#36896;&#29420;&#29305;&#30340;&#22768;&#38899;&#12290;">
+        <span class="flag">ZH</span> Chinese
+      </button>
+      <button class="example-chip" role="listitem" data-lang="ja" data-text="ScrappyLabs&#12408;&#12424;&#12358;&#12371;&#12381;&#12290;&#12518;&#12491;&#12540;&#12463;&#12394;&#12463;&#12522;&#12456;&#12452;&#12479;&#12540;&#12398;&#12383;&#12417;&#12398;&#12518;&#12491;&#12540;&#12463;&#12394;&#22768;&#12434;&#21109;&#36896;&#12375;&#12414;&#12377;&#12290;">
+        <span class="flag">JA</span> Japanese
+      </button>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <p>ScrappyLabs &mdash; <a href="https://beta.scrappylabs.ai">Full TTS Studio</a> &bull; <a href="/">Home</a></p>
+</footer>
+
+<script>
+const API = 'https://api.scrappylabs.ai';
+const langSelect = document.getElementById('lang-select');
+const textInput = document.getElementById('text-input');
+const charNum = document.getElementById('char-num');
+const charCount = document.querySelector('.char-count');
+const genBtn = document.getElementById('generate-btn');
+const result = document.getElementById('result');
+const audioPlayer = document.getElementById('audio-player');
+const errorMsg = document.getElementById('error-msg');
+
+// Character counter
+textInput.addEventListener('input', () => {
+  const len = textInput.value.length;
+  charNum.textContent = len;
+  charCount.classList.toggle('over', len > 500);
+  genBtn.disabled = len === 0 || len > 500;
+});
+
+// Initial state
+charNum.textContent = textInput.value.length;
+genBtn.disabled = textInput.value.length === 0;
+
+// Example chips
+document.querySelectorAll('.example-chip').forEach(chip => {
+  chip.addEventListener('click', () => {
+    langSelect.value = chip.dataset.lang;
+    textInput.value = chip.dataset.text;
+    charNum.textContent = textInput.value.length;
+    charCount.classList.remove('over');
+    genBtn.disabled = false;
+    textInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+});
+
+// Generate
+genBtn.addEventListener('click', async () => {
+  const text = textInput.value.trim();
+  if (!text) return;
+
+  genBtn.classList.add('loading');
+  genBtn.disabled = true;
+  result.classList.remove('visible');
+  errorMsg.classList.remove('visible');
+
+  try {
+    const resp = await fetch(API + '/api/speak', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: text,
+        voice: 'narrator',
+        language: langSelect.value,
+      }),
+    });
+
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({}));
+      throw new Error(errData.detail || `Generation failed (${resp.status})`);
+    }
+
+    const blob = await resp.blob();
+    const url = URL.createObjectURL(blob);
+
+    // Clean up previous URL
+    if (audioPlayer.src && audioPlayer.src.startsWith('blob:')) {
+      URL.revokeObjectURL(audioPlayer.src);
+    }
+
+    audioPlayer.src = url;
+    result.classList.add('visible');
+    audioPlayer.play();
+
+  } catch (err) {
+    errorMsg.textContent = err.message || 'Something went wrong. Please try again.';
+    errorMsg.classList.add('visible');
+  } finally {
+    genBtn.classList.remove('loading');
+    genBtn.disabled = textInput.value.length === 0 || textInput.value.length > 500;
+  }
+});
+
+// Keyboard: Enter to generate (when textarea not focused)
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey && document.activeElement !== textInput) {
+    e.preventDefault();
+    genBtn.click();
+  }
+});
+</script>
+</body>
+</html>
