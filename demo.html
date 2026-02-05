@@ -191,6 +191,82 @@ select option {
   font-weight: 600;
 }
 
+/* ---- TOGGLE ---- */
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  padding: 0.85rem 1rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.toggle-row.hidden { display: none; }
+
+.toggle-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.toggle-hint {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.toggle {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+.toggle input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background: var(--surface-2);
+  border: 1px solid var(--border-interactive);
+  border-radius: 26px;
+  transition: all 0.25s;
+}
+
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  left: 2px;
+  bottom: 2px;
+  background: var(--text-muted);
+  border-radius: 50%;
+  transition: all 0.25s;
+}
+
+.toggle input:checked + .toggle-slider {
+  background: var(--cyan-glow);
+  border-color: var(--cyan);
+}
+
+.toggle input:checked + .toggle-slider::before {
+  transform: translateX(22px);
+  background: var(--cyan);
+}
+
+.toggle input:focus-visible + .toggle-slider {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
 /* ---- GENERATE BUTTON ---- */
 .generate-btn {
   width: 100%;
@@ -375,6 +451,17 @@ footer {
     </select>
   </div>
 
+  <div class="toggle-row" id="toggle-row">
+    <div>
+      <div class="toggle-label">Use Multilingual Engine</div>
+      <div class="toggle-hint">Optimized for European languages</div>
+    </div>
+    <label class="toggle">
+      <input type="checkbox" id="multilingual-toggle" aria-label="Use multilingual engine">
+      <span class="toggle-slider"></span>
+    </label>
+  </div>
+
   <div class="form-group">
     <label for="text-input">Text</label>
     <textarea id="text-input" placeholder="Type or paste text to speak..." maxlength="500" aria-label="Text to speak">Welcome to ScrappyLabs. We create unique voices for unique creators.</textarea>
@@ -411,6 +498,15 @@ const genBtn = document.getElementById('generate-btn');
 const result = document.getElementById('result');
 const audioPlayer = document.getElementById('audio-player');
 const errorMsg = document.getElementById('error-msg');
+const toggleRow = document.getElementById('toggle-row');
+const multilingualToggle = document.getElementById('multilingual-toggle');
+
+// Languages supported by the multilingual engine (KugelAudio)
+const multilingualLangs = new Set([
+  'en', 'de', 'fr', 'es', 'it', 'pt', 'nl', 'pl', 'ru', 'uk',
+  'cs', 'ro', 'hu', 'bg', 'hr', 'sk', 'sl', 'da', 'fi', 'sv',
+  'no', 'el', 'tr', 'ca'
+]);
 
 // Sample text per language
 const samples = {
@@ -453,6 +549,8 @@ function updateText() {
     charCount.classList.toggle('over', len > 500);
     genBtn.disabled = len === 0 || len > 500;
   }
+  // Show toggle only for multilingual-supported languages
+  toggleRow.classList.toggle('hidden', !multilingualLangs.has(lang));
 }
 
 // Character counter
@@ -480,14 +578,19 @@ genBtn.addEventListener('click', async () => {
   errorMsg.classList.remove('visible');
 
   try {
+    const payload = {
+      text: text,
+      voice: 'narrator',
+      language: langSelect.value,
+    };
+    // Force kugelaudio when toggle is on
+    if (multilingualToggle.checked && multilingualLangs.has(langSelect.value)) {
+      payload.provider = 'kugelaudio';
+    }
     const resp = await fetch(API + '/api/speak', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        text: text,
-        voice: 'narrator',
-        language: langSelect.value,
-      }),
+      body: JSON.stringify(payload),
     });
 
     if (!resp.ok) {
