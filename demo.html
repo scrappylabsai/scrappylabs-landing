@@ -304,55 +304,6 @@ audio:focus-visible {
 
 .error-msg.visible { display: block; }
 
-/* ---- EXAMPLES ---- */
-.examples {
-  margin-top: 3rem;
-  border-top: 1px solid var(--border);
-  padding-top: 2rem;
-}
-
-.examples h2 {
-  font-size: 1rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
-}
-
-.example-chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.example-chip {
-  background: var(--surface-2);
-  border: 1px solid var(--border-interactive);
-  border-radius: 8px;
-  padding: 0.5rem 0.85rem;
-  font-size: 0.8rem;
-  color: var(--text);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-family: var(--font);
-}
-
-.example-chip:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-glow);
-}
-
-.example-chip:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
-
-.example-chip .flag {
-  margin-right: 0.35rem;
-}
-
 /* ---- FOOTER ---- */
 footer {
   text-align: center;
@@ -366,8 +317,6 @@ footer {
 @media (max-width: 600px) {
   header { padding: 0 1rem; }
   main { padding: 2rem 1rem 3rem; }
-  .example-chips { gap: 0.4rem; }
-  .example-chip { font-size: 0.75rem; padding: 0.4rem 0.7rem; }
 }
 </style>
 </head>
@@ -446,41 +395,6 @@ footer {
     <audio id="audio-player" controls></audio>
   </div>
 
-  <div class="examples">
-    <h2>Try an example</h2>
-    <div class="example-chips" role="list">
-      <button class="example-chip" role="listitem" data-lang="de" data-text="Willkommen bei ScrappyLabs. Wir schaffen einzigartige Stimmen f&uuml;r einzigartige Creator.">
-        <span class="flag">DE</span> German
-      </button>
-      <button class="example-chip" role="listitem" data-lang="fr" data-text="Bienvenue sur ScrappyLabs. Nous cr&eacute;ons des voix uniques pour des cr&eacute;ateurs uniques.">
-        <span class="flag">FR</span> French
-      </button>
-      <button class="example-chip" role="listitem" data-lang="es" data-text="Bienvenido a ScrappyLabs. Creamos voces &uacute;nicas para creadores &uacute;nicos.">
-        <span class="flag">ES</span> Spanish
-      </button>
-      <button class="example-chip" role="listitem" data-lang="it" data-text="Benvenuto su ScrappyLabs. Creiamo voci uniche per creator unici.">
-        <span class="flag">IT</span> Italian
-      </button>
-      <button class="example-chip" role="listitem" data-lang="pt" data-text="Bem-vindo ao ScrappyLabs. Criamos vozes &uacute;nicas para criadores &uacute;nicos.">
-        <span class="flag">PT</span> Portuguese
-      </button>
-      <button class="example-chip" role="listitem" data-lang="ru" data-text="&#1044;&#1086;&#1073;&#1088;&#1086; &#1087;&#1086;&#1078;&#1072;&#1083;&#1086;&#1074;&#1072;&#1090;&#1100; &#1074; ScrappyLabs. &#1052;&#1099; &#1089;&#1086;&#1079;&#1076;&#1072;&#1105;&#1084; &#1091;&#1085;&#1080;&#1082;&#1072;&#1083;&#1100;&#1085;&#1099;&#1077; &#1075;&#1086;&#1083;&#1086;&#1089;&#1072; &#1076;&#1083;&#1103; &#1091;&#1085;&#1080;&#1082;&#1072;&#1083;&#1100;&#1085;&#1099;&#1093; &#1072;&#1074;&#1090;&#1086;&#1088;&#1086;&#1074;.">
-        <span class="flag">RU</span> Russian
-      </button>
-      <button class="example-chip" role="listitem" data-lang="sv" data-text="V&auml;lkommen till ScrappyLabs. Vi skapar unika r&ouml;ster f&ouml;r unika creators.">
-        <span class="flag">SV</span> Swedish
-      </button>
-      <button class="example-chip" role="listitem" data-lang="el" data-text="&#922;&#945;&#955;&#974;&#962; &#942;&#961;&#952;&#945;&#964;&#949; &#963;&#964;&#959; ScrappyLabs. &#916;&#951;&#956;&#953;&#959;&#965;&#961;&#947;&#959;&#973;&#956;&#949; &#956;&#959;&#957;&#945;&#948;&#953;&#954;&#941;&#962; &#966;&#969;&#957;&#941;&#962;.">
-        <span class="flag">EL</span> Greek
-      </button>
-      <button class="example-chip" role="listitem" data-lang="zh" data-text="&#27426;&#36814;&#26469;&#21040;ScrappyLabs&#12290;&#25105;&#20204;&#20026;&#29420;&#29305;&#30340;&#21019;&#20316;&#32773;&#21019;&#36896;&#29420;&#29305;&#30340;&#22768;&#38899;&#12290;">
-        <span class="flag">ZH</span> Chinese
-      </button>
-      <button class="example-chip" role="listitem" data-lang="ja" data-text="ScrappyLabs&#12408;&#12424;&#12358;&#12371;&#12381;&#12290;&#12518;&#12491;&#12540;&#12463;&#12394;&#12463;&#12522;&#12456;&#12452;&#12479;&#12540;&#12398;&#12383;&#12417;&#12398;&#12518;&#12491;&#12540;&#12463;&#12394;&#22768;&#12434;&#21109;&#36896;&#12375;&#12414;&#12377;&#12290;">
-        <span class="flag">JA</span> Japanese
-      </button>
-    </div>
-  </div>
 </main>
 
 <footer>
@@ -498,6 +412,49 @@ const result = document.getElementById('result');
 const audioPlayer = document.getElementById('audio-player');
 const errorMsg = document.getElementById('error-msg');
 
+// Sample text per language
+const samples = {
+  en: "Welcome to ScrappyLabs. We create unique voices for unique creators. Whether you're building a bot, an app, or something entirely new \u2014 we've got a voice for you.",
+  es: "Bienvenido a ScrappyLabs. Creamos voces \u00fanicas para creadores \u00fanicos. Ya sea que est\u00e9s construyendo un bot, una aplicaci\u00f3n o algo completamente nuevo \u2014 tenemos una voz para ti.",
+  fr: "Bienvenue sur ScrappyLabs. Nous cr\u00e9ons des voix uniques pour des cr\u00e9ateurs uniques. Que vous construisiez un bot, une application ou quelque chose d'enti\u00e8rement nouveau \u2014 nous avons une voix pour vous.",
+  de: "Willkommen bei ScrappyLabs. Wir schaffen einzigartige Stimmen f\u00fcr einzigartige Creator. Ob du einen Bot, eine App oder etwas v\u00f6llig Neues entwickelst \u2014 wir haben eine Stimme f\u00fcr dich.",
+  pt: "Bem-vindo ao ScrappyLabs. Criamos vozes \u00fanicas para criadores \u00fanicos. Quer voc\u00ea esteja construindo um bot, um aplicativo ou algo completamente novo \u2014 temos uma voz para voc\u00ea.",
+  it: "Benvenuto su ScrappyLabs. Creiamo voci uniche per creator unici. Che tu stia costruendo un bot, un'app o qualcosa di completamente nuovo \u2014 abbiamo una voce per te.",
+  zh: "\u6b22\u8fce\u6765\u5230ScrappyLabs\u3002\u6211\u4eec\u4e3a\u72ec\u7279\u7684\u521b\u4f5c\u8005\u521b\u9020\u72ec\u7279\u7684\u58f0\u97f3\u3002\u65e0\u8bba\u4f60\u5728\u6784\u5efa\u673a\u5668\u4eba\u3001\u5e94\u7528\u7a0b\u5e8f\u8fd8\u662f\u5168\u65b0\u7684\u4e1c\u897f\u2014\u2014\u6211\u4eec\u90fd\u6709\u9002\u5408\u4f60\u7684\u58f0\u97f3\u3002",
+  ja: "ScrappyLabs\u3078\u3088\u3046\u3053\u305d\u3002\u30e6\u30cb\u30fc\u30af\u306a\u30af\u30ea\u30a8\u30a4\u30bf\u30fc\u306e\u305f\u3081\u306e\u30e6\u30cb\u30fc\u30af\u306a\u58f0\u3092\u5275\u9020\u3057\u307e\u3059\u3002\u30dc\u30c3\u30c8\u3001\u30a2\u30d7\u30ea\u3001\u307e\u305f\u306f\u307e\u3063\u305f\u304f\u65b0\u3057\u3044\u3082\u306e\u3092\u4f5c\u3063\u3066\u3044\u308b\u65b9\u3078\u2014\u2014\u3042\u306a\u305f\u306b\u3074\u3063\u305f\u308a\u306e\u58f0\u304c\u3042\u308a\u307e\u3059\u3002",
+  ko: "ScrappyLabs\uc5d0 \uc624\uc2e0 \uac83\uc744 \ud658\uc601\ud569\ub2c8\ub2e4. \ub3c5\ud2b9\ud55c \ud06c\ub9ac\uc5d0\uc774\ud130\ub97c \uc704\ud55c \ub3c5\ud2b9\ud55c \ubaa9\uc18c\ub9ac\ub97c \ub9cc\ub4ed\ub2c8\ub2e4. \ubd07, \uc571, \ub610\ub294 \uc644\uc804\ud788 \uc0c8\ub85c\uc6b4 \ubb34\uc5b8\uac00\ub97c \ub9cc\ub4e4\uace0 \uc788\ub2e4\uba74 \u2014 \ub2f9\uc2e0\uc744 \uc704\ud55c \ubaa9\uc18c\ub9ac\uac00 \uc788\uc2b5\ub2c8\ub2e4.",
+  nl: "Welkom bij ScrappyLabs. Wij cre\u00ebren unieke stemmen voor unieke creators. Of je nu een bot, een app of iets heel nieuws bouwt \u2014 we hebben een stem voor jou.",
+  pl: "Witaj w ScrappyLabs. Tworzymy unikalne g\u0142osy dla unikalnych tw\u00f3rc\u00f3w. Niezale\u017cnie od tego, czy budujesz bota, aplikacj\u0119 czy co\u015b zupe\u0142nie nowego \u2014 mamy g\u0142os dla ciebie.",
+  ru: "\u0414\u043e\u0431\u0440\u043e \u043f\u043e\u0436\u0430\u043b\u043e\u0432\u0430\u0442\u044c \u0432 ScrappyLabs. \u041c\u044b \u0441\u043e\u0437\u0434\u0430\u0451\u043c \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0435 \u0433\u043e\u043b\u043e\u0441\u0430 \u0434\u043b\u044f \u0443\u043d\u0438\u043a\u0430\u043b\u044c\u043d\u044b\u0445 \u0430\u0432\u0442\u043e\u0440\u043e\u0432. \u0421\u043e\u0437\u0434\u0430\u0451\u0442\u0435 \u043b\u0438 \u0432\u044b \u0431\u043e\u0442\u0430, \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0438\u043b\u0438 \u0447\u0442\u043e-\u0442\u043e \u0441\u043e\u0432\u0435\u0440\u0448\u0435\u043d\u043d\u043e \u043d\u043e\u0432\u043e\u0435 \u2014 \u0443 \u043d\u0430\u0441 \u0435\u0441\u0442\u044c \u0433\u043e\u043b\u043e\u0441 \u0434\u043b\u044f \u0432\u0430\u0441.",
+  uk: "\u041b\u0430\u0441\u043a\u0430\u0432\u043e \u043f\u0440\u043e\u0441\u0438\u043c\u043e \u0434\u043e ScrappyLabs. \u041c\u0438 \u0441\u0442\u0432\u043e\u0440\u044e\u0454\u043c\u043e \u0443\u043d\u0456\u043a\u0430\u043b\u044c\u043d\u0456 \u0433\u043e\u043b\u043e\u0441\u0438 \u0434\u043b\u044f \u0443\u043d\u0456\u043a\u0430\u043b\u044c\u043d\u0438\u0445 \u0442\u0432\u043e\u0440\u0446\u0456\u0432. \u0427\u0438 \u0432\u0438 \u0441\u0442\u0432\u043e\u0440\u044e\u0454\u0442\u0435 \u0431\u043e\u0442\u0430, \u0434\u043e\u0434\u0430\u0442\u043e\u043a \u0447\u0438 \u0449\u043e\u0441\u044c \u0437\u043e\u0432\u0441\u0456\u043c \u043d\u043e\u0432\u0435 \u2014 \u043c\u0438 \u043c\u0430\u0454\u043c\u043e \u0433\u043e\u043b\u043e\u0441 \u0434\u043b\u044f \u0432\u0430\u0441.",
+  cs: "V\u00edtejte v ScrappyLabs. Vytv\u00e1\u0159\u00edme unik\u00e1tn\u00ed hlasy pro unik\u00e1tn\u00ed tv\u016frce. A\u0165 u\u017e stav\u00edte bota, aplikaci nebo n\u011bco zcela nov\u00e9ho \u2014 m\u00e1me hlas pro v\u00e1s.",
+  ro: "Bine a\u021bi venit la ScrappyLabs. Cre\u0103m voci unice pentru creatori unici. Fie c\u0103 construi\u021bi un bot, o aplica\u021bie sau ceva complet nou \u2014 avem o voce pentru tine.",
+  hu: "\u00dcdv\u00f6z\u00f6lj\u00fck a ScrappyLabs-n\u00e1l. Egyedi hangokat hozunk l\u00e9tre egyedi alkot\u00f3k sz\u00e1m\u00e1ra. Ak\u00e1r botot, alkalmaz\u00e1st vagy valami eg\u00e9szen \u00fajat \u00e9p\u00edtesz \u2014 van egy hangunk sz\u00e1modra.",
+  bg: "\u0414\u043e\u0431\u0440\u0435 \u0434\u043e\u0448\u043b\u0438 \u0432 ScrappyLabs. \u0421\u044a\u0437\u0434\u0430\u0432\u0430\u043c\u0435 \u0443\u043d\u0438\u043a\u0430\u043b\u043d\u0438 \u0433\u043b\u0430\u0441\u043e\u0432\u0435 \u0437\u0430 \u0443\u043d\u0438\u043a\u0430\u043b\u043d\u0438 \u0442\u0432\u043e\u0440\u0446\u0438. \u041d\u0435\u0437\u0430\u0432\u0438\u0441\u0438\u043c\u043e \u0434\u0430\u043b\u0438 \u0441\u044a\u0437\u0434\u0430\u0432\u0430\u0442\u0435 \u0431\u043e\u0442, \u043f\u0440\u0438\u043b\u043e\u0436\u0435\u043d\u0438\u0435 \u0438\u043b\u0438 \u043d\u0435\u0449\u043e \u043d\u0430\u043f\u044a\u043b\u043d\u043e \u043d\u043e\u0432\u043e \u2014 \u0438\u043c\u0430\u043c\u0435 \u0433\u043b\u0430\u0441 \u0437\u0430 \u0432\u0430\u0441.",
+  hr: "Dobrodo\u0161li u ScrappyLabs. Stvaramo jedinstvene glasove za jedinstvene kreatore. Bilo da gradite bota, aplikaciju ili ne\u0161to potpuno novo \u2014 imamo glas za vas.",
+  sk: "Vitajte v ScrappyLabs. Vytv\u00e1rame unik\u00e1tne hlasy pre unik\u00e1tnych tvorcov. \u010ci u\u017e stav\u00e1te bota, aplik\u00e1ciu alebo nie\u010do \u00faplne nov\u00e9 \u2014 m\u00e1me hlas pre v\u00e1s.",
+  sl: "Dobrodo\u0161li v ScrappyLabs. Ustvarjamo edinstvene glasove za edinstvene ustvarjalce. Najsi gradite bota, aplikacijo ali nekaj popolnoma novega \u2014 imamo glas za vas.",
+  da: "Velkommen til ScrappyLabs. Vi skaber unikke stemmer til unikke skabere. Uanset om du bygger en bot, en app eller noget helt nyt \u2014 har vi en stemme til dig.",
+  fi: "Tervetuloa ScrappyLabsiin. Luomme ainutlaatuisia \u00e4\u00e4ni\u00e4 ainutlaatuisille luojille. Rakennatpa bottia, sovellusta tai jotain aivan uutta \u2014 meill\u00e4 on \u00e4\u00e4ni sinulle.",
+  sv: "V\u00e4lkommen till ScrappyLabs. Vi skapar unika r\u00f6ster f\u00f6r unika creators. Oavsett om du bygger en bot, en app eller n\u00e5got helt nytt \u2014 vi har en r\u00f6st f\u00f6r dig.",
+  no: "Velkommen til ScrappyLabs. Vi skaper unike stemmer for unike skapere. Enten du bygger en bot, en app eller noe helt nytt \u2014 vi har en stemme for deg.",
+  el: "\u039a\u03b1\u03bb\u03ce\u03c2 \u03ae\u03c1\u03b8\u03b1\u03c4\u03b5 \u03c3\u03c4\u03bf ScrappyLabs. \u0394\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03bf\u03cd\u03bc\u03b5 \u03bc\u03bf\u03bd\u03b1\u03b4\u03b9\u03ba\u03ad\u03c2 \u03c6\u03c9\u03bd\u03ad\u03c2 \u03b3\u03b9\u03b1 \u03bc\u03bf\u03bd\u03b1\u03b4\u03b9\u03ba\u03bf\u03cd\u03c2 \u03b4\u03b7\u03bc\u03b9\u03bf\u03c5\u03c1\u03b3\u03bf\u03cd\u03c2. \u0395\u03af\u03c4\u03b5 \u03c7\u03c4\u03af\u03b6\u03b5\u03c4\u03b5 \u03ad\u03bd\u03b1 bot, \u03bc\u03b9\u03b1 \u03b5\u03c6\u03b1\u03c1\u03bc\u03bf\u03b3\u03ae \u03ae \u03ba\u03ac\u03c4\u03b9 \u03b5\u03bd\u03c4\u03b5\u03bb\u03ce\u03c2 \u03bd\u03ad\u03bf \u2014 \u03ad\u03c7\u03bf\u03c5\u03bc\u03b5 \u03bc\u03b9\u03b1 \u03c6\u03c9\u03bd\u03ae \u03b3\u03b9\u03b1 \u03c3\u03b1\u03c2.",
+  tr: "ScrappyLabs'e ho\u015f geldiniz. E\u015fsiz yarat\u0131c\u0131lar i\u00e7in e\u015fsiz sesler olu\u015fturuyoruz. \u0130ster bir bot, ister bir uygulama veya tamamen yeni bir \u015fey in\u015fa ediyor olun \u2014 senin i\u00e7in bir sesimiz var.",
+  ca: "Benvingut a ScrappyLabs. Creem veus \u00faniques per a creadors \u00fanics. Tant si est\u00e0s construint un bot, una aplicaci\u00f3 o alguna cosa completament nova \u2014 tenim una veu per a tu.",
+  vi: "Ch\u00e0o m\u1eebng b\u1ea1n \u0111\u1ebfn v\u1edbi ScrappyLabs. Ch\u00fang t\u00f4i t\u1ea1o ra nh\u1eefng gi\u1ecdng n\u00f3i \u0111\u1ed9c \u0111\u00e1o cho nh\u1eefng nh\u00e0 s\u00e1ng t\u1ea1o \u0111\u1ed9c \u0111\u00e1o. D\u00f9 b\u1ea1n \u0111ang x\u00e2y d\u1ef1ng bot, \u1ee9ng d\u1ee5ng hay \u0111i\u1ec1u g\u00ec ho\u00e0n to\u00e0n m\u1edbi \u2014 ch\u00fang t\u00f4i c\u00f3 gi\u1ecdng n\u00f3i d\u00e0nh cho b\u1ea1n.",
+};
+
+function updateText() {
+  const lang = langSelect.value;
+  if (samples[lang]) {
+    textInput.value = samples[lang];
+    const len = textInput.value.length;
+    charNum.textContent = len;
+    charCount.classList.toggle('over', len > 500);
+    genBtn.disabled = len === 0 || len > 500;
+  }
+}
+
 // Character counter
 textInput.addEventListener('input', () => {
   const len = textInput.value.length;
@@ -506,21 +463,11 @@ textInput.addEventListener('input', () => {
   genBtn.disabled = len === 0 || len > 500;
 });
 
-// Initial state
-charNum.textContent = textInput.value.length;
-genBtn.disabled = textInput.value.length === 0;
+// Language change auto-populates sample text
+langSelect.addEventListener('change', updateText);
 
-// Example chips
-document.querySelectorAll('.example-chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    langSelect.value = chip.dataset.lang;
-    textInput.value = chip.dataset.text;
-    charNum.textContent = textInput.value.length;
-    charCount.classList.remove('over');
-    genBtn.disabled = false;
-    textInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
-});
+// Initial state
+updateText();
 
 // Generate
 genBtn.addEventListener('click', async () => {
@@ -551,7 +498,6 @@ genBtn.addEventListener('click', async () => {
     const blob = await resp.blob();
     const url = URL.createObjectURL(blob);
 
-    // Clean up previous URL
     if (audioPlayer.src && audioPlayer.src.startsWith('blob:')) {
       URL.revokeObjectURL(audioPlayer.src);
     }
