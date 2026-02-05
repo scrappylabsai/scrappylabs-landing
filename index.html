@@ -437,6 +437,34 @@ section {
   letter-spacing: -0.3px;
 }
 
+.project-card.featured {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+  border-color: var(--accent);
+}
+
+.app-screenshots {
+  display: flex;
+  gap: 0.75rem;
+  margin: 1rem 0;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+}
+
+.app-screenshots img {
+  height: 200px;
+  width: auto;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .app-screenshots img {
+    height: 160px;
+  }
+}
+
 .project-card p {
   color: var(--text-muted);
   font-size: 0.9rem;
@@ -784,6 +812,23 @@ footer {
     Open tools, platforms, and experiments. Some polished, some rough around the edges &mdash; all real.
   </p>
   <div class="projects-grid">
+    <div class="project-card featured">
+      <div class="project-status status-live">
+        <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--green);"></span>
+        iOS App
+      </div>
+      <h3>Poo Bear</h3>
+      <p>AI-powered bedtime story companion. Clone your voice in 10 seconds, generate personalized stories, and create multi-character productions. Send stories to connected toys.</p>
+      <div class="app-screenshots">
+        <img src="https://stuff.loser.com/public/app-store-final/01_dashboard_connected.png" alt="Poo Bear dashboard" loading="lazy">
+        <img src="https://stuff.loser.com/public/app-store-final/02_multi_voice_story.png" alt="Multi-voice stories" loading="lazy">
+        <img src="https://stuff.loser.com/public/app-store-final/03_voice_clone.png" alt="Voice cloning" loading="lazy">
+      </div>
+      <a href="https://apps.apple.com/app/poo-bear/id6740000179" class="project-link" target="_blank">
+        App Store
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
     <div class="project-card">
       <div class="project-status status-live">
         <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--green);"></span>
