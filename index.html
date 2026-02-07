@@ -262,6 +262,56 @@ nav a:hover { color: var(--text); }
   background: var(--surface-2);
 }
 
+/* ---- MASCOT PEEK ---- */
+.mascot-peek {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(19, 19, 28, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.4rem 0.8rem 0.4rem 0.4rem;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-decoration: none;
+}
+.mascot-peek:hover {
+  border-color: var(--accent);
+  background: rgba(19, 19, 28, 0.9);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+.mascot-peek:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+.mascot-peek-thumb {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+}
+.mascot-peek-text {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  line-height: 1.3;
+}
+.mascot-peek-text strong {
+  display: block;
+  color: var(--text);
+  font-size: 0.75rem;
+}
+@media (max-width: 480px) {
+  .mascot-peek { bottom: 1rem; right: 1rem; }
+}
+
 /* ---- SCROLLING TICKER ---- */
 .ticker-wrap {
   overflow: hidden;
@@ -919,6 +969,10 @@ footer {
     <a href="#projects" class="btn btn-secondary">See What We're Building</a>
   </div>
 </section>
+<button class="mascot-peek" id="mascot-peek" aria-label="View mascot artwork">
+  <img class="mascot-peek-thumb" id="mascot-peek-thumb" src="" alt="ScrappyLabs mascot">
+  <span class="mascot-peek-text"><strong>Meet Scrappy</strong>tap to view</span>
+</button>
 </div>
 
 <!-- TICKER -->
@@ -1225,6 +1279,11 @@ footer {
   var picked = heroBgs[Math.floor(Math.random() * heroBgs.length)];
   heroBg.style.setProperty('--hero-img', 'url(' + picked + ')');
 
+  // Mascot peek thumbnail
+  var peekThumb = document.getElementById('mascot-peek-thumb');
+  var peekBtn = document.getElementById('mascot-peek');
+  peekThumb.src = picked;
+
   // Lightbox
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lightbox-img');
@@ -1238,6 +1297,13 @@ footer {
   });
 
   lb.addEventListener('click', function() { lb.classList.remove('active'); });
+
+  // Mascot peek -> lightbox
+  peekBtn.addEventListener('click', function() {
+    lbImg.src = picked;
+    lbImg.alt = 'ScrappyLabs mascot — Scrappy the stitchpunk dog';
+    lb.classList.add('active');
+  });
 
   // Chat widget
   var bubble = document.getElementById('chat-bubble');
