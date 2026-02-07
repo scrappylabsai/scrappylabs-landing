@@ -121,6 +121,30 @@ nav a:hover { color: var(--text); }
 .mobile-menu { display: none; background: none; border: none; color: var(--text); cursor: pointer; padding: 0.5rem; }
 
 /* ---- HERO ---- */
+.hero-bg {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+.hero-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: var(--hero-img);
+  background-size: cover;
+  background-position: center 30%;
+  background-repeat: no-repeat;
+  opacity: 0.18;
+  z-index: 0;
+  transition: opacity 0.8s ease;
+}
+.hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(10,10,15,0.3) 0%, var(--bg) 100%);
+  z-index: 1;
+}
 .hero {
   min-height: 100vh;
   display: flex;
@@ -130,6 +154,7 @@ nav a:hover { color: var(--text); }
   max-width: 1200px;
   margin: 0 auto;
   position: relative;
+  z-index: 2;
 }
 
 .hero-badge {
@@ -874,6 +899,7 @@ footer {
 </header>
 
 <!-- HERO -->
+<div class="hero-bg" id="hero-bg">
 <section class="hero">
   <div class="hero-badge">
     <span class="dot"></span>
@@ -893,6 +919,7 @@ footer {
     <a href="#projects" class="btn btn-secondary">See What We're Building</a>
   </div>
 </section>
+</div>
 
 <!-- TICKER -->
 <div class="ticker-wrap">
@@ -1179,6 +1206,19 @@ footer {
 
 <script>
 (function() {
+  // Random hero background
+  var heroBgs = [
+    'https://stuff.loser.com/shared/scrappy-bg/logo-13-minimax-space-a.jpg',
+    'https://stuff.loser.com/shared/scrappy-bg/logo-14-minimax-space-b.jpg',
+    'https://stuff.loser.com/shared/scrappy-bg/logo-15-minimax-space-c.jpg',
+    'https://stuff.loser.com/shared/scrappy-bg/logo-16-minimax-space-d.jpg',
+    'https://stuff.loser.com/shared/scrappy-bg/logo-17-minimax-space-e.jpg',
+    'https://stuff.loser.com/shared/scrappy-bg/logo-18-minimax-space-f.jpg'
+  ];
+  var heroBg = document.getElementById('hero-bg');
+  var picked = heroBgs[Math.floor(Math.random() * heroBgs.length)];
+  heroBg.style.setProperty('--hero-img', 'url(' + picked + ')');
+
   // Lightbox
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lightbox-img');
