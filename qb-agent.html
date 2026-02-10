@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QB Agent — AI Bookkeeper for QuickBooks Online | ScrappyLabs</title>
+<meta name="description" content="QB Agent is an AI-powered bookkeeper that integrates directly with QuickBooks Online. Create invoices, track expenses, generate reports — all in plain English.">
+<meta property="og:title" content="QB Agent — AI Bookkeeper for QuickBooks Online">
+<meta property="og:description" content="Your books, handled. An AI bookkeeper that plugs directly into QuickBooks Online.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://scrappylabs.ai/qb-agent">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131c;
+  --surface-2: #1a1a28;
+  --border: #2a2a3e;
+  --text: #f0f0f5;
+  --text-muted: #8a8aa0;
+  --accent: #ff6b35;
+  --accent-hover: #ff8555;
+  --cyan: #00d4ff;
+  --green: #2ed573;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-hover); }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-link {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--text); }
+
+/* Hero */
+.hero {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 160px 2rem 100px;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--cyan);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  padding: 0.4rem 1rem;
+  border: 1px solid rgba(0, 212, 255, 0.25);
+  border-radius: 20px;
+  margin-bottom: 2rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 900;
+  line-height: 1.1;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.02em;
+}
+
+.hero h1 .accent { color: var(--accent); }
+.hero h1 .cyan { color: var(--cyan); }
+
+.hero-sub {
+  font-size: 1.25rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 3rem;
+}
+
+.cta-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  background: var(--accent);
+  color: #0a0a0f;
+  font-weight: 700;
+  font-size: 1rem;
+  border-radius: 8px;
+  transition: background 0.2s;
+}
+.cta-btn:hover { background: var(--accent-hover); color: #0a0a0f; }
+.cta-btn:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
+
+/* Sections */
+section {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 2rem 100px;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 1rem;
+}
+
+section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: 1.5rem;
+  letter-spacing: -0.01em;
+}
+
+section p.desc {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  max-width: 650px;
+  margin-bottom: 2.5rem;
+}
+
+/* Conversation demo */
+.conversation {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+}
+
+.msg {
+  margin-bottom: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.msg:last-child { margin-bottom: 0; }
+
+.msg-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.msg-you .msg-label { background: rgba(0, 212, 255, 0.15); color: var(--cyan); }
+.msg-agent .msg-label { background: rgba(255, 107, 53, 0.15); color: var(--accent); }
+
+.msg-text {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.msg-text strong { color: var(--text); }
+
+/* Feature grid */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.75rem;
+}
+
+.feature-card h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.feature-card p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  line-height: 1.6;
+}
+
+/* How it works */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.step {
+  text-align: center;
+  padding: 2rem 1.5rem;
+}
+
+.step-num {
+  font-family: var(--mono);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--accent);
+  opacity: 0.3;
+  margin-bottom: 1rem;
+}
+
+.step h3 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.step p {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Security callout */
+.security {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2.5rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.sec-item h4 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.4rem;
+  color: var(--green);
+}
+
+.sec-item p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+/* CTA bottom */
+.cta-section {
+  text-align: center;
+  padding: 80px 2rem 100px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.cta-section h2 {
+  font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+  font-weight: 800;
+  margin-bottom: 1rem;
+}
+
+.cta-section p {
+  color: var(--text-muted);
+  margin-bottom: 2rem;
+  font-size: 1.05rem;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  .hero { padding: 120px 1.25rem 60px; }
+  section { padding: 0 1.25rem 60px; }
+  header { padding: 0 1.25rem; }
+  .conversation { padding: 1.25rem; }
+  .msg { flex-direction: column; gap: 0.4rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo" aria-label="ScrappyLabs home">ScrappyLabs</a>
+  <a href="mailto:brian@scrappylabs.ai" class="nav-link">Get in Touch</a>
+</header>
+
+<main>
+
+  <!-- Hero -->
+  <div class="hero">
+    <span class="hero-badge">QuickBooks Online Integration</span>
+    <h1>Your books, <span class="accent">handled.</span></h1>
+    <p class="hero-sub">QB Agent is an AI bookkeeper that connects directly to your QuickBooks Online. Invoices, expenses, reports, purchase orders — all through plain English conversation.</p>
+    <a href="mailto:brian@scrappylabs.ai" class="cta-btn">Talk to Us</a>
+  </div>
+
+  <!-- How you use it -->
+  <section>
+    <span class="section-label">// How It Feels</span>
+    <h2>Just tell it what you need</h2>
+    <p class="desc">No dashboards to learn. No forms to fill out. You talk to your bookkeeper like a human — it handles the rest.</p>
+
+    <div class="conversation" role="region" aria-label="Example conversation with QB Agent">
+      <div class="msg msg-you">
+        <span class="msg-label">You</span>
+        <span class="msg-text">"Invoice Johnson Corp for 10 hours consulting at $150/hr"</span>
+      </div>
+      <div class="msg msg-agent">
+        <span class="msg-label">Agent</span>
+        <span class="msg-text"><strong>Invoice #1047 created</strong> — Johnson Corp, $1,500.00, Net 30. Send it now or save as draft?</span>
+      </div>
+      <div class="msg msg-you">
+        <span class="msg-label">You</span>
+        <span class="msg-text">"Send it. And what's outstanding right now?"</span>
+      </div>
+      <div class="msg msg-agent">
+        <span class="msg-label">Agent</span>
+        <span class="msg-text"><strong>Sent.</strong> You have 3 open invoices totaling $4,200. Acme LLC is 15 days past due ($1,800).</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section>
+    <span class="section-label">// Capabilities</span>
+    <h2>Everything your bookkeeper does</h2>
+    <p class="desc">Connected directly to your QBO account through Intuit's secure API. Every action is confirmed before it touches your books.</p>
+
+    <div class="features">
+      <div class="feature-card">
+        <h3>Invoicing</h3>
+        <p>Create, review, and send invoices. Track what's outstanding. Follow up on late payments. Matches your existing numbering and terms.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Expenses</h3>
+        <p>Record expenses by just describing them. Auto-categorizes based on your chart of accounts. Learns your patterns over time.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Purchase Orders</h3>
+        <p>Generate POs for vendors, preview as PDF, and email directly. Supports both item-based and account-based line items.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Financial Reports</h3>
+        <p>P&L, balance sheet, accounts receivable, accounts payable — all in plain language, pulled live from your books.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Email Monitoring</h3>
+        <p>Watches your inbox for incoming invoices, bills, and receipts. Extracts the details and proposes entries for your approval.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Document Learning</h3>
+        <p>Feed it your old invoices and POs. It learns your numbering, formatting, customer names, and product catalog. Gets smarter with every interaction.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section>
+    <span class="section-label">// How It Works</span>
+    <h2>Up and running in a day</h2>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Connect</h3>
+        <p>Securely link your QuickBooks Online account through Intuit's official OAuth flow. Your credentials never leave Intuit's servers.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Learn</h3>
+        <p>Drop in your old documents — invoices, POs, receipts. The agent learns your patterns, customers, vendors, and preferences.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Work</h3>
+        <p>Start talking. Text, chat, or type. The agent handles your books while you run your business. Always confirms before writing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security -->
+  <section>
+    <span class="section-label">// Security</span>
+    <h2>Your data stays yours</h2>
+    <p class="desc">Built for business owners who care about where their financial data goes.</p>
+
+    <div class="security">
+      <div class="sec-item">
+        <h4>Secure OAuth 2.0</h4>
+        <p>Industry-standard Intuit authentication. We never see your QBO password.</p>
+      </div>
+      <div class="sec-item">
+        <h4>Human Approval</h4>
+        <p>Every write operation requires your explicit confirmation. Nothing touches your books without you saying "yes."</p>
+      </div>
+      <div class="sec-item">
+        <h4>Private Infrastructure</h4>
+        <p>Your data doesn't pass through shared cloud services. Deployable on your own network.</p>
+      </div>
+      <div class="sec-item">
+        <h4>Full Audit Trail</h4>
+        <p>Every action is logged. Complete transparency into what the agent did and when.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <h2>Ready to stop doing your own books?</h2>
+    <p>QB Agent is currently in private deployment. If you're a small business owner drowning in QuickBooks, let's talk.</p>
+    <a href="mailto:brian@scrappylabs.ai" class="cta-btn">Get in Touch</a>
+  </div>
+
+</main>
+
+<footer>
+  &copy; 2026 ScrappyLabs. All rights reserved. | <a href="/">Home</a>
+</footer>
+
+</body>
+</html>
