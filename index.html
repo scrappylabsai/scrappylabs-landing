@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ScrappyLabs — Build Anything. Ship Everything.</title>
-<meta name="description" content="ScrappyLabs — 35+ years of building at the edge. AI, robotics, infrastructure, software, hardware, CNC, and consulting. Founded by an OG internet builder.">
+<meta name="description" content="ScrappyLabs — 35+ years of building at the edge. AI, infrastructure, software, and voice platforms. Founded by an OG internet builder.">
 <meta property="og:title" content="ScrappyLabs — Build Anything. Ship Everything.">
-<meta property="og:description" content="Consulting, infrastructure, and development — from software and AI to robotics and physical builds. 35+ years of shipping.">
+<meta property="og:description" content="Consulting, infrastructure, and development — from software and AI to voice platforms and edge compute. 35+ years of shipping.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://scrappylabs.ai">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -979,7 +979,7 @@ footer {
   </h1>
   <p class="hero-sub">
     <strong>Consulting, infrastructure, and development</strong> from software and AI
-    to robotics and physical builds. 35+ years of turning ideas into things that work.
+    to voice platforms and edge compute. 35+ years of turning ideas into things that work.
   </p>
   <p class="hero-origin">// brian@scrappylabs.ai &mdash; OG internet, est. ~1993</p>
   <div class="hero-actions">
@@ -997,26 +997,18 @@ footer {
 <div class="ticker-wrap">
   <div class="ticker">
     <span>AI / ML</span><span class="sep">/</span>
-    <span>Robotics</span><span class="sep">/</span>
     <span>Infrastructure</span><span class="sep">/</span>
-    <span>CNC &amp; Fabrication</span><span class="sep">/</span>
     <span>Software Dev</span><span class="sep">/</span>
-    <span>Hardware</span><span class="sep">/</span>
     <span>Training &amp; Fine-Tuning</span><span class="sep">/</span>
-    <span>Construction Consulting</span><span class="sep">/</span>
     <span>GPU Clusters</span><span class="sep">/</span>
     <span>Voice AI</span><span class="sep">/</span>
     <span>Edge Compute</span><span class="sep">/</span>
     <span>Prototyping</span><span class="sep">/</span>
     <!-- duplicate for seamless loop -->
     <span>AI / ML</span><span class="sep">/</span>
-    <span>Robotics</span><span class="sep">/</span>
     <span>Infrastructure</span><span class="sep">/</span>
-    <span>CNC &amp; Fabrication</span><span class="sep">/</span>
     <span>Software Dev</span><span class="sep">/</span>
-    <span>Hardware</span><span class="sep">/</span>
     <span>Training &amp; Fine-Tuning</span><span class="sep">/</span>
-    <span>Construction Consulting</span><span class="sep">/</span>
     <span>GPU Clusters</span><span class="sep">/</span>
     <span>Voice AI</span><span class="sep">/</span>
     <span>Edge Compute</span><span class="sep">/</span>
@@ -1029,7 +1021,7 @@ footer {
   <span class="section-label">// What We Do</span>
   <h2 class="section-title">Full-stack, full-spectrum.</h2>
   <p class="section-desc">
-    From writing firmware to training models to pouring concrete foundations.
+    From training models to deploying infrastructure to building full-stack apps.
     If it can be built, we've probably built one before.
   </p>
   <div class="services-grid">
@@ -1055,30 +1047,6 @@ footer {
       <p>Web apps, APIs, real-time systems, embedded software. Frontend to backend to everything in between.</p>
       <div class="service-tags">
         <span>Full-stack</span><span>APIs</span><span>Real-time</span><span>Embedded</span>
-      </div>
-    </div>
-    <div class="service-card">
-      <span class="service-icon">&#x1F916;</span>
-      <h3>Robotics & Hardware</h3>
-      <p>Sensor integration, motor control, PCB design, embedded systems. Bridging the gap between code and the physical world.</p>
-      <div class="service-tags">
-        <span>ROS</span><span>MCUs</span><span>Sensors</span><span>PCB</span><span>3D Print</span>
-      </div>
-    </div>
-    <div class="service-card">
-      <span class="service-icon">&#x1F3ED;</span>
-      <h3>CNC & Fabrication</h3>
-      <p>CNC machining, laser cutting, additive manufacturing. From prototype to small-batch production runs.</p>
-      <div class="service-tags">
-        <span>CNC Mill</span><span>Laser</span><span>3D Print</span><span>CAD/CAM</span>
-      </div>
-    </div>
-    <div class="service-card">
-      <span class="service-icon">&#x1F3D7;&#xFE0F;</span>
-      <h3>Construction Consulting</h3>
-      <p>Decades of hands-on construction experience. Project planning, structural consulting, and builds that don't fall apart.</p>
-      <div class="service-tags">
-        <span>Structural</span><span>Planning</span><span>Builds</span><span>Renovation</span>
       </div>
     </div>
   </div>
@@ -1387,7 +1355,7 @@ footer {
   var typingEl = document.getElementById('chat-typing');
   var sending = false;
 
-  var SYSTEM_PROMPT = "You are the ScrappyLabs AI assistant on scrappylabs.ai. You represent ScrappyLabs, founded by Brian — an OG internet builder with 35+ years of experience spanning software, AI/ML, robotics, hardware, CNC fabrication, infrastructure, and construction consulting.\n\nLive projects:\n- **Poo Bear** — iOS app (App Store). AI-powered bedtime story companion with voice cloning, multi-character story generation, and BLE toy connectivity. Clone your voice in 10 seconds.\n- **ScrappyLabs TTS** (tts.scrappylabs.ai) — Voice AI platform with 50+ voices. Text-to-speech, voice cloning, voice design from text descriptions, and a production studio. Runs on local GPU infrastructure.\n- **ShellPhone** (TestFlight beta) — Privacy-first open-source iOS client for self-hosted AI bots. No middleman, no data collection. Gateway on GitHub.\n- **ShellCast** (open source, github.com/scrappylabsai/shellcast) — Push audio from any headless server to your iPhone over WebSocket. Lightweight Node.js relay + native iOS client. Use for TTS playback, AI music generation, podcast monitoring, or any headless audio.\n- **ScrappyLabs API** (api.scrappylabs.ai) — REST API for TTS, voice cloning, voice design, speech-to-text, and LLM chat. Free tier available.\n- **QB Agent** (live, private deployment) — AI bookkeeper that integrates directly with QuickBooks Online. Invoicing, expenses, purchase orders, financial reports — all through plain English conversation. Secure OAuth 2.0 connection, human-approval on every write. Currently in private deployment for select businesses. Learn more at /qb-agent.\n- **Spymaster** (in development) — DIY RV monitoring iOS app that replaces a $200+ Waggle sensor for $0 hardware cost. Uses a repurposed Pixel phone with cellular connectivity, dual cameras, GPS, temperature alerts, OBD2 vehicle diagnostics, SMS reports, and full Tailscale SSH access.\n\nServices offered: AI/ML (model training, fine-tuning, inference, edge AI), Infrastructure & DevOps (bare-metal, GPU clusters, Tailscale, Cloudflare), Software Development (full-stack, APIs, real-time, embedded), Robotics & Hardware (sensors, motor control, PCB, 3D printing), CNC & Fabrication (machining, laser cutting, prototyping), Construction Consulting (structural, planning, renovation).\n\nPhilosophy: Ship first, own the stack, no gatekeeping. Local GPUs over cloud lock-in.\n\nContact: brian@scrappylabs.ai\n\nRules:\n- Be friendly, direct, and concise — no corporate fluff.\n- Keep answers short (2-4 sentences) unless asked for detail.\n- For in-depth project discussions or consulting inquiries, suggest reaching out to brian@scrappylabs.ai.\n- You can link to tts.scrappylabs.ai, the App Store listing, or the GitHub.\n- Do not make up features or capabilities that aren't listed above.";
+  var SYSTEM_PROMPT = "You are the ScrappyLabs AI assistant on scrappylabs.ai. You represent ScrappyLabs, founded by Brian — an OG internet builder with 35+ years of experience spanning software, AI/ML, robotics, hardware, CNC fabrication, infrastructure, and construction consulting.\n\nLive projects:\n- **Poo Bear** — iOS app (App Store). AI-powered bedtime story companion with voice cloning, multi-character story generation, and BLE toy connectivity. Clone your voice in 10 seconds.\n- **ScrappyLabs TTS** (tts.scrappylabs.ai) — Voice AI platform with 50+ voices. Text-to-speech, voice cloning, voice design from text descriptions, and a production studio. Runs on local GPU infrastructure.\n- **ShellPhone** (TestFlight beta) — Privacy-first open-source iOS client for self-hosted AI bots. No middleman, no data collection. Gateway on GitHub.\n- **ShellCast** (open source, github.com/scrappylabsai/shellcast) — Push audio from any headless server to your iPhone over WebSocket. Lightweight Node.js relay + native iOS client. Use for TTS playback, AI music generation, podcast monitoring, or any headless audio.\n- **ScrappyLabs API** (api.scrappylabs.ai) — REST API for TTS, voice cloning, voice design, speech-to-text, and LLM chat. Free tier available.\n- **QB Agent** (live, private deployment) — AI bookkeeper that integrates directly with QuickBooks Online. Invoicing, expenses, purchase orders, financial reports — all through plain English conversation. Secure OAuth 2.0 connection, human-approval on every write. Currently in private deployment for select businesses. Learn more at /qb-agent.\n- **Spymaster** (in development) — DIY RV monitoring iOS app that replaces a $200+ Waggle sensor for $0 hardware cost. Uses a repurposed Pixel phone with cellular connectivity, dual cameras, GPS, temperature alerts, OBD2 vehicle diagnostics, SMS reports, and full Tailscale SSH access.\n\nServices offered: AI/ML (model training, fine-tuning, inference, edge AI), Infrastructure & DevOps (bare-metal, GPU clusters, Tailscale, Cloudflare), Software Development (full-stack, APIs, real-time, embedded).\n\nPhilosophy: Ship first, own the stack, no gatekeeping. Local GPUs over cloud lock-in.\n\nContact: brian@scrappylabs.ai\n\nRules:\n- Be friendly, direct, and concise — no corporate fluff.\n- Keep answers short (2-4 sentences) unless asked for detail.\n- For in-depth project discussions or consulting inquiries, suggest reaching out to brian@scrappylabs.ai.\n- You can link to tts.scrappylabs.ai, the App Store listing, or the GitHub.\n- Do not make up features or capabilities that aren't listed above.";
 
   var history = [{ role: 'system', content: SYSTEM_PROMPT }];
 
@@ -1471,5 +1439,6 @@ footer {
 })();
 </script>
 
+<script>navigator.sendBeacon&&navigator.sendBeacon('https://sensor.loser.com/hit?site=scrappylabs.ai')</script>
 </body>
 </html>

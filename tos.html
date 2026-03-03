@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — ScrappyLabs</title>
+<meta name="description" content="ScrappyLabs Terms of Service.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131c;
+  --border: #2a2a3e;
+  --text: #f0f0f5;
+  --text-muted: #8a8aa0;
+  --accent: #ff6b35;
+  --accent-hover: #ff8555;
+  --cyan: #00d4ff;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
+a:hover { color: var(--accent-hover); }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  background: rgba(10, 10, 15, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  font-size: 1.25rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 120px 2rem 80px;
+}
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  color: var(--accent);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  display: block;
+  margin-bottom: 0.75rem;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  margin-bottom: 0.5rem;
+}
+
+.last-updated {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 3rem;
+}
+
+h2 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+p, li {
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+}
+
+ul, ol {
+  padding-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+  main { padding: 100px 1.25rem 60px; }
+  header { padding: 0 1.25rem; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="/" class="logo" aria-label="ScrappyLabs home">ScrappyLabs</a>
+</header>
+
+<main>
+  <span class="section-label">// Legal</span>
+  <h1>Terms of Service</h1>
+  <p class="last-updated">Last updated: March 3, 2026</p>
+
+  <p>These terms govern your use of services operated by ScrappyLabs ("we", "us", "our"), including applications, APIs, and websites at scrappylabs.ai, loser.com, and brainjack.ai.</p>
+
+  <h2>1. Acceptance</h2>
+  <p>By using our services, you agree to these terms. If you don't agree, don't use our services.</p>
+
+  <h2>2. Services</h2>
+  <p>ScrappyLabs provides AI-powered tools including text-to-speech, voice cloning, language models, productivity integrations, and hardware interfaces. Services may change, improve, or be discontinued at any time.</p>
+
+  <h2>3. Accounts</h2>
+  <ul>
+    <li>You may sign in using Google OAuth or create a ScrappyLabs account.</li>
+    <li>You are responsible for keeping your account credentials secure.</li>
+    <li>You must be at least 13 years old to use our services.</li>
+  </ul>
+
+  <h2>4. Acceptable Use</h2>
+  <p>You agree not to:</p>
+  <ul>
+    <li>Use our services for illegal purposes</li>
+    <li>Generate content that impersonates real people without their consent</li>
+    <li>Attempt to circumvent usage limits or access controls</li>
+    <li>Reverse-engineer or scrape our services</li>
+    <li>Use our services to spam, harass, or distribute malware</li>
+  </ul>
+
+  <h2>5. Your Content</h2>
+  <p>You retain ownership of content you create using our services. By submitting content for processing, you grant us a limited license to process it as needed to provide the service. We do not claim ownership of your inputs or outputs.</p>
+
+  <h2>6. Google Workspace Integration</h2>
+  <p>If you authorize access to Google Workspace services, we access your data solely to perform the actions you request. We comply with the <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a>. You can revoke access at any time from your <a href="https://myaccount.google.com/permissions">Google Account settings</a>.</p>
+
+  <h2>7. API Usage</h2>
+  <p>If you access our APIs, you agree to respect rate limits and usage quotas. We may suspend access for abusive usage patterns.</p>
+
+  <h2>8. Disclaimers</h2>
+  <p>Our services are provided "as is" without warranties of any kind. AI-generated content may be inaccurate. You are responsible for reviewing and verifying any outputs before relying on them.</p>
+
+  <h2>9. Limitation of Liability</h2>
+  <p>To the maximum extent permitted by law, ScrappyLabs is not liable for indirect, incidental, or consequential damages arising from your use of our services.</p>
+
+  <h2>10. Termination</h2>
+  <p>We may suspend or terminate your access if you violate these terms. You may stop using our services and delete your account at any time.</p>
+
+  <h2>11. Changes</h2>
+  <p>We may update these terms from time to time. Changes will be posted on this page. Continued use of our services after changes constitutes acceptance.</p>
+
+  <h2>12. Contact</h2>
+  <p>Questions about these terms? Contact us at:</p>
+  <p><a href="mailto:legal@scrappylabs.ai">legal@scrappylabs.ai</a></p>
+</main>
+
+<footer>
+  &copy; 2026 ScrappyLabs. All rights reserved. | <a href="/">Home</a> | <a href="/privacy">Privacy Policy</a>
+</footer>
+
+</body>
+</html>
