@@ -496,6 +496,78 @@ section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
   box-shadow: 0 0 8px var(--green), 0 0 20px rgba(46, 213, 115, 0.4);
 }
 
+/* ---- PRODUCTS ---- */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+.product-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 2rem;
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.product-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.product-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+}
+.product-card:hover::before { opacity: 1; }
+.product-card.featured-product {
+  border-color: rgba(0, 212, 255, 0.3);
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(0, 212, 255, 0.03) 100%);
+  grid-column: 1 / -1;
+}
+.product-card.featured-product:hover {
+  border-color: var(--cyan);
+  box-shadow: 0 0 30px var(--cyan-glow);
+}
+
+.product-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.75rem; }
+.product-card h3 { font-size: 1.15rem; font-weight: 800; letter-spacing: -0.3px; }
+.product-card .product-subtitle {
+  font-family: var(--mono); font-size: 0.75rem;
+  color: var(--text-dim); margin-top: 0.15rem;
+}
+.product-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; flex: 1; }
+
+.product-badges { display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 1rem; }
+.badge {
+  font-family: var(--mono); font-size: 0.65rem; font-weight: 700;
+  padding: 0.2rem 0.5rem; border-radius: 4px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+.badge-hipaa { color: #4ade80; background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.2); }
+.badge-enterprise { color: var(--cyan); background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.2); }
+.badge-selfhosted { color: var(--accent); background: rgba(255, 107, 53, 0.1); border: 1px solid rgba(255, 107, 53, 0.2); }
+
+.product-markets {
+  margin-top: 1rem; padding-top: 0.75rem;
+  border-top: 1px solid var(--border);
+  font-family: var(--mono); font-size: 0.7rem;
+  color: var(--text-dim);
+}
+.product-markets strong { color: var(--text-muted); }
+
+@media (max-width: 768px) {
+  .product-card.featured-product { grid-column: auto; }
+}
+
 /* ---- PHILOSOPHY ---- */
 .philosophy-block {
   background: var(--surface); border: 1px solid var(--border);
@@ -683,7 +755,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center;
     <a href="#services" class="nav-link">Services</a>
     <a href="#how" class="nav-link">How It Works</a>
     <a href="#work" class="nav-link">Work</a>
-    <a href="#about" class="nav-link">About</a>
+    <a href="#products" class="nav-link">Products</a>
     <a href="#contact" class="nav-cta">Let's Talk</a>
     <button class="mobile-menu" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Menu">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
@@ -970,6 +1042,108 @@ footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center;
   </div>
 </section>
 
+<!-- PRODUCTS & SOLUTIONS -->
+<section id="products">
+  <span class="section-label">// Products &amp; Solutions</span>
+  <h2 class="section-title">From hardware to handoff.</h2>
+  <p class="section-desc">
+    Complete solutions &mdash; not just software. We build the pipeline, deploy the hardware,
+    secure the network, and train your team to run it.
+  </p>
+  <div class="products-grid">
+
+    <!-- BrainJack — Featured -->
+    <div class="product-card featured-product">
+      <div class="product-header">
+        <div>
+          <h3>BrainJack</h3>
+          <div class="product-subtitle">Secure Remote Operations Platform</div>
+        </div>
+        <div class="product-badges">
+          <span class="badge badge-hipaa">HIPAA-Ready</span>
+          <span class="badge badge-enterprise">Enterprise</span>
+        </div>
+      </div>
+      <p>See the screen. Control the device. From anywhere on your network. BrainJack gives your team secure, auditable remote access to any machine &mdash; Linux, Windows, Mac, ARM, even a $35 Raspberry Pi. Keyboard, mouse, screen capture, voice dispatch &mdash; all through one platform. No VNC. No TeamViewer. No third-party cloud touching your data. Deploys on your hardware, behind your firewall, under your control.</p>
+      <div class="product-markets">
+        <strong>Built for:</strong> Healthcare IT &middot; Managed Service Providers &middot; Enterprise Ops &middot; Remote Teams &middot; Kiosk Management
+      </div>
+    </div>
+
+    <!-- Fleet Command -->
+    <div class="product-card">
+      <div class="product-header">
+        <div>
+          <h3>Fleet Command</h3>
+          <div class="product-subtitle">Multi-Node Orchestration</div>
+        </div>
+      </div>
+      <p>Your entire infrastructure as one system. Coordinate servers, edge devices, and AI agents from a single pane. Health monitoring, automated recovery, voice-dispatched operations, and agent coordination &mdash; across any hardware mix, any scale.</p>
+      <div class="product-badges">
+        <span class="badge badge-enterprise">Enterprise</span>
+        <span class="badge badge-selfhosted">Self-Hosted</span>
+      </div>
+      <div class="product-markets">
+        <strong>Built for:</strong> Operations Teams &middot; Data Centers &middot; Multi-Site Businesses &middot; SMBs
+      </div>
+    </div>
+
+    <!-- Voice Pipeline -->
+    <div class="product-card">
+      <div class="product-header">
+        <div>
+          <h3>Voice Pipeline</h3>
+          <div class="product-subtitle">End-to-End Voice AI</div>
+        </div>
+      </div>
+      <p>Custom voice agents from scratch. Clone any voice in 10 seconds, design new ones from a text description, deploy to phone systems or any endpoint. 100+ voices included. Runs on your GPU &mdash; no per-minute cloud bills, no data leaving your network.</p>
+      <div class="product-badges">
+        <span class="badge badge-hipaa">HIPAA-Ready</span>
+        <span class="badge badge-selfhosted">Self-Hosted</span>
+      </div>
+      <div class="product-markets">
+        <strong>Built for:</strong> Call Centers &middot; Healthcare &middot; Hospitality &middot; Retail &middot; IVR Replacement
+      </div>
+    </div>
+
+    <!-- Fleet Cast -->
+    <div class="product-card">
+      <div class="product-header">
+        <div>
+          <h3>Fleet Cast</h3>
+          <div class="product-subtitle">Secure Audio Relay</div>
+        </div>
+      </div>
+      <p>Push voice, alerts, and announcements across any network. Server to speaker, phone to fleet, AI to intercom. Real-time audio relay that works over WiFi, LAN, or Tailscale &mdash; encrypted end-to-end. No internet required.</p>
+      <div class="product-badges">
+        <span class="badge badge-selfhosted">Self-Hosted</span>
+      </div>
+      <div class="product-markets">
+        <strong>Built for:</strong> Warehouses &middot; Campuses &middot; Restaurants &middot; Breweries &middot; Multi-Building Ops
+      </div>
+    </div>
+
+    <!-- Custom Hardware -->
+    <div class="product-card">
+      <div class="product-header">
+        <div>
+          <h3>Edge Hardware</h3>
+          <div class="product-subtitle">AI Where It Matters</div>
+        </div>
+      </div>
+      <p>We deploy AI on the hardware that makes sense &mdash; ESP32 microcontrollers, Jetson boards, commodity PCs, or enterprise GPU servers. Sensors, displays, kiosks, robots. If it has a processor, we can make it smart and connect it to your fleet.</p>
+      <div class="product-badges">
+        <span class="badge badge-enterprise">Enterprise</span>
+        <span class="badge badge-selfhosted">Self-Hosted</span>
+      </div>
+      <div class="product-markets">
+        <strong>Built for:</strong> IoT Deployments &middot; Kiosks &middot; Digital Signage &middot; Industrial Automation &middot; Retail
+      </div>
+    </div>
+
+  </div>
+</section>
+
 <!-- PHILOSOPHY -->
 <section id="about">
   <span class="section-label">// Philosophy</span>
@@ -1223,7 +1397,7 @@ footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center;
   var typingEl = document.getElementById('chat-typing');
   var sending = false;
 
-  var SYSTEM_PROMPT = "You are the ScrappyLabs AI assistant on scrappylabs.ai. You represent ScrappyLabs, a consulting and development shop founded by Brian \u2014 35+ years building software, infrastructure, AI, hardware, and everything in between.\n\nWhat ScrappyLabs does:\n- AI Agent Development: Working AI agents that handle real business operations \u2014 not chatbots, actual systems that take action.\n- Voice AI: 100+ voices, voice cloning in 10 seconds, natural phone agents. Runs on our own GPU infrastructure.\n- AI Bookkeeping: Plugs into QuickBooks Online. Invoicing, expenses, P&L \u2014 plain English. Human approval on every write.\n- Fleet Operations: Multi-server monitoring, automated health checks, self-healing, instant alerts across any hardware mix.\n- Custom Agents: Competitor monitoring, content generation, hardware control, inventory management \u2014 built for what each business needs.\n\nHow it works:\n1. Connect \u2014 client gets access to running infrastructure immediately\n2. Build \u2014 we develop live, daily progress, real demos\n3. Ship \u2014 deploy to their hardware or stay on ours\n\nLive projects:\n- Poo Bear \u2014 iOS App Store. AI bedtime stories with voice cloning.\n- Voice AI Platform (tts.scrappylabs.ai) \u2014 100+ voices, cloning, voice design.\n- AI Bookkeeper (QB Agent) \u2014 Real QuickBooks integration.\n- Tallbook (tallbook.scrappylabs.ai) \u2014 AI accounting engine for breweries. 141 endpoints, 29 tables.\n- loser.com \u2014 Our public playground. Games, AI chat, experiments.\n- WatchThem.ai \u2014 Competitor intelligence platform (in development).\n\nContact: brian@scrappylabs.ai\nGitHub: github.com/scrappylabsai\n\nRules:\n- Be friendly, direct, concise \u2014 no corporate fluff.\n- 2-4 sentences unless asked for detail.\n- For consulting inquiries, suggest emailing brian@scrappylabs.ai.\n- Don't make up features not listed above.\n- Any company size can work with us \u2014 a one-person shop or a Fortune 500.";
+  var SYSTEM_PROMPT = "You are the ScrappyLabs AI assistant on scrappylabs.ai. You represent ScrappyLabs, a consulting and development shop founded by Brian \u2014 35+ years building software, infrastructure, AI, hardware, and everything in between.\n\nWhat ScrappyLabs does:\n- AI Agent Development: Working AI agents that handle real business operations \u2014 not chatbots, actual systems that take action.\n- Voice AI: 100+ voices, voice cloning in 10 seconds, natural phone agents. Runs on our own GPU infrastructure.\n- AI Bookkeeping: Plugs into QuickBooks Online. Invoicing, expenses, P&L \u2014 plain English. Human approval on every write.\n- Fleet Operations: Multi-server monitoring, automated health checks, self-healing, instant alerts across any hardware mix.\n- Custom Agents: Competitor monitoring, content generation, hardware control, inventory management \u2014 built for what each business needs.\n\nProducts:\n- BrainJack \u2014 Secure remote operations platform. Control any device (Linux/Windows/Mac/ARM) from anywhere on your network. HIPAA-ready configurations. No third-party cloud.\n- Fleet Command \u2014 Multi-node orchestration. Health monitoring, voice dispatch, auto-recovery across any hardware mix.\n- Voice Pipeline \u2014 End-to-end voice AI. 100+ voices, cloning, phone agents. Self-hosted on your GPU.\n- Fleet Cast \u2014 Secure audio relay. Push voice/alerts across any network. Encrypted, no internet required.\n- Edge Hardware \u2014 AI on ESP32, Jetson, commodity PCs. Sensors, kiosks, robots, IoT.\n\nAll products available HIPAA-compliant and self-hosted. Enterprise and SMB.\n\nHow it works:\n1. Connect \u2014 client gets access to running infrastructure immediately\n2. Build \u2014 we develop live, daily progress, real demos\n3. Ship \u2014 deploy to their hardware or stay on ours\n\nLive projects:\n- Poo Bear \u2014 iOS App Store. AI bedtime stories with voice cloning.\n- Voice AI Platform (tts.scrappylabs.ai) \u2014 100+ voices, cloning, voice design.\n- AI Bookkeeper (QB Agent) \u2014 Real QuickBooks integration.\n- Tallbook (tallbook.scrappylabs.ai) \u2014 AI accounting engine for breweries. 141 endpoints, 29 tables.\n- loser.com \u2014 Our public playground. Games, AI chat, experiments.\n- WatchThem.ai \u2014 Competitor intelligence platform (in development).\n\nContact: brian@scrappylabs.ai\nGitHub: github.com/scrappylabsai\n\nRules:\n- Be friendly, direct, concise \u2014 no corporate fluff.\n- 2-4 sentences unless asked for detail.\n- For consulting inquiries, suggest emailing brian@scrappylabs.ai.\n- Don't make up features not listed above.\n- Any company size can work with us \u2014 a one-person shop or a Fortune 500.";
 
   var history = [{ role: 'system', content: SYSTEM_PROMPT }];
 
