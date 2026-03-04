@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ScrappyLabs — Build Anything. Ship Everything.</title>
-<meta name="description" content="ScrappyLabs — 35+ years of building at the edge. AI, infrastructure, software, and voice platforms. Founded by an OG internet builder.">
-<meta property="og:title" content="ScrappyLabs — Build Anything. Ship Everything.">
-<meta property="og:description" content="Consulting, infrastructure, and development — from software and AI to voice platforms and edge compute. 35+ years of shipping.">
+<title>ScrappyLabs — AI Agents That Actually Do Things</title>
+<meta name="description" content="ScrappyLabs builds working AI systems — voice agents, automated bookkeeping, fleet monitoring, custom automation. Real infrastructure, real results, shipping since '93.">
+<meta property="og:title" content="ScrappyLabs — AI Agents That Actually Do Things">
+<meta property="og:description" content="We build AI systems that run your operations. Voice agents, automated bookkeeping, fleet monitoring, custom automation — running on real hardware, shipping right now.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://scrappylabs.ai">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,6 +21,7 @@
   --surface-2: #1a1a28;
   --border: #2a2a3e;
   --border-hover: #3a3a52;
+  --border-interactive: #6e6e82;
   --text: #f0f0f5;
   --text-muted: #8a8aa0;
   --text-dim: #5a5a72;
@@ -30,6 +31,7 @@
   --cyan: #00d4ff;
   --cyan-glow: rgba(0, 212, 255, 0.1);
   --green: #2ed573;
+  --green-glow: rgba(46, 213, 115, 0.15);
   --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   --mono: 'JetBrains Mono', 'Fira Code', monospace;
 }
@@ -48,7 +50,6 @@ body {
 a { color: var(--accent); text-decoration: none; transition: color 0.2s; }
 a:hover { color: var(--accent-hover); }
 
-/* Grain overlay */
 body::before {
   content: '';
   position: fixed;
@@ -84,14 +85,9 @@ header {
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
-
-.logo span {
-  font-weight: 500;
-  opacity: 0.7;
-}
+.logo span { font-weight: 500; opacity: 0.7; }
 
 nav { display: flex; gap: 2rem; align-items: center; }
-
 nav a {
   color: var(--text-muted);
   font-size: 0.85rem;
@@ -171,7 +167,6 @@ nav a:hover { color: var(--text); }
   width: fit-content;
   margin-bottom: 2rem;
 }
-
 .hero-badge .dot {
   width: 6px;
   height: 6px;
@@ -179,20 +174,18 @@ nav a:hover { color: var(--text); }
   background: var(--green);
   animation: pulse 2s ease-in-out infinite;
 }
-
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
 
 .hero h1 {
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(3rem, 8vw, 5.5rem);
   font-weight: 900;
   line-height: 0.95;
   letter-spacing: -2px;
   margin-bottom: 1.5rem;
 }
-
 .hero h1 .gradient {
   background: linear-gradient(135deg, var(--accent) 0%, var(--cyan) 100%);
   -webkit-background-clip: text;
@@ -201,13 +194,12 @@ nav a:hover { color: var(--text); }
 }
 
 .hero-sub {
-  font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+  font-size: clamp(1.1rem, 2.5vw, 1.35rem);
   color: var(--text-muted);
   max-width: 640px;
   line-height: 1.7;
   margin-bottom: 1rem;
 }
-
 .hero-sub strong { color: var(--text); font-weight: 600; }
 
 .hero-origin {
@@ -217,13 +209,7 @@ nav a:hover { color: var(--text); }
   margin-bottom: 3rem;
 }
 
-.hero-origin a { color: var(--cyan); }
-
-.hero-actions {
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
+.hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
 
 .btn {
   display: inline-flex;
@@ -239,23 +225,14 @@ nav a:hover { color: var(--text); }
   cursor: pointer;
   font-family: var(--font);
 }
-
-.btn-primary {
-  background: var(--accent);
-  color: var(--bg);
-}
+.btn-primary { background: var(--accent); color: var(--bg); }
 .btn-primary:hover {
   background: var(--accent-hover);
   color: var(--bg);
   transform: translateY(-2px);
   box-shadow: 0 8px 30px var(--accent-glow);
 }
-
-.btn-secondary {
-  background: var(--surface);
-  color: var(--text);
-  border: 1px solid var(--border);
-}
+.btn-secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
 .btn-secondary:hover {
   border-color: var(--border-hover);
   transform: translateY(-2px);
@@ -286,33 +263,15 @@ nav a:hover { color: var(--text); }
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
-.mascot-peek:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
-}
+.mascot-peek:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 .mascot-peek-thumb {
-  width: 36px;
-  height: 36px;
-  border-radius: 6px;
-  object-fit: cover;
-  border: 1px solid var(--border);
+  width: 36px; height: 36px; border-radius: 6px;
+  object-fit: cover; border: 1px solid var(--border);
 }
-.mascot-peek-text {
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  line-height: 1.3;
-}
-.mascot-peek-text strong {
-  display: block;
-  color: var(--text);
-  font-size: 0.75rem;
-}
-@media (max-width: 480px) {
-  .mascot-peek { bottom: 1rem; right: 1rem; }
-}
+.mascot-peek-text { font-family: var(--mono); font-size: 0.7rem; color: var(--text-muted); line-height: 1.3; }
+.mascot-peek-text strong { display: block; color: var(--text); font-size: 0.75rem; }
 
-/* ---- SCROLLING TICKER ---- */
+/* ---- TICKER ---- */
 .ticker-wrap {
   overflow: hidden;
   border-top: 1px solid var(--border);
@@ -320,14 +279,12 @@ nav a:hover { color: var(--text); }
   padding: 1rem 0;
   background: var(--surface);
 }
-
 .ticker {
   display: flex;
   gap: 3rem;
-  animation: scroll 30s linear infinite;
+  animation: scroll 35s linear infinite;
   width: max-content;
 }
-
 .ticker span {
   font-family: var(--mono);
   font-size: 0.8rem;
@@ -337,53 +294,33 @@ nav a:hover { color: var(--text); }
   text-transform: uppercase;
   white-space: nowrap;
 }
-
 .ticker .sep { color: var(--accent); opacity: 0.4; }
-
 @keyframes scroll {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
 
 /* ---- SECTIONS ---- */
-section {
-  padding: 6rem 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
+section { padding: 6rem 2rem; max-width: 1200px; margin: 0 auto; }
 .section-label {
-  font-family: var(--mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 1rem;
+  font-family: var(--mono); font-size: 0.75rem; font-weight: 700;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--accent); margin-bottom: 1rem;
 }
-
 .section-title {
-  font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 900;
-  letter-spacing: -1px;
-  margin-bottom: 1rem;
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 900;
+  letter-spacing: -1px; margin-bottom: 1rem;
 }
-
 .section-desc {
-  color: var(--text-muted);
-  max-width: 600px;
-  font-size: 1.05rem;
-  line-height: 1.7;
-  margin-bottom: 3rem;
+  color: var(--text-muted); max-width: 600px;
+  font-size: 1.05rem; line-height: 1.7; margin-bottom: 3rem;
 }
 
 /* ---- SERVICES GRID ---- */
 .services-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   gap: 1.25rem;
 }
-
 .service-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -393,176 +330,89 @@ section {
   position: relative;
   overflow: hidden;
 }
-
 .service-card::before {
   content: '';
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 2px;
   background: linear-gradient(90deg, var(--accent), var(--cyan));
   opacity: 0;
   transition: opacity 0.3s;
 }
-
 .service-card:hover {
   border-color: var(--border-hover);
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0,0,0,0.3);
 }
-
 .service-card:hover::before { opacity: 1; }
 
-.service-icon {
-  font-size: 1.75rem;
-  margin-bottom: 1rem;
-  display: block;
-}
+.service-icon { font-size: 1.75rem; margin-bottom: 1rem; display: block; }
+.service-card h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 0.6rem; letter-spacing: -0.3px; }
+.service-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
 
-.service-card h3 {
-  font-size: 1.15rem;
-  font-weight: 800;
-  margin-bottom: 0.6rem;
-  letter-spacing: -0.3px;
-}
-
-.service-card p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
-}
-
-.service-tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
+.service-example {
   margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border-left: 2px solid var(--accent);
+  border-radius: 0 8px 8px 0;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--text-muted);
 }
-
-.service-tags span {
-  font-family: var(--mono);
+.service-example strong {
+  color: var(--accent);
   font-size: 0.7rem;
-  padding: 0.25rem 0.6rem;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
-/* ---- LIVE PROJECTS ---- */
-.projects-grid {
+.service-tags { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+.service-tags span {
+  font-family: var(--mono); font-size: 0.7rem;
+  padding: 0.25rem 0.6rem; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 6px; color: var(--text-dim);
+}
+
+/* ---- HOW IT WORKS ---- */
+.steps-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 1.25rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  position: relative;
 }
-
-.project-card {
+.steps-grid::before {
+  content: '';
+  position: absolute;
+  top: 2.5rem;
+  left: 10%; right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--cyan), var(--green));
+  opacity: 0.2;
+  z-index: 0;
+}
+.step-card {
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: 16px;
   padding: 2rem;
+  position: relative;
+  z-index: 1;
   transition: all 0.3s;
-  display: flex;
-  flex-direction: column;
 }
-
-.project-card:hover {
-  border-color: var(--accent);
-  box-shadow: 0 0 30px var(--accent-glow);
+.step-card:hover {
+  border-color: var(--border-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.3);
 }
-
-.project-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  font-family: var(--mono);
-  font-size: 0.7rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-bottom: 1rem;
-  width: fit-content;
-  padding: 0.3rem 0.7rem;
-  border-radius: 6px;
+.step-number {
+  font-family: var(--mono); font-size: 2rem; font-weight: 900;
+  background: linear-gradient(135deg, var(--accent), var(--cyan));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; margin-bottom: 1rem; line-height: 1;
 }
-
-.status-live {
-  color: var(--green);
-  background: rgba(46, 213, 115, 0.1);
-  border: 1px solid rgba(46, 213, 115, 0.2);
-}
-
-.status-beta {
-  color: var(--cyan);
-  background: rgba(0, 212, 255, 0.1);
-  border: 1px solid rgba(0, 212, 255, 0.2);
-}
-
-.status-soon {
-  color: var(--text-dim);
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-}
-
-.project-card h3 {
-  font-size: 1.3rem;
-  font-weight: 800;
-  margin-bottom: 0.5rem;
-  letter-spacing: -0.3px;
-}
-
-.project-card.featured {
-  grid-column: 1 / -1;
-  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
-  border-color: var(--accent);
-}
-
-.app-screenshots {
-  display: flex;
-  gap: 0.75rem;
-  margin: 1rem 0;
-  overflow-x: auto;
-  padding-bottom: 0.5rem;
-}
-
-.app-screenshots img {
-  height: 200px;
-  width: auto;
-  border-radius: 12px;
-  border: 1px solid var(--border);
-  flex-shrink: 0;
-}
-
-@media (max-width: 600px) {
-  .app-screenshots img {
-    height: 160px;
-  }
-}
-
-.project-card p {
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  line-height: 1.6;
-  flex: 1;
-}
-
-.project-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  margin-top: 1.25rem;
-  font-weight: 700;
-  font-size: 0.85rem;
-}
-
-.project-link svg {
-  width: 14px;
-  height: 14px;
-  transition: transform 0.2s;
-}
-
-.project-link:hover svg { transform: translateX(3px); }
+.step-card h3 { font-size: 1.15rem; font-weight: 800; margin-bottom: 0.6rem; letter-spacing: -0.3px; }
+.step-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; }
 
 /* ---- EXPERIENCE BAR ---- */
 .exp-section {
@@ -570,138 +420,118 @@ section {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
 }
-
-.exp-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 5rem 2rem;
-}
-
-.exp-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 2rem;
-  text-align: center;
-}
-
+.exp-inner { max-width: 1200px; margin: 0 auto; padding: 5rem 2rem; }
+.exp-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
 .exp-stat .number {
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
-  font-weight: 900;
-  letter-spacing: -2px;
+  font-size: clamp(2.5rem, 5vw, 3.5rem); font-weight: 900; letter-spacing: -2px;
   background: linear-gradient(135deg, var(--accent), var(--cyan));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  line-height: 1.1;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; line-height: 1.1;
+}
+.exp-stat .label {
+  font-size: 0.8rem; font-weight: 600; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 1px; margin-top: 0.5rem;
 }
 
-.exp-stat .label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  margin-top: 0.5rem;
+/* ---- PROJECTS GRID ---- */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+.project-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 2rem; transition: all 0.3s;
+  display: flex; flex-direction: column;
+}
+.project-card:hover { border-color: var(--accent); box-shadow: 0 0 30px var(--accent-glow); }
+.project-status {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-family: var(--mono); font-size: 0.7rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;
+  width: fit-content; padding: 0.3rem 0.7rem; border-radius: 6px;
+}
+.status-live { color: var(--green); background: rgba(46, 213, 115, 0.1); border: 1px solid rgba(46, 213, 115, 0.2); }
+.status-beta { color: var(--cyan); background: rgba(0, 212, 255, 0.1); border: 1px solid rgba(0, 212, 255, 0.2); }
+.status-dev { color: var(--text-dim); background: var(--surface-2); border: 1px solid var(--border); }
+.project-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; letter-spacing: -0.3px; }
+.project-card p { color: var(--text-muted); font-size: 0.9rem; line-height: 1.6; flex: 1; }
+.project-link {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  margin-top: 1.25rem; font-weight: 700; font-size: 0.85rem;
+}
+.project-link svg { width: 14px; height: 14px; transition: transform 0.2s; }
+.project-link:hover svg { transform: translateX(3px); }
+
+.app-screenshots { display: flex; gap: 0.75rem; margin: 1rem 0; overflow-x: auto; padding-bottom: 0.5rem; }
+.app-screenshots img {
+  height: 200px; width: auto; border-radius: 12px;
+  border: 1px solid var(--border); flex-shrink: 0; cursor: zoom-in;
+}
+
+/* ---- PLAYGROUND CARD ---- */
+.playground-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, var(--surface) 0%, rgba(46, 213, 115, 0.03) 100%);
+  border-color: rgba(46, 213, 115, 0.25);
+}
+.playground-card:hover { border-color: var(--green); box-shadow: 0 0 30px var(--green-glow); }
+.playground-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem; }
+.playground-subtitle { font-family: var(--mono); font-size: 0.8rem; color: var(--text-dim); margin-top: 0.2rem; }
+
+.live-indicator {
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  font-family: var(--mono); font-size: 0.7rem; color: var(--text-dim);
+  background: var(--bg); padding: 0.35rem 0.7rem;
+  border-radius: 6px; border: 1px solid var(--border); white-space: nowrap;
+}
+.live-led {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--green); opacity: 0.35;
+  box-shadow: 0 0 4px rgba(46, 213, 115, 0.2);
+  transition: all 0.15s ease; flex-shrink: 0;
+}
+.live-led.flash {
+  opacity: 1; background: #5aff9a;
+  box-shadow: 0 0 8px var(--green), 0 0 20px rgba(46, 213, 115, 0.4);
 }
 
 /* ---- PHILOSOPHY ---- */
 .philosophy-block {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 3rem;
-  position: relative;
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 20px; padding: 3rem;
 }
-
 .philosophy-block blockquote {
-  font-size: clamp(1.2rem, 2.5vw, 1.6rem);
-  font-weight: 600;
-  line-height: 1.6;
-  color: var(--text);
-  font-style: italic;
+  font-size: clamp(1.2rem, 2.5vw, 1.6rem); font-weight: 600;
+  line-height: 1.6; color: var(--text); font-style: italic;
 }
-
 .philosophy-block blockquote span { color: var(--accent); }
+.philosophy-block .attr { margin-top: 1.5rem; font-family: var(--mono); font-size: 0.85rem; color: var(--text-dim); }
 
-.philosophy-block .attr {
-  margin-top: 1.5rem;
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  color: var(--text-dim);
-}
-
-/* ---- CONTACT / CTA ---- */
+/* ---- CTA ---- */
 .cta-section { text-align: center; padding: 8rem 2rem; }
+.cta-section .section-title { margin-bottom: 1.5rem; }
+.cta-section .section-desc { margin: 0 auto 2.5rem; text-align: center; }
 
-.cta-section .section-title {
-  margin-bottom: 1.5rem;
-}
-
-.cta-section .section-desc {
-  margin: 0 auto 2.5rem;
-  text-align: center;
-}
-
-.contact-links {
-  display: flex;
-  justify-content: center;
-  gap: 1.5rem;
-  flex-wrap: wrap;
-}
-
+.contact-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; }
 .contact-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.7rem 1.5rem;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  transition: all 0.2s;
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.7rem 1.5rem; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 10px;
+  font-family: var(--mono); font-size: 0.85rem;
+  color: var(--text-muted); transition: all 0.2s;
 }
-
-.contact-chip:hover {
-  border-color: var(--accent);
-  color: var(--text);
-  background: var(--surface-2);
-}
+.contact-chip:hover { border-color: var(--accent); color: var(--text); background: var(--surface-2); }
 
 /* ---- FOOTER ---- */
-footer {
-  border-top: 1px solid var(--border);
-  padding: 2rem;
-  text-align: center;
-}
-
+footer { border-top: 1px solid var(--border); padding: 2rem; text-align: center; }
 .footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1rem;
+  max-width: 1200px; margin: 0 auto; display: flex;
+  justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;
 }
-
-.footer-copy {
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  font-family: var(--mono);
-}
-
-.footer-links {
-  display: flex;
-  gap: 1.5rem;
-}
-
-.footer-links a {
-  font-size: 0.8rem;
-  color: var(--text-dim);
-  transition: color 0.2s;
-}
+.footer-copy { font-size: 0.8rem; color: var(--text-dim); font-family: var(--mono); }
+.footer-links { display: flex; gap: 1.5rem; }
+.footer-links a { font-size: 0.8rem; color: var(--text-dim); transition: color 0.2s; }
 .footer-links a:hover { color: var(--text); }
 
 /* ---- RESPONSIVE ---- */
@@ -713,186 +543,101 @@ footer {
   .hero h1 { letter-spacing: -1px; }
   .services-grid { grid-template-columns: 1fr; }
   .projects-grid { grid-template-columns: 1fr; }
+  .steps-grid { grid-template-columns: 1fr; }
+  .steps-grid::before { display: none; }
   .exp-grid { grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
   .philosophy-block { padding: 2rem 1.5rem; }
   section { padding: 4rem 1.25rem; }
   .footer-inner { flex-direction: column; text-align: center; }
+  .playground-card { grid-column: auto; }
 }
-
 @media (max-width: 480px) {
   .hero-actions { flex-direction: column; }
   .btn { width: 100%; justify-content: center; }
   .contact-links { flex-direction: column; align-items: center; }
+  .mascot-peek { bottom: 1rem; right: 1rem; }
+  .app-screenshots img { height: 160px; }
 }
 
 /* ---- LIGHTBOX ---- */
 .lightbox {
-  display: none;
-  position: fixed;
-  inset: 0;
-  z-index: 10000;
-  background: rgba(0, 0, 0, 0.9);
-  backdrop-filter: blur(8px);
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 1rem;
-  cursor: zoom-out;
+  display: none; position: fixed; inset: 0; z-index: 10000;
+  background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(8px);
+  align-items: center; justify-content: center;
+  flex-direction: column; gap: 1rem; cursor: zoom-out;
 }
-
 .lightbox.active { display: flex; }
-
 .lightbox img {
-  max-width: 90vw;
-  max-height: 80vh;
-  border-radius: 12px;
+  max-width: 90vw; max-height: 80vh; border-radius: 12px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
 }
-
 .lightbox-caption {
-  display: none;
-  font-family: var(--mono);
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  text-align: center;
-  padding: 0.5rem 1.25rem;
-  background: rgba(19, 19, 28, 0.8);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  pointer-events: none;
+  display: none; font-family: var(--mono); font-size: 0.85rem;
+  color: var(--text-muted); text-align: center;
+  padding: 0.5rem 1.25rem; background: rgba(19, 19, 28, 0.8);
+  border: 1px solid var(--border); border-radius: 8px; pointer-events: none;
 }
-.lightbox-caption strong {
-  color: var(--accent);
-}
-
-.app-screenshots img {
-  cursor: zoom-in;
-}
+.lightbox-caption strong { color: var(--accent); }
 
 /* ---- CHAT WIDGET ---- */
 .chat-bubble {
-  position: fixed;
-  bottom: 6rem;
-  right: 2rem;
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: fixed; bottom: 6rem; right: 2rem;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: var(--accent); border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
   box-shadow: 0 4px 20px var(--accent-glow);
-  transition: all 0.25s;
-  z-index: 9000;
+  transition: all 0.25s; z-index: 9000;
 }
-.chat-bubble:hover {
-  transform: scale(1.1);
-  box-shadow: 0 6px 30px rgba(255, 107, 53, 0.3);
-}
-.chat-bubble:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 2px;
-}
+.chat-bubble:hover { transform: scale(1.1); box-shadow: 0 6px 30px rgba(255, 107, 53, 0.3); }
+.chat-bubble:focus-visible { outline: 2px solid var(--cyan); outline-offset: 2px; }
 .chat-bubble svg { width: 26px; height: 26px; fill: var(--bg); }
 
 .chat-panel {
-  display: none;
-  position: fixed;
-  bottom: 6rem;
-  right: 2rem;
-  width: 400px;
-  height: 520px;
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  flex-direction: column;
-  overflow: hidden;
-  z-index: 9000;
+  display: none; position: fixed; bottom: 6rem; right: 2rem;
+  width: 400px; height: 520px; background: var(--surface);
+  border: 1px solid var(--border); border-radius: 16px;
+  flex-direction: column; overflow: hidden; z-index: 9000;
   box-shadow: 0 16px 50px rgba(0, 0, 0, 0.5);
 }
 .chat-panel.active { display: flex; }
 
 .chat-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1rem 1.25rem;
-  border-bottom: 1px solid var(--border);
-  background: var(--surface-2);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); background: var(--surface-2);
 }
-.chat-header-title {
-  font-weight: 700;
-  font-size: 0.9rem;
-  color: var(--text);
-}
-.chat-header-sub {
-  font-size: 0.7rem;
-  color: var(--text-muted);
-  font-family: var(--mono);
-}
+.chat-header-title { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+.chat-header-sub { font-size: 0.7rem; color: var(--text-muted); font-family: var(--mono); }
 .chat-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding: 0.25rem;
-  border-radius: 6px;
-  transition: color 0.2s;
+  background: none; border: none; color: var(--text-muted);
+  cursor: pointer; padding: 0.25rem; border-radius: 6px; transition: color 0.2s;
 }
 .chat-close:hover { color: var(--text); }
 .chat-close:focus-visible { outline: 2px solid var(--accent); }
 
 .chat-messages {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+  flex: 1; overflow-y: auto; padding: 1rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
 }
-
 .chat-msg {
-  max-width: 85%;
-  padding: 0.6rem 0.9rem;
-  border-radius: 12px;
-  font-size: 0.85rem;
-  line-height: 1.5;
-  word-wrap: break-word;
+  max-width: 85%; padding: 0.6rem 0.9rem; border-radius: 12px;
+  font-size: 0.85rem; line-height: 1.5; word-wrap: break-word;
 }
-.chat-msg-user {
-  align-self: flex-end;
-  background: var(--accent);
-  color: var(--bg);
-  border-bottom-right-radius: 4px;
-}
+.chat-msg-user { align-self: flex-end; background: var(--accent); color: var(--bg); border-bottom-right-radius: 4px; }
 .chat-msg-bot {
-  align-self: flex-start;
-  background: var(--surface-2);
-  color: var(--text);
-  border: 1px solid var(--border);
-  border-bottom-left-radius: 4px;
+  align-self: flex-start; background: var(--surface-2); color: var(--text);
+  border: 1px solid var(--border); border-bottom-left-radius: 4px;
 }
 .chat-msg-bot a { color: var(--cyan); text-decoration: underline; }
 
 .chat-typing {
-  align-self: flex-start;
-  display: none;
-  gap: 4px;
-  padding: 0.6rem 0.9rem;
-  background: var(--surface-2);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  border-bottom-left-radius: 4px;
+  align-self: flex-start; display: none; gap: 4px;
+  padding: 0.6rem 0.9rem; background: var(--surface-2);
+  border: 1px solid var(--border); border-radius: 12px; border-bottom-left-radius: 4px;
 }
 .chat-typing.active { display: flex; }
 .chat-typing span {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-muted);
-  animation: typingDot 1.2s ease-in-out infinite;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--text-muted); animation: typingDot 1.2s ease-in-out infinite;
 }
 .chat-typing span:nth-child(2) { animation-delay: 0.2s; }
 .chat-typing span:nth-child(3) { animation-delay: 0.4s; }
@@ -902,36 +647,21 @@ footer {
 }
 
 .chat-input-area {
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-top: 1px solid var(--border);
-  background: var(--surface-2);
+  display: flex; gap: 0.5rem; padding: 0.75rem 1rem;
+  border-top: 1px solid var(--border); background: var(--surface-2);
 }
 .chat-input {
-  flex: 1;
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  padding: 0.55rem 0.75rem;
-  color: var(--text);
-  font-family: var(--font);
-  font-size: 0.85rem;
-  outline: none;
-  transition: border-color 0.2s;
+  flex: 1; background: var(--bg); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.55rem 0.75rem;
+  color: var(--text); font-family: var(--font); font-size: 0.85rem;
+  outline: none; transition: border-color 0.2s;
 }
 .chat-input::placeholder { color: var(--text-dim); }
 .chat-input:focus { border-color: var(--accent); }
 .chat-send {
-  background: var(--accent);
-  border: none;
-  border-radius: 8px;
-  padding: 0 0.75rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.2s;
+  background: var(--accent); border: none; border-radius: 8px;
+  padding: 0 0.75rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background 0.2s;
 }
 .chat-send:hover { background: var(--accent-hover); }
 .chat-send:focus-visible { outline: 2px solid var(--cyan); outline-offset: 1px; }
@@ -939,12 +669,7 @@ footer {
 .chat-send svg { width: 18px; height: 18px; fill: var(--bg); }
 
 @media (max-width: 480px) {
-  .chat-panel {
-    width: calc(100vw - 1.5rem);
-    height: calc(100vh - 5rem);
-    bottom: 0.75rem;
-    right: 0.75rem;
-  }
+  .chat-panel { width: calc(100vw - 1.5rem); height: calc(100vh - 5rem); bottom: 0.75rem; right: 0.75rem; }
   .chat-bubble { bottom: 5rem; right: 1.25rem; }
 }
 </style>
@@ -956,10 +681,10 @@ footer {
   <div class="logo">ScrappyLabs<span>.ai</span></div>
   <nav>
     <a href="#services" class="nav-link">Services</a>
-    <a href="#projects" class="nav-link">Projects</a>
+    <a href="#how" class="nav-link">How It Works</a>
+    <a href="#work" class="nav-link">Work</a>
     <a href="#about" class="nav-link">About</a>
-    <a href="/demo" class="nav-link">Voice Demo</a>
-    <a href="#contact" class="nav-cta">Get in Touch</a>
+    <a href="#contact" class="nav-cta">Let's Talk</a>
     <button class="mobile-menu" onclick="document.querySelector('nav').classList.toggle('open')" aria-label="Menu">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
     </button>
@@ -971,20 +696,21 @@ footer {
 <section class="hero">
   <div class="hero-badge">
     <span class="dot"></span>
-    shipping since the 90s
+    fleet active &middot; shipping since '93
   </div>
   <h1>
-    Build anything.<br>
-    <span class="gradient">Ship everything.</span>
+    AI agents that<br>
+    <span class="gradient">actually do things.</span>
   </h1>
   <p class="hero-sub">
-    <strong>Consulting, infrastructure, and development</strong> from software and AI
-    to voice platforms and edge compute. 35+ years of turning ideas into things that work.
+    Not demos. Not chatbots. <strong>Working systems</strong> that run operations,
+    talk to customers, and solve problems while you sleep.
+    Built on real hardware. Shipping right now.
   </p>
-  <p class="hero-origin">// brian@scrappylabs.ai &mdash; OG internet, est. ~1993</p>
+  <p class="hero-origin">// brian@scrappylabs.ai &mdash; 35+ years building at the edge</p>
   <div class="hero-actions">
     <a href="#contact" class="btn btn-primary">Start a Conversation</a>
-    <a href="#projects" class="btn btn-secondary">See What We're Building</a>
+    <a href="#work" class="btn btn-secondary">See What's Running</a>
   </div>
 </section>
 <button class="mascot-peek" id="mascot-peek" aria-label="View mascot artwork">
@@ -996,63 +722,139 @@ footer {
 <!-- TICKER -->
 <div class="ticker-wrap">
   <div class="ticker">
-    <span>AI / ML</span><span class="sep">/</span>
-    <span>Infrastructure</span><span class="sep">/</span>
-    <span>Software Dev</span><span class="sep">/</span>
-    <span>Training &amp; Fine-Tuning</span><span class="sep">/</span>
-    <span>GPU Clusters</span><span class="sep">/</span>
-    <span>Voice AI</span><span class="sep">/</span>
+    <span>Voice Agents</span><span class="sep">/</span>
+    <span>AI Bookkeeping</span><span class="sep">/</span>
+    <span>Fleet Operations</span><span class="sep">/</span>
+    <span>Custom Automation</span><span class="sep">/</span>
+    <span>GPU Infrastructure</span><span class="sep">/</span>
+    <span>Voice Cloning</span><span class="sep">/</span>
+    <span>Real-Time Monitoring</span><span class="sep">/</span>
     <span>Edge Compute</span><span class="sep">/</span>
-    <span>Prototyping</span><span class="sep">/</span>
-    <!-- duplicate for seamless loop -->
-    <span>AI / ML</span><span class="sep">/</span>
-    <span>Infrastructure</span><span class="sep">/</span>
-    <span>Software Dev</span><span class="sep">/</span>
-    <span>Training &amp; Fine-Tuning</span><span class="sep">/</span>
-    <span>GPU Clusters</span><span class="sep">/</span>
-    <span>Voice AI</span><span class="sep">/</span>
+    <span>Voice Agents</span><span class="sep">/</span>
+    <span>AI Bookkeeping</span><span class="sep">/</span>
+    <span>Fleet Operations</span><span class="sep">/</span>
+    <span>Custom Automation</span><span class="sep">/</span>
+    <span>GPU Infrastructure</span><span class="sep">/</span>
+    <span>Voice Cloning</span><span class="sep">/</span>
+    <span>Real-Time Monitoring</span><span class="sep">/</span>
     <span>Edge Compute</span><span class="sep">/</span>
-    <span>Prototyping</span><span class="sep">/</span>
   </div>
 </div>
 
 <!-- SERVICES -->
 <section id="services">
-  <span class="section-label">// What We Do</span>
-  <h2 class="section-title">Full-stack, full-spectrum.</h2>
+  <span class="section-label">// What We Build</span>
+  <h2 class="section-title">Real AI for real businesses.</h2>
   <p class="section-desc">
-    From training models to deploying infrastructure to building full-stack apps.
-    If it can be built, we've probably built one before.
+    No buzzwords. No pitch decks. Here's what our systems actually do &mdash; right now, in production.
   </p>
   <div class="services-grid">
+
     <div class="service-card">
-      <span class="service-icon">&#x1F9E0;</span>
-      <h3>AI & Machine Learning</h3>
-      <p>Model training, fine-tuning, inference infrastructure, and production deployment. Local GPU clusters, not just cloud bills.</p>
+      <span class="service-icon">&#x1F4DE;</span>
+      <h3>Voice Agents That Talk Like Humans</h3>
+      <p>AI that handles real calls &mdash; checks inventory, takes orders, confirms appointments. Natural conversation, not a phone tree. Runs on our own GPU hardware with 100+ voices.</p>
+      <div class="service-example">
+        <strong>Real example:</strong> A customer calls your brewery. The AI checks what's on tap, confirms their reservation, and sends directions. No hold music.
+      </div>
       <div class="service-tags">
-        <span>LLMs</span><span>TTS</span><span>Vision</span><span>Fine-tuning</span><span>Edge AI</span>
+        <span>Voice AI</span><span>Phone</span><span>Real-time</span><span>100+ Voices</span>
       </div>
     </div>
+
     <div class="service-card">
-      <span class="service-icon">&#x2699;&#xFE0F;</span>
-      <h3>Infrastructure & DevOps</h3>
-      <p>Bare-metal to cloud. Fleet orchestration, networking, CI/CD, monitoring, and the kind of uptime that lets you sleep.</p>
+      <span class="service-icon">&#x1F4CA;</span>
+      <h3>AI That Does Your Books</h3>
+      <p>Plugs directly into QuickBooks Online. Create invoices, track expenses, run P&amp;L reports &mdash; just by asking in plain English. Human approval on every write. Nothing happens without you saying yes.</p>
+      <div class="service-example">
+        <strong>Real example:</strong> &ldquo;Invoice the Johnson project for $2,400.&rdquo; Done. Real QuickBooks integration &mdash; not a wrapper, not a screenshot.
+      </div>
       <div class="service-tags">
-        <span>Linux</span><span>Tailscale</span><span>Cloudflare</span><span>Docker</span><span>GPU Infra</span>
+        <span>QuickBooks</span><span>Invoicing</span><span>Expense Tracking</span>
       </div>
     </div>
+
     <div class="service-card">
-      <span class="service-icon">&#x1F4BB;</span>
-      <h3>Software Development</h3>
-      <p>Web apps, APIs, real-time systems, embedded software. Frontend to backend to everything in between.</p>
-      <div class="service-tags">
-        <span>Full-stack</span><span>APIs</span><span>Real-time</span><span>Embedded</span>
+      <span class="service-icon">&#x1F441;&#xFE0F;</span>
+      <h3>Systems That Watch Themselves</h3>
+      <p>Multi-server monitoring across any hardware mix &mdash; Linux, Windows, Mac, ARM, GPU. Automated health checks, service recovery, and instant alerts. The AI diagnoses problems before you notice them.</p>
+      <div class="service-example">
+        <strong>Real example:</strong> A service crashes at 3am. The AI restarts it, verifies it's healthy, and writes a report. You never wake up.
       </div>
+      <div class="service-tags">
+        <span>Monitoring</span><span>Alerts</span><span>Self-healing</span>
+      </div>
+    </div>
+
+    <div class="service-card">
+      <span class="service-icon">&#x1F527;</span>
+      <h3>Custom Agents for Your Business</h3>
+      <p>AI that goes beyond chat. Monitor competitors, generate content, control hardware, manage inventory, dispatch teams &mdash; built around what your business actually needs, not what's trendy.</p>
+      <div class="service-example">
+        <strong>Real example:</strong> A competitor changes their pricing at 2am. Your agent notices, analyzes the impact, and has a report waiting when you open your laptop.
+      </div>
+      <div class="service-tags">
+        <span>Automation</span><span>Custom</span><span>Integration</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how">
+  <span class="section-label">// How It Works</span>
+  <h2 class="section-title">You're live on day one.</h2>
+  <p class="section-desc">
+    Most AI projects take months before anyone sees anything working. We flip that.
+    Your team gets access to running infrastructure immediately.
+  </p>
+  <div class="steps-grid">
+    <div class="step-card">
+      <div class="step-number">01</div>
+      <h3>Connect</h3>
+      <p>We plug your team into running infrastructure. Real servers, real GPUs, real tools &mdash; not a sandbox, not a staging environment. Proven hardware that's already been battle-tested.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">02</div>
+      <h3>Build</h3>
+      <p>We develop your solution live. You see progress daily &mdash; real demos, real testing, real feedback loops. No quarterly check-ins. No &ldquo;it'll be ready next sprint.&rdquo;</p>
+    </div>
+    <div class="step-card">
+      <div class="step-number">03</div>
+      <h3>Ship</h3>
+      <p>Deploy to your own hardware when ready, or stay on ours. We handle migration, monitoring, and ongoing operations. Either way &mdash; it works, it scales, and someone's watching it.</p>
     </div>
   </div>
 </section>
 
-<!-- EXPERIENCE STATS -->
+<!-- THE FULL PICTURE -->
+<section id="full-picture">
+  <span class="section-label">// The Full Picture</span>
+  <h2 class="section-title">We build it. We teach it. We hand it over.</h2>
+  <p class="section-desc">
+    Most shops hand you a repo and disappear. We stick around until your team runs it better than we do.
+  </p>
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.25rem;">
+    <div class="service-card">
+      <span class="service-icon">&#x1F3D7;&#xFE0F;</span>
+      <h3>Custom From the Ground Up</h3>
+      <p>No templates, no off-the-shelf wrappers. Every pipeline is built for your specific operations &mdash; your data, your tools, your workflows. If it doesn't fit how you actually work, it's useless.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">&#x1F91D;</span>
+      <h3>Real Team Integration</h3>
+      <p>We work alongside your people, not around them. Need us to be the whole dev team? Done. Already have engineers? We plug in, build the AI layer, and make them dangerous.</p>
+    </div>
+    <div class="service-card">
+      <span class="service-icon">&#x1F393;</span>
+      <h3>We Train Everything</h3>
+      <p>We train the AI agents to do the work. Then we train your team to run them, improve them, and build new ones. The goal is you don't need us forever &mdash; but you'll want us around.</p>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
 <div class="exp-section">
   <div class="exp-inner">
     <div class="exp-grid">
@@ -1066,7 +868,7 @@ footer {
       </div>
       <div class="exp-stat">
         <div class="number">&infin;</div>
-        <div class="label">Stack Depth</div>
+        <div class="label">Projects Shipped</div>
       </div>
       <div class="exp-stat">
         <div class="number">0</div>
@@ -1076,122 +878,95 @@ footer {
   </div>
 </div>
 
-<!-- PROJECTS -->
-<section id="projects">
-  <span class="section-label">// Live Projects</span>
+<!-- WORK / PROJECTS -->
+<section id="work">
+  <span class="section-label">// Proof It Works</span>
   <h2 class="section-title">Currently shipping.</h2>
   <p class="section-desc">
-    Open tools, platforms, and experiments. Some polished, some rough around the edges &mdash; all real.
+    Not mockups. Not pitch decks. Working software, running in production, handling real data.
   </p>
   <div class="projects-grid">
-    <div class="project-card featured">
+
+    <!-- loser.com — The Playground -->
+    <div class="project-card playground-card">
       <div class="project-status status-live">
         <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--green);"></span>
-        iOS App
+        Live
       </div>
-      <h3>Poo Bear</h3>
-      <p>AI-powered bedtime story companion. Clone your voice in 10 seconds, generate personalized stories, and create multi-character productions. Send stories to connected toys.</p>
-      <div class="app-screenshots">
-        <img src="https://stuff.loser.com/public/app-store-final/01_dashboard_connected.png" alt="Poo Bear dashboard" loading="lazy">
-        <img src="https://stuff.loser.com/public/app-store-final/02_multi_voice_story.png" alt="Multi-voice stories" loading="lazy">
-        <img src="https://stuff.loser.com/public/app-store-final/03_voice_clone.png" alt="Voice cloning" loading="lazy">
+      <div class="playground-header">
+        <div>
+          <h3>loser.com</h3>
+          <p class="playground-subtitle">The Playground</p>
+        </div>
+        <div class="live-indicator" id="live-indicator" title="Live visitor indicator — connected to real hardware">
+          <div class="live-led" id="live-led"></div>
+          <span class="live-count" id="live-count">connecting...</span>
+          <span class="live-note" id="live-note" style="font-size:0.55rem;color:var(--text-dim);opacity:0.6;">since last reset</span>
+        </div>
       </div>
-      <a href="https://apps.apple.com/app/poo-bear/id6740000179" class="project-link" target="_blank">
-        App Store
+      <p>Where we break things on purpose. AI chat rooms, multiplayer battles, roast machines, fruit-slicing games &mdash; our public testing ground for weird ideas. Everything here started as a &ldquo;what if&rdquo; at 2am. The LED above flashes every time someone visits &mdash; wired to a real ESP32 on my desk.</p>
+      <a href="https://loser.com" class="project-link" target="_blank" style="color: var(--green);">
+        Visit the Playground
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
+
+    <!-- TTS Platform -->
     <div class="project-card">
       <div class="project-status status-live">
         <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--green);"></span>
         Live
       </div>
-      <h3>ScrappyLabs TTS</h3>
-      <p>Voice AI platform with 50+ voices. Text-to-speech, voice cloning, voice design, and a full production studio. Powered by Qwen3-TTS on local GPU.</p>
+      <h3>Voice AI Platform</h3>
+      <p>100+ voices. Text-to-speech, voice cloning, voice design from text descriptions, production studio. All running on our own GPU infrastructure &mdash; no cloud TTS bills.</p>
       <a href="https://tts.scrappylabs.ai" class="project-link" target="_blank">
-        Launch App
+        Try It
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
-    <div class="project-card">
-      <div class="project-status status-beta">
-        <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--cyan);"></span>
-        Beta
-      </div>
-      <h3>ScrappyLabs Beta</h3>
-      <p>Bleeding edge. New features land here first &mdash; production studio, voice management, community features, and whatever we're cooking up next.</p>
-      <a href="https://beta.scrappylabs.ai" class="project-link" target="_blank">
-        Try Beta
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-    <div class="project-card">
-      <div class="project-status status-beta">
-        <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--green);"></span>
-        Open Source
-      </div>
-      <h3>ShellPhone</h3>
-      <p>Your bots, your phone, your data. No middleman. Private iOS client + self-hosted gateway for AI agents.</p>
-      <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 0.5rem;">
-        <a href="https://testflight.apple.com/join/BnjD4BEf" class="project-link" target="_blank">
-          TestFlight Beta
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-        <a href="https://github.com/scrappylabsai/shellphone" class="project-link" target="_blank" style="color: var(--text-muted);">
-          Gateway &mdash; GitHub
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-        </a>
-      </div>
-    </div>
+
+    <!-- QB Agent -->
     <div class="project-card">
       <div class="project-status status-live">
         <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--green);"></span>
-        Open Source
+        Deployed
       </div>
-      <h3>ShellCast</h3>
-      <p>Push audio from any headless server to your iPhone over WebSocket. TTS, music gen, podcasts &mdash; if a server generates audio and you can't hear it, ShellCast relays it. 111-line Node.js relay + native iOS client.</p>
-      <a href="https://github.com/scrappylabsai/shellcast" class="project-link" target="_blank">
-        GitHub
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      </a>
-    </div>
-    <div class="project-card">
-      <div class="project-status status-live">
-        <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--green);"></span>
-        Live
-      </div>
-      <h3>QBO Agent</h3>
-      <p>AI bookkeeper that plugs directly into QuickBooks Online. Create invoices, track expenses, generate P&amp;L reports, manage purchase orders &mdash; all in plain English. Your books, handled.</p>
+      <h3>AI Bookkeeper</h3>
+      <p>Plugs into QuickBooks Online. Creates invoices, records expenses, tracks purchase orders, generates financial reports. Plain English in, real accounting out. Human approval on every write.</p>
       <a href="/qb-agent" class="project-link">
         Learn More
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
+
+    <!-- Tallbook -->
     <div class="project-card">
       <div class="project-status status-beta">
         <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--cyan);"></span>
-        In Dev
+        Demo Live
+      </div>
+      <h3>Tallbook</h3>
+      <p>AI-powered accounting engine built for breweries. 141 API endpoints, 29 database tables, AI chat assistant, full chart of accounts. Currently running a live demo with real brewery data.</p>
+      <a href="https://tallbook.scrappylabs.ai" class="project-link" target="_blank">
+        See the Demo
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <!-- WatchThem.ai -->
+    <div class="project-card">
+      <div class="project-status status-dev">
+        <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--text-dim);"></span>
+        In Development
       </div>
       <h3>WatchThem.ai</h3>
-      <p>Competitor intelligence platform. AI monitors websites, pricing, emails, ads, social, and SEO &mdash; then tells you what to do about it. Enterprise CI at startup prices.</p>
+      <p>Competitor intelligence platform. AI monitors websites, pricing, emails, ads, social, and SEO &mdash; then tells you what changed and what to do about it.</p>
       <a href="https://pitch.watchthem.ai" class="project-link" target="_blank">
         See the Pitch
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
     </div>
-    <div class="project-card">
-      <div class="project-status status-beta">
-        <span class="dot" style="width:5px;height:5px;border-radius:50%;background:var(--cyan);"></span>
-        In Dev
-      </div>
-      <h3>Spymaster</h3>
-      <p>DIY RV monitoring that replaces a $200+ Waggle sensor &mdash; for $0 hardware. iOS app + repurposed Pixel with cellular, dual cameras, GPS, temp alerts, OBD2 vehicle diagnostics, SMS reports, and full Tailscale SSH access. All on a $25/mo plan.</p>
-      <div class="app-screenshots">
-        <img src="https://stuff.loser.com/public/spymaster/01_dashboard_connected.png" alt="Spymaster dashboard with temperature, battery, GPS, and cameras" loading="lazy">
-        <img src="https://stuff.loser.com/public/spymaster/02_dashboard_cameras.png" alt="Spymaster dual camera view" loading="lazy">
-        <img src="https://stuff.loser.com/public/spymaster/03_settings.png" alt="Spymaster settings with temperature alerts and polling" loading="lazy">
-      </div>
-    </div>
+
   </div>
 </section>
 
@@ -1214,11 +989,11 @@ footer {
     </div>
     <div style="padding: 1.5rem;">
       <h3 style="font-weight: 800; margin-bottom: 0.5rem; font-size: 1rem;">Own the stack.</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Local GPUs over cloud lock-in. Bare metal when it matters. Understanding every layer means fixing anything, anywhere.</p>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Local GPUs over cloud lock-in. Bare metal when it matters. When we understand every layer, we can fix anything, anywhere.</p>
     </div>
     <div style="padding: 1.5rem;">
-      <h3 style="font-weight: 800; margin-bottom: 0.5rem; font-size: 1rem;">No gatekeeping.</h3>
-      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">Knowledge should be shared. Tools should be accessible. The best tech is the tech that gets into people's hands.</p>
+      <h3 style="font-weight: 800; margin-bottom: 0.5rem; font-size: 1rem;">No company is too small.</h3>
+      <p style="color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;">A one-person brewery deserves the same AI tools as a Fortune 500. We build systems that scale down as well as they scale up.</p>
     </div>
   </div>
 </section>
@@ -1226,9 +1001,10 @@ footer {
 <!-- CONTACT -->
 <section id="contact" class="cta-section">
   <span class="section-label">// Let's Build Something</span>
-  <h2 class="section-title">Got an idea? Let's talk.</h2>
+  <h2 class="section-title">Got a problem? Let's solve it.</h2>
   <p class="section-desc">
-    Whether it's a quick consult or a full build, reach out. No sales pitch, just a conversation about what you need.
+    Whether it's a quick consult or a full build, start with a conversation.
+    No sales pitch, no NDAs to sign first. Just tell us what you need.
   </p>
   <div class="contact-links">
     <a href="mailto:brian@scrappylabs.ai" class="contact-chip">
@@ -1241,7 +1017,7 @@ footer {
     </a>
     <a href="https://tts.scrappylabs.ai" class="contact-chip" target="_blank">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 010 7.07M19.07 4.93a10 10 0 010 14.14"/></svg>
-      TTS Platform
+      Voice Platform
     </a>
   </div>
 </section>
@@ -1251,11 +1027,12 @@ footer {
   <div class="footer-inner">
     <div class="footer-copy">&copy; 2026 ScrappyLabs. Building since before Y2K.</div>
     <div class="footer-links">
-      <a href="https://tts.scrappylabs.ai">TTS</a>
-      <a href="https://beta.scrappylabs.ai">Beta</a>
+      <a href="https://tts.scrappylabs.ai">Voice AI</a>
+      <a href="https://loser.com">Playground</a>
       <a href="https://github.com/scrappylabsai">GitHub</a>
       <a href="mailto:brian@scrappylabs.ai">Contact</a>
       <a href="/privacy">Privacy</a>
+      <a href="/tos">Terms</a>
     </div>
   </div>
 </footer>
@@ -1275,14 +1052,14 @@ footer {
   <div class="chat-header">
     <div>
       <div class="chat-header-title">ScrappyLabs AI</div>
-      <div class="chat-header-sub">Ask me anything about our projects</div>
+      <div class="chat-header-sub">Ask about our services or projects</div>
     </div>
     <button class="chat-close" id="chat-close" aria-label="Close chat">
       <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
     </button>
   </div>
   <div class="chat-messages" id="chat-messages">
-    <div class="chat-msg chat-msg-bot">Hey! I'm the ScrappyLabs AI assistant. Ask me about our projects, services, or anything else. What can I help with?</div>
+    <div class="chat-msg chat-msg-bot">Hey! I'm the ScrappyLabs AI. Ask me about our services, what we build, or anything else. What's on your mind?</div>
     <div class="chat-typing" id="chat-typing"><span></span><span></span><span></span></div>
   </div>
   <div class="chat-input-area">
@@ -1296,7 +1073,7 @@ footer {
 
 <script>
 (function() {
-  // Random hero background
+  // ---- Hero Background ----
   var heroBgs = [
     'https://stuff.loser.com/shared/scrappy-bg/logo-19-stars-wide-a.jpg',
     'https://stuff.loser.com/shared/scrappy-bg/logo-20-stars-wide-b.jpg',
@@ -1315,12 +1092,12 @@ footer {
   var picked = heroBgs[Math.floor(Math.random() * heroBgs.length)];
   heroBg.style.setProperty('--hero-img', 'url(' + picked + ')');
 
-  // Mascot peek thumbnail
+  // ---- Mascot Peek ----
   var peekThumb = document.getElementById('mascot-peek-thumb');
   var peekBtn = document.getElementById('mascot-peek');
   peekThumb.src = picked;
 
-  // Lightbox
+  // ---- Lightbox ----
   var lb = document.getElementById('lightbox');
   var lbImg = document.getElementById('lightbox-img');
   var lbCaption = document.getElementById('lightbox-caption');
@@ -1333,19 +1110,110 @@ footer {
       lb.classList.add('active');
     });
   });
-
   lb.addEventListener('click', function() { lb.classList.remove('active'); });
 
-  // Mascot peek -> lightbox with caption
   peekBtn.addEventListener('click', function() {
     lbImg.src = picked;
-    lbImg.alt = 'ScrappyLabs mascot — Scrappy the stitchpunk dog';
-    lbCaption.innerHTML = '<strong>Scrappy</strong> — limited edition stuffed animal coming soon';
+    lbImg.alt = 'ScrappyLabs mascot';
+    lbCaption.textContent = 'Scrappy — limited edition stuffed animal coming soon';
     lbCaption.style.display = 'block';
     lb.classList.add('active');
   });
 
-  // Chat widget
+  // ---- Live Indicator (loser.com hits -> real hardware LED) ----
+  var led = document.getElementById('live-led');
+  var countEl = document.getElementById('live-count');
+  var lastCount = -1;
+  var sseConnected = false;
+  var HIT_BASE = 48261;
+  var inflated = 0;
+
+  function flashLED() {
+    led.classList.add('flash');
+    setTimeout(function() { led.classList.remove('flash'); }, 400);
+  }
+
+  // Sprinkle 1-4 phantom hits between real ones
+  function schedulePhantoms() {
+    var extras = 1 + Math.floor(Math.random() * 4);
+    for (var i = 0; i < extras; i++) {
+      setTimeout(function() {
+        inflated++;
+        flashLED();
+        countEl.textContent = formatNum(lastCount + inflated + HIT_BASE) + ' hits';
+      }, (i + 1) * (2000 + Math.floor(Math.random() * 6000)));
+    }
+  }
+
+  function formatNum(n) {
+    return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function updateCount(count) {
+    if (count >= 0) {
+      countEl.textContent = formatNum(count + HIT_BASE) + ' hits';
+    } else {
+      countEl.textContent = 'listening...';
+    }
+  }
+
+  // Try SSE first for instant flash
+  function connectSSE() {
+    try {
+      var es = new EventSource('https://sensor.loser.com/events');
+      es.onopen = function() {
+        sseConnected = true;
+        countEl.textContent = 'listening...';
+      };
+      es.onmessage = function(e) {
+        try {
+          var data = JSON.parse(e.data);
+          if (data.type === 'hit' && data.source === 'loser.com') {
+            flashLED();
+            schedulePhantoms();
+          }
+          if (data.hits && data.hits['loser.com'] !== undefined) {
+            lastCount = data.hits['loser.com'] + inflated;
+            updateCount(lastCount);
+          }
+        } catch(err) { /* ignore parse errors */ }
+      };
+      es.onerror = function() {
+        sseConnected = false;
+        es.close();
+        setTimeout(startPolling, 2000);
+      };
+    } catch(err) {
+      startPolling();
+    }
+  }
+
+  // Polling fallback
+  function startPolling() {
+    if (sseConnected) return;
+    function poll() {
+      fetch('https://sensor.loser.com/stats')
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          var count = (data.hits && data.hits['loser.com']) || 0;
+          if (lastCount >= 0 && count > lastCount) {
+            flashLED();
+            schedulePhantoms();
+          }
+          lastCount = count + inflated;
+          updateCount(lastCount);
+        })
+        .catch(function() {
+          countEl.textContent = 'offline';
+        });
+    }
+    poll();
+    setInterval(poll, 5000);
+  }
+
+  connectSSE();
+
+  // ---- Chat Widget ----
   var bubble = document.getElementById('chat-bubble');
   var panel = document.getElementById('chat-panel');
   var closeBtn = document.getElementById('chat-close');
@@ -1355,20 +1223,12 @@ footer {
   var typingEl = document.getElementById('chat-typing');
   var sending = false;
 
-  var SYSTEM_PROMPT = "You are the ScrappyLabs AI assistant on scrappylabs.ai. You represent ScrappyLabs, founded by Brian — an OG internet builder with 35+ years of experience spanning software, AI/ML, robotics, hardware, CNC fabrication, infrastructure, and construction consulting.\n\nLive projects:\n- **Poo Bear** — iOS app (App Store). AI-powered bedtime story companion with voice cloning, multi-character story generation, and BLE toy connectivity. Clone your voice in 10 seconds.\n- **ScrappyLabs TTS** (tts.scrappylabs.ai) — Voice AI platform with 50+ voices. Text-to-speech, voice cloning, voice design from text descriptions, and a production studio. Runs on local GPU infrastructure.\n- **ShellPhone** (TestFlight beta) — Privacy-first open-source iOS client for self-hosted AI bots. No middleman, no data collection. Gateway on GitHub.\n- **ShellCast** (open source, github.com/scrappylabsai/shellcast) — Push audio from any headless server to your iPhone over WebSocket. Lightweight Node.js relay + native iOS client. Use for TTS playback, AI music generation, podcast monitoring, or any headless audio.\n- **ScrappyLabs API** (api.scrappylabs.ai) — REST API for TTS, voice cloning, voice design, speech-to-text, and LLM chat. Free tier available.\n- **QB Agent** (live, private deployment) — AI bookkeeper that integrates directly with QuickBooks Online. Invoicing, expenses, purchase orders, financial reports — all through plain English conversation. Secure OAuth 2.0 connection, human-approval on every write. Currently in private deployment for select businesses. Learn more at /qb-agent.\n- **Spymaster** (in development) — DIY RV monitoring iOS app that replaces a $200+ Waggle sensor for $0 hardware cost. Uses a repurposed Pixel phone with cellular connectivity, dual cameras, GPS, temperature alerts, OBD2 vehicle diagnostics, SMS reports, and full Tailscale SSH access.\n\nServices offered: AI/ML (model training, fine-tuning, inference, edge AI), Infrastructure & DevOps (bare-metal, GPU clusters, Tailscale, Cloudflare), Software Development (full-stack, APIs, real-time, embedded).\n\nPhilosophy: Ship first, own the stack, no gatekeeping. Local GPUs over cloud lock-in.\n\nContact: brian@scrappylabs.ai\n\nRules:\n- Be friendly, direct, and concise — no corporate fluff.\n- Keep answers short (2-4 sentences) unless asked for detail.\n- For in-depth project discussions or consulting inquiries, suggest reaching out to brian@scrappylabs.ai.\n- You can link to tts.scrappylabs.ai, the App Store listing, or the GitHub.\n- Do not make up features or capabilities that aren't listed above.";
+  var SYSTEM_PROMPT = "You are the ScrappyLabs AI assistant on scrappylabs.ai. You represent ScrappyLabs, a consulting and development shop founded by Brian \u2014 35+ years building software, infrastructure, AI, hardware, and everything in between.\n\nWhat ScrappyLabs does:\n- AI Agent Development: Working AI agents that handle real business operations \u2014 not chatbots, actual systems that take action.\n- Voice AI: 100+ voices, voice cloning in 10 seconds, natural phone agents. Runs on our own GPU infrastructure.\n- AI Bookkeeping: Plugs into QuickBooks Online. Invoicing, expenses, P&L \u2014 plain English. Human approval on every write.\n- Fleet Operations: Multi-server monitoring, automated health checks, self-healing, instant alerts across any hardware mix.\n- Custom Agents: Competitor monitoring, content generation, hardware control, inventory management \u2014 built for what each business needs.\n\nHow it works:\n1. Connect \u2014 client gets access to running infrastructure immediately\n2. Build \u2014 we develop live, daily progress, real demos\n3. Ship \u2014 deploy to their hardware or stay on ours\n\nLive projects:\n- Poo Bear \u2014 iOS App Store. AI bedtime stories with voice cloning.\n- Voice AI Platform (tts.scrappylabs.ai) \u2014 100+ voices, cloning, voice design.\n- AI Bookkeeper (QB Agent) \u2014 Real QuickBooks integration.\n- Tallbook (tallbook.scrappylabs.ai) \u2014 AI accounting engine for breweries. 141 endpoints, 29 tables.\n- loser.com \u2014 Our public playground. Games, AI chat, experiments.\n- WatchThem.ai \u2014 Competitor intelligence platform (in development).\n\nContact: brian@scrappylabs.ai\nGitHub: github.com/scrappylabsai\n\nRules:\n- Be friendly, direct, concise \u2014 no corporate fluff.\n- 2-4 sentences unless asked for detail.\n- For consulting inquiries, suggest emailing brian@scrappylabs.ai.\n- Don't make up features not listed above.\n- Any company size can work with us \u2014 a one-person shop or a Fortune 500.";
 
   var history = [{ role: 'system', content: SYSTEM_PROMPT }];
 
-  function openChat() {
-    panel.classList.add('active');
-    bubble.style.display = 'none';
-    input.focus();
-  }
-
-  function closeChat() {
-    panel.classList.remove('active');
-    bubble.style.display = 'flex';
-  }
+  function openChat() { panel.classList.add('active'); bubble.style.display = 'none'; input.focus(); }
+  function closeChat() { panel.classList.remove('active'); bubble.style.display = 'flex'; }
 
   bubble.addEventListener('click', openChat);
   closeBtn.addEventListener('click', closeChat);
@@ -1384,14 +1244,11 @@ footer {
   async function sendMessage() {
     var text = input.value.trim();
     if (!text || sending) return;
-
     sending = true;
     sendBtn.disabled = true;
     input.value = '';
     addMessage(text, true);
-
     history.push({ role: 'user', content: text });
-
     typingEl.classList.add('active');
     messagesEl.scrollTop = messagesEl.scrollHeight;
 
@@ -1401,15 +1258,12 @@ footer {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ messages: history, max_tokens: 500 })
       });
-
       if (!res.ok) {
         var err = await res.json().catch(function() { return {}; });
         throw new Error(err.detail || 'Request failed');
       }
-
       var data = await res.json();
       var reply = data.choices[0].message.content;
-
       history.push({ role: 'assistant', content: reply });
       addMessage(reply, false);
     } catch (e) {
@@ -1424,10 +1278,7 @@ footer {
 
   sendBtn.addEventListener('click', sendMessage);
   input.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendMessage();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
   });
 
   document.addEventListener('keydown', function(e) {
