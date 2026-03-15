@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GPU Warranty Fight — PNY, Build Redux & Micro Center | ScrappyLabs</title>
+<meta name="description" content="$10,099 in dead PNY GPUs. Build Redux sold unauthorized hardware. PNY denied warranty citing 'unauthorized dealer.' Federal law says they can't do that. Join the fight.">
+<meta property="og:title" content="GPU Warranty Fight — $10K in Dead PNY GPUs, Nobody Will Honor the Warranty">
+<meta property="og:description" content="PNY ghosted for 2 months. Build Redux sold unauthorized hardware. Micro Center sold a card that died in 4 months. $10,099 total. An attorney is involved. We're looking for others.">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0a0a0f;
+  --surface: #13131c;
+  --surface-2: #1a1a28;
+  --border: #2a2a3e;
+  --text: #f0f0f5;
+  --text-muted: #8a8aa0;
+  --text-dim: #5a5a72;
+  --accent: #ff6b35;
+  --red: #ff3b5c;
+  --amber: #ffaa00;
+  --cyan: #00d4ff;
+  --green: #2ed573;
+  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --mono: 'JetBrains Mono', monospace;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--cyan); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 4rem;
+}
+
+/* Nav */
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-brand {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--accent);
+}
+
+.nav-contact {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 3rem 0;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 3rem;
+}
+
+.hero-label {
+  display: inline-block;
+  background: rgba(255, 59, 92, 0.12);
+  color: var(--red);
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 1rem;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 1.5rem;
+}
+
+h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  font-weight: 900;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: var(--text);
+}
+
+h1 span { color: var(--red); }
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: var(--text-muted);
+  max-width: 600px;
+  margin: 0 auto 2rem;
+}
+
+.hero-amount {
+  font-family: var(--mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--amber);
+  margin-bottom: 0.3rem;
+}
+
+.hero-amount-sub {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* Companies */
+.companies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  margin: 2rem 0 0;
+}
+
+.company {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.8rem 1.5rem;
+  text-align: center;
+}
+
+.company-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--red);
+}
+
+.company-role {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-top: 0.15rem;
+}
+
+/* Stats */
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: center;
+  padding: 1.5rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  margin: 2rem 0;
+}
+
+.stat { text-align: center; }
+
+.stat-val {
+  font-family: var(--mono);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--red);
+}
+
+.stat-label {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Sections */
+h2 {
+  font-size: 1.3rem;
+  font-weight: 800;
+  margin: 3rem 0 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cyan);
+  margin: 2rem 0 0.8rem;
+}
+
+p { margin-bottom: 1rem; color: var(--text-muted); }
+
+/* Cards */
+.gpu-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--red);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.gpu-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.gpu-card-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--text);
+}
+
+.gpu-card-price {
+  font-family: var(--mono);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--amber);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.badge-denied { background: rgba(255,59,92,0.15); color: var(--red); }
+.badge-limbo { background: rgba(255,170,0,0.15); color: var(--amber); }
+
+.gpu-detail {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.3rem 1rem;
+  font-size: 0.85rem;
+}
+
+.gpu-detail dt { color: var(--text-dim); }
+.gpu-detail dd { color: var(--text-muted); }
+
+/* Quote */
+.quote {
+  border-left: 3px solid var(--red);
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+  background: rgba(255, 59, 92, 0.04);
+  border-radius: 0 8px 8px 0;
+}
+
+.quote p {
+  font-style: italic;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+}
+
+.quote cite {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+  font-style: normal;
+}
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: 2rem;
+  margin: 1.5rem 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: linear-gradient(to bottom, var(--border), var(--red), var(--amber));
+}
+
+.tl-item {
+  position: relative;
+  margin-bottom: 1.5rem;
+  padding-left: 1rem;
+}
+
+.tl-item::before {
+  content: '';
+  position: absolute;
+  left: -1.5rem;
+  top: 0.55rem;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.tl-item.bad::before { background: var(--red); }
+.tl-item.escalation::before { background: var(--amber); box-shadow: 0 0 6px rgba(255,170,0,0.4); }
+.tl-item.denied::before { background: var(--red); box-shadow: 0 0 8px rgba(255,59,92,0.5); }
+
+.tl-date {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--cyan);
+  margin-bottom: 0.15rem;
+}
+
+.tl-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
+.tl-text strong { color: var(--red); }
+.tl-text em { color: var(--amber); font-style: normal; }
+
+/* Tactic */
+.tactic-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.2rem 1.5rem;
+  margin: 0.8rem 0;
+}
+
+.tactic-name {
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--red);
+  margin-bottom: 0.3rem;
+}
+
+.tactic-desc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+}
+
+/* Math */
+.cost-table {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.cost-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  font-size: 0.9rem;
+}
+
+.cost-row:last-child { border-bottom: none; }
+
+.cost-row.total {
+  border-top: 2px solid var(--amber);
+  margin-top: 0.5rem;
+  padding-top: 0.8rem;
+  font-weight: 700;
+}
+
+.cost-label { color: var(--text-muted); }
+.cost-val { color: var(--amber); font-family: var(--mono); font-weight: 600; }
+.cost-row.total .cost-label { color: var(--red); }
+.cost-row.total .cost-val { color: var(--red); font-size: 1.1rem; }
+
+/* Form */
+.intake {
+  background: var(--surface);
+  border: 2px solid var(--cyan);
+  border-radius: 12px;
+  padding: 2rem;
+  margin: 2rem 0;
+}
+
+.intake label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.3rem;
+  margin-top: 1rem;
+}
+
+.intake label:first-of-type { margin-top: 0; }
+
+.intake input,
+.intake textarea,
+.intake select {
+  width: 100%;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.6rem 0.8rem;
+  font-family: var(--font);
+  font-size: 0.9rem;
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.intake input:focus,
+.intake textarea:focus,
+.intake select:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+}
+
+.intake textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.intake select option {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.checkbox-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 1.2rem;
+  padding: 1rem;
+  background: rgba(0, 212, 255, 0.04);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+}
+
+.checkbox-row input[type="checkbox"] {
+  width: auto;
+  accent-color: var(--cyan);
+  transform: scale(1.3);
+}
+
+.checkbox-row label {
+  margin: 0;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 1rem;
+  margin-top: 1.5rem;
+  background: var(--cyan);
+  border: none;
+  border-radius: 8px;
+  font-family: var(--font);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover {
+  background: #33ddff;
+  box-shadow: 0 4px 20px rgba(0, 212, 255, 0.25);
+}
+
+.submit-btn:disabled { opacity: 0.4; cursor: default; }
+
+.form-msg {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  padding: 3rem 0 2rem;
+  border-top: 1px solid var(--border);
+  margin-top: 3rem;
+}
+
+.footer p {
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.footer a { color: var(--text-dim); }
+
+/* Responsive */
+@media (max-width: 600px) {
+  .container { padding: 1rem; }
+  .hero { padding: 2rem 0; }
+  .hero-amount { font-size: 2rem; }
+  .gpu-card-header { flex-direction: column; align-items: flex-start; }
+  .companies { flex-direction: column; align-items: center; }
+  .stats { gap: 1rem; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<nav class="nav">
+  <div class="nav-brand">ScrappyLabs</div>
+  <div class="nav-contact"><a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a></div>
+</nav>
+
+<div class="hero">
+  <div class="hero-label">Active Legal Dispute</div>
+  <h1>$10,099 in Dead GPUs.<br><span>Nobody Will Honor the Warranty.</span></h1>
+  <p class="hero-sub">PNY makes the cards. Build Redux and Micro Center sell them. When they die, all three point fingers at each other. We're done asking nicely.</p>
+  <div class="hero-amount">$10,099</div>
+  <div class="hero-amount-sub">in dead hardware &mdash; lawyers involved &mdash; <a href="#join">join the fight</a></div>
+
+  <div class="companies">
+    <div class="company">
+      <div class="company-name">PNY Technologies</div>
+      <div class="company-role">Manufacturer &mdash; ghosted 2 months, denied warranty</div>
+    </div>
+    <div class="company">
+      <div class="company-name">Build Redux</div>
+      <div class="company-role">System builder &mdash; sold unauthorized hardware</div>
+    </div>
+    <div class="company">
+      <div class="company-name">Micro Center</div>
+      <div class="company-role">Retailer &mdash; sold $8,300 card that died in 4 months</div>
+    </div>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-val">2</div><div class="stat-label">Dead PNY GPUs</div></div>
+  <div class="stat"><div class="stat-val">56+</div><div class="stat-label">Days Ghosted</div></div>
+  <div class="stat"><div class="stat-val">$0</div><div class="stat-label">Replacements</div></div>
+  <div class="stat"><div class="stat-val">1</div><div class="stat-label">Warranty Denied</div></div>
+  <div class="stat"><div class="stat-val">30+</div><div class="stat-label">Days Downtime</div></div>
+</div>
+
+<!-- THE DEAD -->
+<h2>The Dead GPUs</h2>
+
+<div class="gpu-card">
+  <div class="gpu-card-header">
+    <div>
+      <div class="gpu-card-title">PNY GeForce RTX 4090 24GB</div>
+      <span class="badge badge-denied">WARRANTY DENIED BY PNY</span>
+    </div>
+    <div class="gpu-card-price">$1,799</div>
+  </div>
+  <dl class="gpu-detail">
+    <dt>Purchased</dt><dd>October 27, 2023 &mdash; Build Redux custom PC, Order #RD41089</dd>
+    <dt>Total Build</dt><dd>$4,005.54</dd>
+    <dt>Serial</dt><dd>SN: YO23505262 &mdash; PNY label, PNY branding, PNY P/N: 234574</dd>
+    <dt>Warranty</dt><dd>3-year PNY manufacturer warranty (valid until Oct 2026)</dd>
+    <dt>Failure</dt><dd>Kernel panics, memory errors, system crashes under load. System stable with GPU removed.</dd>
+    <dt>Build Redux</dt><dd>Denied (2-year expired). Told me to contact PNY. Closed ticket. Sent satisfaction survey.</dd>
+    <dt>PNY</dt><dd>Ghosted 56 days. Then denied: "Build Redux is not an authorized PNY seller."</dd>
+    <dt>Current Value</dt><dd>$3,695-$4,299 (card discontinued, prices doubled)</dd>
+  </dl>
+</div>
+
+<div class="gpu-card" style="border-left-color:var(--amber);">
+  <div class="gpu-card-header">
+    <div>
+      <div class="gpu-card-title">PNY RTX PRO 6000 Blackwell 96GB</div>
+      <span class="badge badge-limbo">SHIPPED FOR RMA &mdash; IN LIMBO</span>
+    </div>
+    <div class="gpu-card-price">$8,299</div>
+  </div>
+  <dl class="gpu-detail">
+    <dt>Purchased</dt><dd>November 13, 2025 &mdash; Micro Center Charlotte, in-store</dd>
+    <dt>Warranty</dt><dd>PNY manufacturer warranty (4 months old at failure)</dd>
+    <dt>Failure</dt><dd>GPU firmware reset loop, CUDA errors, complete failure to POST.</dd>
+    <dt>PNY</dt><dd>2+ hours on phone. Diagnostic email asked for Windows diagnostics on a Linux system and a BIOS dump from a dead card.</dd>
+    <dt>RMA Terms</dt><dd>"May send refurbished." "May send equivalent." Customer pays all shipping. 30-day turnaround.</dd>
+    <dt>Hypocrisy</dt><dd>PNY accepted this RMA with no "authorized dealer" objections. Same company, different standards.</dd>
+  </dl>
+</div>
+
+<!-- WHAT PNY REVEALED -->
+<h2>What PNY Revealed</h2>
+
+<p>After 56 days of silence, an attorney CC'd, and federal warranty law cited &mdash; PNY supervisor Bruce P. finally responded on March 10, 2026. What he said blew the case wide open:</p>
+
+<div class="quote">
+  <p>"Build Redux is not listed as an authorized PNY seller in our system or referenced on our where to buy link on our website."</p>
+  <cite>&mdash; Bruce P., PNY Technical Support Supervisor, March 10, 2026</cite>
+</div>
+
+<div class="quote">
+  <p>"Our serial number review indicates this unit was originally sold by PNY through a different customer channel and not to Build Redux."</p>
+  <cite>&mdash; Bruce P., PNY Technical Support Supervisor, March 10, 2026</cite>
+</div>
+
+<p><strong style="color:var(--red)">Build Redux sourced this GPU through unauthorized channels</strong> &mdash; gray market, diverted inventory, or a distributor that isn't supposed to sell to them. They sold it at full retail price with no disclosure that the manufacturer warranty might not apply.</p>
+
+<div class="quote">
+  <p>"Our position remains unchanged. PNY is unable to offer warranty service on this unit. Decision is final."</p>
+  <cite>&mdash; Bruce P., PNY, after being shown photographic evidence of PNY's own serial label on the card</cite>
+</div>
+
+<!-- TIMELINE -->
+<h2>Full Timeline</h2>
+
+<div class="timeline">
+  <div class="tl-item">
+    <div class="tl-date">Oct 27, 2023</div>
+    <div class="tl-text">Purchased $4,005 custom PC from Build Redux including PNY RTX 4090 at $1,799. Delivered Nov 24, 2023.</div>
+  </div>
+  <div class="tl-item bad">
+    <div class="tl-date">Late 2025</div>
+    <div class="tl-text"><strong>RTX 4090 starts dying.</strong> Kernel panics, memory errors, system crashes. System stable with GPU removed.</div>
+  </div>
+  <div class="tl-item">
+    <div class="tl-date">Nov 13, 2025</div>
+    <div class="tl-text">Purchased $8,299 PNY RTX PRO 6000 from Micro Center Charlotte.</div>
+  </div>
+  <div class="tl-item bad">
+    <div class="tl-date">Jan 14, 2026</div>
+    <div class="tl-text">Build Redux <strong>denied warranty same day.</strong> "2-year expired. Contact PNY." Satisfaction survey sent next day.</div>
+  </div>
+  <div class="tl-item bad">
+    <div class="tl-date">Jan 14 &rarr; Mar 10</div>
+    <div class="tl-text"><strong>56 days of silence from PNY.</strong> No auto-reply. No ticket. Nothing.</div>
+  </div>
+  <div class="tl-item bad">
+    <div class="tl-date">Mar 8, 2026</div>
+    <div class="tl-text"><strong>PRO 6000 dies.</strong> 4 months old. GPU firmware loop. Won't POST.</div>
+  </div>
+  <div class="tl-item bad">
+    <div class="tl-date">Mar 8, 2026</div>
+    <div class="tl-text"><strong>2+ hours on phone with PNY.</strong> Diagnostic email asks for Windows tools on Linux and BIOS dump from a dead card.</div>
+  </div>
+  <div class="tl-item escalation">
+    <div class="tl-date">Mar 10 &mdash; 11:50 AM</div>
+    <div class="tl-text"><em>Attorney CC'd. Magnuson-Moss cited. 5-day deadline.</em></div>
+  </div>
+  <div class="tl-item escalation">
+    <div class="tl-date">Mar 10 &mdash; 3:18 PM</div>
+    <div class="tl-text"><em>PNY supervisor responds within hours.</em> Four deflections: wrong email, wrong serial format, "might be OEM," more photos.</div>
+  </div>
+  <div class="tl-item denied">
+    <div class="tl-date">Mar 10 &mdash; 5:22 PM</div>
+    <div class="tl-text"><strong>PNY DENIES WARRANTY.</strong> "Build Redux is not an authorized PNY seller." "Decision is final."</div>
+  </div>
+  <div class="tl-item escalation">
+    <div class="tl-date">Mar 10 &mdash; 5:41 PM</div>
+    <div class="tl-text">Rebuttal citing FTC's 2018 warning letters. <strong>"Authorized dealer" denials likely violate the Magnuson-Moss Act.</strong></div>
+  </div>
+  <div class="tl-item denied">
+    <div class="tl-date">Mar 10 &mdash; 6:02 PM</div>
+    <div class="tl-text"><strong>PNY doubles down.</strong> "Position unchanged. Decision is final."</div>
+  </div>
+  <div class="tl-item escalation">
+    <div class="tl-date">Mar 10 &mdash; 6:43 PM</div>
+    <div class="tl-text"><strong>Formal complaint filed with Build Redux.</strong> Demand letter. Attorney CC'd. 10-day deadline.</div>
+  </div>
+</div>
+
+<!-- WHY ILLEGAL -->
+<h2>Why This Is Illegal</h2>
+
+<h3>The Magnuson-Moss Warranty Act</h3>
+<p>Federal law (15 U.S.C. &sect;&sect; 2301-2312). The warranty follows the product, not the sales channel. In 2018, the FTC sent warning letters to ASUS, HTC, Microsoft, Nintendo, and Sony specifically stating that "authorized dealer" warranty restrictions likely violate this law. PNY is doing exactly what the FTC warned against.</p>
+
+<h3>Build Redux's Undisclosed Sourcing</h3>
+<p>Build Redux sold hardware through unauthorized channels at full retail price without disclosing that the manufacturer warranty might not apply. Under North Carolina's Unfair and Deceptive Trade Practices Act (N.C.G.S. &sect; 75-1.1), this may allow <strong style="color:var(--amber)">treble (3x) damages</strong>.</p>
+
+<h3>PNY's Double Standard</h3>
+<p>PNY accepted the Micro Center RMA without "authorized dealer" objections. Same company, same warranty type, completely different treatment.</p>
+
+<!-- PNY OBSTACLE COURSE -->
+<h2>PNY's RMA Obstacle Course</h2>
+
+<p>Even when PNY "accepts" an RMA, the process is designed to exhaust you. Their actual shipping requirements for an $8,299 GPU:</p>
+
+<ul style="margin: 1rem 0 1.5rem 1.5rem; color: var(--text-muted); font-size: 0.9rem; line-height: 2;">
+  <li>Antistatic bag required</li>
+  <li>Original mounting bracket <strong style="color:var(--red)">must be attached or they reject it</strong></li>
+  <li>Do NOT include retail box &mdash; <strong style="color:var(--red)">they won't return it</strong></li>
+  <li><strong style="color:var(--amber)">3 inches of bubble wrap</strong> on all sides</li>
+  <li>Place inside a sturdy inner box</li>
+  <li>Inner box inside a <strong style="color:var(--amber)">larger outer box</strong> with 3-4 more inches of padding</li>
+  <li>Any damage on arrival "not previously reported" <strong style="color:var(--red)">voids the claim</strong></li>
+  <li><strong style="color:var(--red)">Customer pays ALL shipping</strong></li>
+  <li><strong style="color:var(--red)">PNY not liable for items lost in transit</strong></li>
+  <li>"This RMA <strong style="color:var(--red)">does not guarantee a replacement</strong>"</li>
+  <li>May receive a <strong style="color:var(--red)">refurbished unit</strong> or "different but equivalent model"</li>
+  <li><strong style="color:var(--amber)">30-day turnaround</strong> &mdash; don't ask before then</li>
+  <li>RMA <strong style="color:var(--amber)">expires in 30 days</strong> if you don't ship fast enough</li>
+</ul>
+
+<p style="color:var(--text-dim); font-size:0.85rem;">This is for a 4-month-old, $8,299 card. And they might send back a refurb.</p>
+
+<!-- COST -->
+<h2>The Real Cost</h2>
+
+<div class="cost-table">
+  <div class="cost-row"><span class="cost-label">PNY RTX 4090 via Build Redux (dead, denied)</span><span class="cost-val">$1,799</span></div>
+  <div class="cost-row"><span class="cost-label">PNY RTX PRO 6000 via Micro Center (dead, in limbo)</span><span class="cost-val">$8,299</span></div>
+  <div class="cost-row"><span class="cost-label">Shipping PRO 6000 to PNY (insured, customer pays)</span><span class="cost-val">~$80</span></div>
+  <div class="cost-row"><span class="cost-label">Current replacement value of RTX 4090</span><span class="cost-val">$3,695+</span></div>
+  <div class="cost-row"><span class="cost-label">Hours on phone/email/documentation</span><span class="cost-val">15+ hrs</span></div>
+  <div class="cost-row"><span class="cost-label">Workstation downtime (30+ days)</span><span class="cost-val">$???</span></div>
+  <div class="cost-row total"><span class="cost-label">Total damage</span><span class="cost-val">$10,099+</span></div>
+</div>
+
+<!-- JOIN -->
+<h2 id="join">Join the Fight</h2>
+
+<p>If PNY denied your warranty, if Build Redux sold you hardware with no manufacturer coverage, if you've been ghosted or bounced between companies &mdash; <strong style="color:var(--text)">you're not alone and you have legal rights.</strong></p>
+
+<p>We're collecting cases. An attorney is involved. If Build Redux sourced through unauthorized channels, <strong style="color:var(--amber)">every customer who bought a PNY GPU from them may have a voided warranty they don't know about.</strong></p>
+
+<p style="color:var(--text-dim); font-size:0.85rem;">Your information will only be used for this case. We will never sell or share your data outside of legal proceedings.</p>
+
+<div class="intake">
+  <form id="intake-form">
+    <label for="f-name">Your Name *</label>
+    <input type="text" id="f-name" required placeholder="Full name">
+
+    <label for="f-email">Email *</label>
+    <input type="email" id="f-email" required placeholder="you@email.com">
+
+    <label for="f-state">State</label>
+    <input type="text" id="f-state" placeholder="e.g. NC, CA, TX">
+
+    <label for="f-gpu">GPU Model *</label>
+    <input type="text" id="f-gpu" required placeholder="e.g. PNY RTX 4090 24GB">
+
+    <label for="f-price">Purchase Price</label>
+    <input type="text" id="f-price" placeholder="e.g. $1,799">
+
+    <label for="f-seller">Where Did You Buy It? *</label>
+    <select id="f-seller" required>
+      <option value="">Select...</option>
+      <option value="Build Redux">Build Redux</option>
+      <option value="Micro Center">Micro Center</option>
+      <option value="Amazon">Amazon</option>
+      <option value="Newegg">Newegg</option>
+      <option value="Best Buy">Best Buy</option>
+      <option value="Other system builder">Other system builder</option>
+      <option value="Other retailer">Other retailer</option>
+    </select>
+
+    <label for="f-mfr">GPU Manufacturer</label>
+    <select id="f-mfr">
+      <option value="">Select...</option>
+      <option value="PNY" selected>PNY</option>
+      <option value="EVGA">EVGA</option>
+      <option value="ASUS">ASUS</option>
+      <option value="MSI">MSI</option>
+      <option value="Gigabyte">Gigabyte</option>
+      <option value="Zotac">Zotac</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <label for="f-fail">What Happened? *</label>
+    <textarea id="f-fail" required placeholder="Describe the failure -- what broke, when, symptoms"></textarea>
+
+    <label for="f-warranty">Warranty Experience</label>
+    <textarea id="f-warranty" placeholder="What happened when you tried to get warranty service?"></textarea>
+
+    <div class="checkbox-row">
+      <input type="checkbox" id="f-join">
+      <label for="f-join">I'm willing to join a collective legal action against PNY and/or Build Redux</label>
+    </div>
+
+    <button type="submit" class="submit-btn" id="submit-btn">Submit Your Case</button>
+  </form>
+  <div class="form-msg" id="form-msg"></div>
+</div>
+
+<!-- YOUR RIGHTS -->
+<h2>Know Your Rights</h2>
+
+<h3>Magnuson-Moss Warranty Act</h3>
+<p>Federal law says the warranty follows the product. "Authorized dealer" restrictions are what the FTC warned manufacturers about. You can sue and recover attorney fees.</p>
+
+<h3>State Consumer Protection</h3>
+<p>Many states allow treble (3x) damages for unfair or deceptive trade practices. NC, CA, TX, and others have strong consumer protection statutes.</p>
+
+<h3>Take Action Now</h3>
+<ul style="margin: 1rem 0 1rem 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+  <li>Escalate in writing with a hard deadline (5 business days)</li>
+  <li>CC an attorney &mdash; even if you don't have one retained</li>
+  <li>Cite the Magnuson-Moss Warranty Act by name</li>
+  <li>File complaints: <strong style="color:var(--text)">FTC</strong> (reportfraud.ftc.gov), <strong style="color:var(--text)">BBB</strong> (bbb.org), <strong style="color:var(--text)">State AG</strong></li>
+  <li>Small Claims Court filing fee is ~$96 &mdash; no lawyer needed</li>
+</ul>
+
+<div class="footer">
+  <p style="color:var(--text-muted); margin-bottom:0.5rem;">This page documents a real, active legal dispute. Every quote, timeline, and dollar amount is from actual correspondence dated March 10, 2026.</p>
+  <p><a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a> &nbsp;&bull;&nbsp; <a href="https://scrappylabs.ai">scrappylabs.ai</a></p>
+</div>
+
+</div>
+
+<script>
+var SB_URL = 'https://qtojcgxflsonrcyiykfb.supabase.co';
+var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InF0b2pjZ3hmbHNvbnJjeWl5a2ZiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk3ODk1MjQsImV4cCI6MjA4NTM2NTUyNH0.SFoySelEHSBs-jigBsfJkeFBqGPwFOst0FZ1cEbxBFQ';
+
+document.getElementById('intake-form').addEventListener('submit', function(e) {
+  e.preventDefault();
+  var btn = document.getElementById('submit-btn');
+  var msg = document.getElementById('form-msg');
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  var data = {
+    name: document.getElementById('f-name').value.trim(),
+    email: document.getElementById('f-email').value.trim(),
+    state: document.getElementById('f-state').value.trim() || null,
+    gpu_model: document.getElementById('f-gpu').value.trim(),
+    purchase_price: document.getElementById('f-price').value.trim() || null,
+    purchased_from: document.getElementById('f-seller').value || null,
+    manufacturer: document.getElementById('f-mfr').value || null,
+    failure_description: document.getElementById('f-fail').value.trim(),
+    warranty_experience: document.getElementById('f-warranty').value.trim() || null,
+    willing_to_join: document.getElementById('f-join').checked
+  };
+
+  fetch(SB_URL + '/rest/v1/gpu_graveyard_submissions', {
+    method: 'POST',
+    headers: {
+      'apikey': SB_KEY,
+      'Authorization': 'Bearer ' + SB_KEY,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify(data)
+  }).then(function(res) {
+    if (res.ok) {
+      msg.textContent = 'Received. We will be in touch. Thank you for standing up.';
+      msg.style.color = '#2ed573';
+      btn.textContent = 'Submitted';
+      btn.style.background = '#2ed573';
+    } else {
+      throw new Error(res.status);
+    }
+  }).catch(function() {
+    msg.textContent = 'Something went wrong. Email brian@scrappylabs.ai directly.';
+    msg.style.color = '#ff3b5c';
+    btn.disabled = false;
+    btn.textContent = 'Try Again';
+  });
+});
+</script>
+</body>
+</html>
