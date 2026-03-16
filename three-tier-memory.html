@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three-Tier Memory for Claude Code — Breaking the 200-Line Limit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --font-display: 'Instrument Serif', Georgia, serif;
+    --font-body: 'DM Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+
+    --bg: #0c111b;
+    --surface: #131a2b;
+    --surface2: #1a2238;
+    --surface-elevated: #1e2a45;
+    --border: rgba(255, 255, 255, 0.06);
+    --border-bright: rgba(255, 255, 255, 0.12);
+    --text: #dce4f0;
+    --text-dim: #7889a6;
+    --text-bright: #f0f4fa;
+
+    --blue: #1e3a5f;
+    --blue-bright: #2d5a8e;
+    --blue-dim: rgba(30, 58, 95, 0.25);
+    --gold: #d4a73a;
+    --gold-dim: rgba(212, 167, 58, 0.12);
+    --gold-bright: #e8c05a;
+    --green: #3a9e6e;
+    --green-dim: rgba(58, 158, 110, 0.12);
+    --red: #c0544e;
+    --red-dim: rgba(192, 84, 78, 0.12);
+    --slate: #475a78;
+  }
+
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #f6f4f0;
+      --surface: #ffffff;
+      --surface2: #f0ece6;
+      --surface-elevated: #ffffff;
+      --border: rgba(0, 0, 0, 0.07);
+      --border-bright: rgba(0, 0, 0, 0.14);
+      --text: #1a1e2e;
+      --text-dim: #6b7280;
+      --text-bright: #0c111b;
+
+      --blue: #1e3a5f;
+      --blue-bright: #1e3a5f;
+      --blue-dim: rgba(30, 58, 95, 0.08);
+      --gold: #92710a;
+      --gold-dim: rgba(146, 113, 10, 0.08);
+      --gold-bright: #7a5f08;
+      --green: #1a7a4e;
+      --green-dim: rgba(26, 122, 78, 0.08);
+      --red: #a03a34;
+      --red-dim: rgba(160, 58, 52, 0.08);
+      --slate: #64748b;
+    }
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    background-image:
+      radial-gradient(ellipse at 30% 0%, var(--blue-dim) 0%, transparent 50%),
+      radial-gradient(ellipse at 70% 100%, var(--gold-dim) 0%, transparent 40%);
+    color: var(--text);
+    font-family: var(--font-body);
+    line-height: 1.7;
+    min-height: 100vh;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeScale {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  @keyframes drawLine {
+    from { stroke-dashoffset: 200; }
+    to { stroke-dashoffset: 0; }
+  }
+
+  .anim { animation: fadeUp 0.5s ease-out both; animation-delay: calc(var(--i, 0) * 0.06s); }
+  .anim-scale { animation: fadeScale 0.4s ease-out both; animation-delay: calc(var(--i, 0) * 0.06s); }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation-duration: 0.01ms !important; animation-delay: 0ms !important; }
+  }
+
+  /* Layout */
+  .container { max-width: 780px; margin: 0 auto; padding: 60px 24px 80px; }
+
+  /* Hero */
+  .hero { margin-bottom: 56px; }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: clamp(32px, 5vw, 48px);
+    font-weight: 400;
+    line-height: 1.15;
+    color: var(--text-bright);
+    margin-bottom: 16px;
+    letter-spacing: -0.5px;
+  }
+  .hero h1 em {
+    color: var(--gold);
+    font-style: italic;
+  }
+  .hero-meta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+  .hero-meta a { color: var(--gold); text-decoration: none; }
+  .hero-meta a:hover { text-decoration: underline; }
+
+  /* Lead paragraph */
+  .lead {
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--text);
+    margin-bottom: 40px;
+    max-width: 640px;
+  }
+
+  /* Section headers */
+  h2 {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--text-bright);
+    margin: 48px 0 20px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  h2 .num {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--gold);
+    margin-right: 10px;
+    vertical-align: 2px;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 28px 0 12px;
+  }
+
+  /* Body text */
+  p { margin-bottom: 16px; font-size: 15px; }
+  p code, li code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    padding: 1px 6px;
+    border-radius: 4px;
+  }
+
+  /* Lists */
+  ul, ol { padding-left: 20px; margin-bottom: 16px; font-size: 15px; }
+  li { margin-bottom: 6px; }
+
+  /* Cards */
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+    margin: 20px 0;
+  }
+  .card--hero {
+    background: var(--surface-elevated);
+    border-color: var(--gold-dim);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+  .card--recessed {
+    background: var(--surface2);
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.08);
+  }
+
+  /* Pull quote */
+  .pullquote {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-style: italic;
+    color: var(--gold);
+    border-left: 3px solid var(--gold);
+    padding: 12px 0 12px 24px;
+    margin: 36px 0;
+    line-height: 1.45;
+  }
+
+  /* KPI row */
+  .kpi-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 24px 0;
+  }
+  .kpi {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .kpi-val {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 28px;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .kpi-label {
+    font-size: 11px;
+    color: var(--text-dim);
+    font-family: var(--font-mono);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* Three-tier diagram */
+  .tier-diagram { margin: 32px 0; }
+  .tier-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    display: grid;
+    grid-template-columns: 60px 1fr;
+    gap: 16px;
+    align-items: start;
+  }
+  .tier-card + .tier-arrow { display: flex; justify-content: center; padding: 6px 0; }
+  .tier-arrow svg { width: 18px; height: 28px; fill: none; stroke: var(--border-bright); stroke-width: 2; stroke-linecap: round; }
+  .tier-card + .tier-arrow + .tier-card { /* chaining */ }
+
+  .tier-badge {
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .tier-info h4 { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .tier-info .tier-sub {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    margin-bottom: 6px;
+  }
+  .tier-info p { font-size: 13px; margin-bottom: 0; color: var(--text-dim); line-height: 1.5; }
+
+  .t1 .tier-badge { background: var(--gold-dim); color: var(--gold); border: 1px solid var(--gold); }
+  .t1 { border-color: var(--gold-dim); }
+  .t1 h4 { color: var(--gold); }
+
+  .t2 .tier-badge { background: var(--blue-dim); color: var(--blue-bright); border: 1px solid var(--blue-bright); }
+  .t2 { border-color: var(--blue-dim); }
+  .t2 h4 { color: var(--blue-bright); }
+
+  .t3 .tier-badge { background: var(--green-dim); color: var(--green); border: 1px solid var(--green); }
+  .t3 { border-color: var(--green-dim); }
+  .t3 h4 { color: var(--green); }
+
+  /* Code block */
+  .codeblock {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+  .codeblock-header {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text-dim);
+    padding: 8px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .codeblock pre {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    padding: 16px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+
+  /* Before/after table */
+  .compare-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 14px; }
+  .compare-table th {
+    text-align: left;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-dim);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--border-bright);
+  }
+  .compare-table td { padding: 10px 12px; border-bottom: 1px solid var(--border); }
+  .compare-table tr:hover td { background: var(--surface2); }
+  .val-before { color: var(--red); font-family: var(--font-mono); font-weight: 500; }
+  .val-after { color: var(--green); font-family: var(--font-mono); font-weight: 500; }
+
+  /* Failed experiment callout */
+  .callout {
+    background: var(--red-dim);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--red);
+    border-radius: 0 10px 10px 0;
+    padding: 18px 22px;
+    margin: 24px 0;
+  }
+  .callout-title {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+  .callout p { font-size: 14px; margin-bottom: 8px; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* Steps */
+  .steps { counter-reset: step; list-style: none; padding-left: 0; }
+  .steps li {
+    counter-increment: step;
+    position: relative;
+    padding-left: 44px;
+    margin-bottom: 18px;
+    min-height: 32px;
+  }
+  .steps li::before {
+    content: counter(step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    background: var(--gold-dim);
+    color: var(--gold);
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--gold);
+  }
+
+  /* Footer */
+  .footer {
+    margin-top: 64px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    font-size: 13px;
+    color: var(--text-dim);
+  }
+  .footer a { color: var(--gold); text-decoration: none; }
+
+  /* Responsive */
+  @media (max-width: 640px) {
+    .kpi-row { grid-template-columns: repeat(2, 1fr); }
+    .tier-card { grid-template-columns: 1fr; }
+    .tier-badge { width: 36px; height: 36px; font-size: 14px; border-radius: 8px; }
+    .hero-meta { flex-direction: column; gap: 6px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Hero -->
+  <div class="hero anim" style="--i:0">
+    <h1>Three-Tier Memory for Claude Code<br><em>Breaking the 200-Line Limit</em></h1>
+    <div class="hero-meta">
+      <span>Brian Connelly / <a href="https://scrappylabs.ai">ScrappyLabs</a></span>
+      <span>2026-03-16</span>
+      <span>Claude Code &middot; Agent Memory &middot; Infrastructure</span>
+    </div>
+  </div>
+
+  <p class="lead anim" style="--i:1">Claude Code's auto-memory system stores knowledge in a file called <code>MEMORY.md</code>. It's loaded into every conversation. It has a hard limit of 200 lines &mdash; everything after line 200 gets truncated. We hit 182 lines and almost ran out of room. So we built a three-tier architecture that retains 100% of our knowledge while cutting the index to 83 lines. Here's how.</p>
+
+  <!-- KPIs -->
+  <div class="kpi-row anim" style="--i:2">
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--red)">182</div>
+      <div class="kpi-label">Before (lines)</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--green)">83</div>
+      <div class="kpi-label">After (lines)</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--gold)">117</div>
+      <div class="kpi-label">Free lines</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--text)">100%</div>
+      <div class="kpi-label">Info retained</div>
+    </div>
+  </div>
+
+  <!-- The Problem -->
+  <h2 class="anim" style="--i:3"><span class="num">01</span>The Problem</h2>
+
+  <p class="anim" style="--i:4">Claude Code's memory system works like this: you save memories (user preferences, project context, feedback, gotchas) and they get written to individual <code>.md</code> files. An index file called <code>MEMORY.md</code> references all of them. This index is loaded into the context window at the start of every conversation.</p>
+
+  <p class="anim" style="--i:4">The catch: <code>MEMORY.md</code> has a <strong>hard 200-line limit</strong>. Lines after 200 are silently truncated. As your project grows &mdash; more nodes, more services, more feedback, more gotchas &mdash; you fill up fast.</p>
+
+  <p class="anim" style="--i:4">Most people hit this wall and do one of two things: stop saving memories (losing future knowledge), or delete old ones (losing past knowledge). Both are bad.</p>
+
+  <!-- The Insight -->
+  <h2 class="anim" style="--i:5"><span class="num">02</span>The Insight</h2>
+
+  <div class="pullquote anim" style="--i:6">The 200-line limit is on the index file, not on the knowledge.</div>
+
+  <p class="anim" style="--i:7"><code>MEMORY.md</code> is an index &mdash; a pointer file. It gets loaded automatically, but the files it points to are read on demand via the <code>Read</code> tool. Claude can read any file in the project at any time. So the index doesn't need to <em>contain</em> everything &mdash; it just needs to <em>know where everything is</em>.</p>
+
+  <p class="anim" style="--i:7">We ran the numbers on our setup: 28 memory files totaling ~100KB. That's roughly 25,000 tokens. With a 1M token context window, that's <strong>2.5% of context</strong>. We'd been cramming everything into a 200-line flat file when we had effectively unlimited room.</p>
+
+  <!-- The Architecture -->
+  <h2 class="anim" style="--i:8"><span class="num">03</span>The Architecture</h2>
+
+  <div class="tier-diagram">
+
+    <div class="tier-card t1 card--hero anim" style="--i:9">
+      <div class="tier-badge">T1</div>
+      <div class="tier-info">
+        <h4>MEMORY.md &mdash; Always Loaded</h4>
+        <div class="tier-sub">~80 lines &bull; loaded every conversation &bull; zero latency</div>
+        <p>Slim routing table. Only the essentials needed in 80%+ of sessions: core node IPs, feedback rules, user preferences, project paths, cost guardrails. Points to Tier 2 and 3 for everything else.</p>
+      </div>
+    </div>
+
+    <div class="tier-arrow anim" style="--i:10">
+      <svg viewBox="0 0 18 28"><path d="M9 2 L9 26 M5 20 L9 26 L13 20"/></svg>
+    </div>
+
+    <div class="tier-card t2 anim" style="--i:11">
+      <div class="tier-badge">T2</div>
+      <div class="tier-info">
+        <h4>memory-full-reference.md &mdash; Read On Demand</h4>
+        <div class="tier-sub">~2,000 lines &bull; ~25K tokens &bull; 100% text accuracy</div>
+        <p>All memory files concatenated into one dense text file. Claude reads it with the <code>Read</code> tool when it needs detail beyond what's in the index. No vision parsing, no lossy compression &mdash; just text.</p>
+      </div>
+    </div>
+
+    <div class="tier-arrow anim" style="--i:12">
+      <svg viewBox="0 0 18 28"><path d="M9 2 L9 26 M5 20 L9 26 L13 20"/></svg>
+    </div>
+
+    <div class="tier-card t3 anim" style="--i:13">
+      <div class="tier-badge">T3</div>
+      <div class="tier-info">
+        <h4>RAG &mdash; Semantic Search</h4>
+        <div class="tier-sub">auto-indexed &bull; vector + graph + visual search</div>
+        <p>Memory files synced to an Obsidian vault, auto-indexed every 30 minutes by 4 RAG backends (vector, visual, knowledge graph, hybrid). Best for questions like "what did we decide about X?" or "where was that gotcha about Y?" Not everyone has this &mdash; but if you have any RAG system, wire your memories into it.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- How It Works -->
+  <h2 class="anim" style="--i:14"><span class="num">04</span>How It Works In Practice</h2>
+
+  <p class="anim" style="--i:15">Most conversations only need Tier 1. You ask Claude to SSH into a server &mdash; it already knows the IP from the slim index. You ask for TTS &mdash; it knows not to use the wrong voice. You say "make it so" &mdash; it knows that means full autonomy.</p>
+
+  <p class="anim" style="--i:15">When a conversation goes deeper &mdash; "what's the exact TestFlight upload flow?" or "what did the fleet model eval score?" &mdash; Claude reads the full reference file. One <code>Read</code> call, 25K tokens, every detail preserved.</p>
+
+  <p class="anim" style="--i:15">For truly open-ended questions &mdash; "what do we know about DGX Spark gotchas?" &mdash; it searches the RAG. Semantic retrieval across all memory files, weighted by recency, connected by knowledge graph.</p>
+
+  <p class="anim" style="--i:15">The key is that <code>MEMORY.md</code> explicitly tells Claude about the other tiers. The header says: <em>"For full details, read memory-full-reference.md."</em> Claude knows where to look.</p>
+
+  <!-- Results -->
+  <h2 class="anim" style="--i:16"><span class="num">05</span>Results</h2>
+
+  <table class="compare-table anim" style="--i:17">
+    <thead>
+      <tr><th>Metric</th><th>Before</th><th>After</th><th>Change</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>MEMORY.md lines</td><td class="val-before">182</td><td class="val-after">83</td><td>54% reduction</td></tr>
+      <tr><td>Free headroom</td><td class="val-before">18 lines</td><td class="val-after">117 lines</td><td>6.5&times; more room</td></tr>
+      <tr><td>Capacity used</td><td class="val-before">91%</td><td class="val-after">42%</td><td>&mdash;</td></tr>
+      <tr><td>Information retained</td><td>100%</td><td>100%</td><td>Zero loss</td></tr>
+      <tr><td>On-demand detail</td><td>Read individual files</td><td>One file, 25K tokens</td><td>Simpler</td></tr>
+      <tr><td>Semantic search</td><td>None</td><td>4 RAG backends</td><td>New capability</td></tr>
+    </tbody>
+  </table>
+
+  <!-- Failed Experiment -->
+  <h2 class="anim" style="--i:18"><span class="num">06</span>The Failed Experiment (Honesty Corner)</h2>
+
+  <div class="callout anim" style="--i:19">
+    <div class="callout-title">JPG Image Approach &mdash; Partial Failure</div>
+    <p>Before landing on the text-based approach, we tried something more exotic: rendering all memory into a dense info-graphic JPG and having Claude read it via its multimodal vision capabilities.</p>
+    <p>We built a 2400&times;4000px HTML page with every memory file rendered in a tight 3-column grid, color-coded by tier. Screenshotted it with Chrome headless. The image looked great.</p>
+    <p><strong>Retrieval accuracy: ~60-70%.</strong> Section headers and structure were readable. Tier badges and color coding came through. But specific values &mdash; IP addresses, UDIDs, passwords, CLI flags &mdash; were too small to parse reliably. Vision on dense monospace text at 9px just isn't there yet.</p>
+    <p><strong>Verdict:</strong> Images are a nice supplementary layer for visual overview, but not a reliable primary store. Dense text read via the <code>Read</code> tool gives 100% accuracy. We kept the JPG as a bonus Tier 1.5 but the real win is the text concatenation approach.</p>
+  </div>
+
+  <!-- How to Replicate -->
+  <h2 class="anim" style="--i:20"><span class="num">07</span>How to Replicate</h2>
+
+  <ol class="steps anim" style="--i:21">
+    <li><strong>Audit your memory files.</strong> Which ones do you actually reference most sessions? Those are Tier 1 &mdash; they stay inline in <code>MEMORY.md</code>.</li>
+    <li><strong>Create a full reference file.</strong> Concatenate all your memory files into a single <code>memory-full-reference.md</code>. This is your Tier 2 &mdash; readable on demand.</li>
+    <li><strong>Slim down MEMORY.md.</strong> Keep only the routing table and core rules. Point to the full reference at the top. Aim for 60-80 lines.</li>
+    <li><strong>Wire up RAG (optional).</strong> If you have any RAG or vector search system, sync your memory files into it. This gives you semantic search over your own knowledge &mdash; Tier 3.</li>
+    <li><strong>Regenerate on update.</strong> When you add or modify a memory file, regenerate the full reference. A simple shell script handles this.</li>
+  </ol>
+
+  <div class="codeblock anim" style="--i:22">
+    <div class="codeblock-header">regenerate-memory-reference.sh</div>
+<pre>#!/bin/bash
+# Concatenate all memory files into one dense reference
+OUTPUT="memory-full-reference.md"
+echo "# Claude Memory — Full Reference" > "$OUTPUT"
+echo "> Generated: $(date +%Y-%m-%d)" >> "$OUTPUT"
+echo "" >> "$OUTPUT"
+
+for f in *.md; do
+  [ "$f" = "MEMORY.md" ] && continue
+  [ "$f" = "$OUTPUT" ] && continue
+  echo "---" >> "$OUTPUT"
+  echo "## FILE: $f" >> "$OUTPUT"
+  echo "" >> "$OUTPUT"
+  cat "$f" >> "$OUTPUT"
+  echo "" >> "$OUTPUT"
+done
+
+echo "Built: $(wc -l < "$OUTPUT") lines"</pre>
+  </div>
+
+  <div class="codeblock anim" style="--i:23">
+    <div class="codeblock-header">MEMORY.md header (point to Tier 2 and 3)</div>
+<pre># Project Memory — Routing Table
+
+> **Three-tier memory system.**
+> - **Tier 1 (this file)**: Core essentials (~80 lines)
+> - **Tier 2**: [memory-full-reference.md](memory-full-reference.md)
+>   — ALL files concatenated (~25K tokens). Read when you need details.
+> - **Tier 3**: RAG search — memory files indexed for semantic retrieval
+
+## Core Rules
+... (your most-used 80% of knowledge here) ...</pre>
+  </div>
+
+  <!-- Key Insight -->
+  <h2 class="anim" style="--i:24"><span class="num">08</span>Why This Works</h2>
+
+  <p class="anim" style="--i:25">The 200-line limit exists because <code>MEMORY.md</code> is loaded into <em>every</em> conversation. Anthropic wants it slim to protect the context window. Fair.</p>
+
+  <p class="anim" style="--i:25">But with Opus/Sonnet's 200K+ context (and 1M for some plans), 25K tokens is noise. You're not going to notice 2.5% of your context used for memory. Especially when the alternative is losing knowledge or spending the first 5 minutes of every conversation re-discovering things Claude already knew yesterday.</p>
+
+  <p class="anim" style="--i:25">The trick is separating the <strong>always-loaded index</strong> from the <strong>on-demand knowledge store</strong>. The index is small and fast. The store is complete and accurate. You get both.</p>
+
+  <div class="pullquote anim" style="--i:26">An index that points to knowledge can be any size. Only the index has a line limit.</div>
+
+  <!-- Footer -->
+  <div class="footer anim" style="--i:27">
+    <p>Built during a late-night session where we ran out of memory headroom and refused to delete anything. The van life email to ExploreTrekAdventure was more fun, but this is more useful.</p>
+    <p style="margin-top:12px"><a href="https://scrappylabs.ai">ScrappyLabs</a> &middot; Brian Connelly &middot; March 2026</p>
+  </div>
+
+</div>
+
+</body>
+</html>
