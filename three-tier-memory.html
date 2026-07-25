@@ -3,64 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="dark">
 <title>Three-Tier Memory for Claude Code — Breaking the 200-Line Limit</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="preload" href="assets/fonts/spacegrotesk-var.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/michroma-400.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+  @font-face{font-family:'Michroma';src:url('assets/fonts/michroma-400.woff2') format('woff2');font-weight:400;font-display:swap}
+  @font-face{font-family:'Space Grotesk';src:url('assets/fonts/spacegrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+  @font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+  @font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-500.woff2') format('woff2');font-weight:500;font-display:swap}
+</style>
 <style>
   :root {
-    --font-display: 'Instrument Serif', Georgia, serif;
-    --font-body: 'DM Sans', system-ui, sans-serif;
-    --font-mono: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    /* Retheme 2026-07-24: this page predated the design system and shipped
+       dark-navy/gold while scrappylabs.ai is dark/amber — which is why it read
+       as a different site. Variable-driven, so the article follows from here. */
+    --font-display: 'Michroma', sans-serif;
+    --font-body: 'Space Grotesk', system-ui, sans-serif;
+    --font-mono: 'Plex Mono', ui-monospace, monospace;
 
-    --bg: #0c111b;
-    --surface: #131a2b;
-    --surface2: #1a2238;
-    --surface-elevated: #1e2a45;
-    --border: rgba(255, 255, 255, 0.06);
-    --border-bright: rgba(255, 255, 255, 0.12);
-    --text: #dce4f0;
-    --text-dim: #7889a6;
-    --text-bright: #f0f4fa;
+    --bg: #06070b;
+    --surface: #0d111b;
+    --surface2: #131a27;
+    --surface-elevated: #182031;
+    --border: rgba(255, 255, 255, 0.09);
+    --border-bright: rgba(255, 255, 255, 0.16);
+    --text: #b9c2d2;
+    --text-dim: #98a2b6;
+    --text-bright: #e6ebf4;
 
-    --blue: #1e3a5f;
-    --blue-bright: #2d5a8e;
-    --blue-dim: rgba(30, 58, 95, 0.25);
-    --gold: #d4a73a;
-    --gold-dim: rgba(212, 167, 58, 0.12);
-    --gold-bright: #e8c05a;
+    /* Amber leads (brand accent); the old gold role maps onto it. Blue drops to
+       a quiet structural tint so it can't compete for attention. */
+    --blue: #223047;
+    --blue-bright: #35496b;
+    --blue-dim: rgba(34, 48, 71, 0.35);
+    --gold: #ff6b35;
+    --gold-dim: rgba(255, 107, 53, 0.12);
+    --gold-bright: #ff8555;
     --green: #3a9e6e;
     --green-dim: rgba(58, 158, 110, 0.12);
     --red: #c0544e;
     --red-dim: rgba(192, 84, 78, 0.12);
-    --slate: #475a78;
+    --slate: #5a6b88;
   }
 
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #f6f4f0;
-      --surface: #ffffff;
-      --surface2: #f0ece6;
-      --surface-elevated: #ffffff;
-      --border: rgba(0, 0, 0, 0.07);
-      --border-bright: rgba(0, 0, 0, 0.14);
-      --text: #1a1e2e;
-      --text-dim: #6b7280;
-      --text-bright: #0c111b;
-
-      --blue: #1e3a5f;
-      --blue-bright: #1e3a5f;
-      --blue-dim: rgba(30, 58, 95, 0.08);
-      --gold: #92710a;
-      --gold-dim: rgba(146, 113, 10, 0.08);
-      --gold-bright: #7a5f08;
-      --green: #1a7a4e;
-      --green-dim: rgba(26, 122, 78, 0.08);
-      --red: #a03a34;
-      --red-dim: rgba(160, 58, 52, 0.08);
-      --slate: #64748b;
-    }
-  }
+  /* The light-mode override was dropped 2026-07-24. Every other page on
+     scrappylabs.ai is dark-only, so a light-preference visitor clicking in from
+     /lab watched the page flip to white — the opposite of "tied into the site".
+     The old block is in git at 29a3fdb^ if we ever go theme-aware site-wide. */
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -396,6 +386,23 @@
 </style>
 </head>
 <body>
+<header class="site-header">
+  <a href="/" class="logo" aria-label="ScrappyLabs home">ScrappyLabs</a>
+  <a href="mailto:brian@scrappylabs.ai" class="cta">Meet With Brian</a>
+</header>
+<style>
+  .site-header{position:sticky; top:0; z-index:100; height:60px; padding:0 clamp(1rem,4vw,2rem);
+    display:flex; align-items:center; justify-content:space-between;
+    background:rgba(6,7,11,.9); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
+    border-bottom:1px solid var(--border); font-family:var(--font-body);}
+  .site-header .logo{font-size:1.15rem; font-weight:700; letter-spacing:-.5px;
+    text-decoration:none; color:var(--text-bright);}
+  .site-header .logo:hover{color:var(--gold);}
+  .site-header a.cta{background:var(--gold); color:#180a03; padding:.45rem 1rem; border-radius:8px;
+    font-weight:700; font-size:.78rem; text-decoration:none; letter-spacing:.3px;}
+  .site-header a.cta:hover{background:var(--gold-bright);}
+  .site-header a:focus-visible{outline:3px solid #ffb27a; outline-offset:3px;}
+</style>
 
 <div class="container">
 
@@ -403,7 +410,7 @@
   <div class="hero anim" style="--i:0">
     <h1>Three-Tier Memory for Claude Code<br><em>Breaking the 200-Line Limit</em></h1>
     <div class="hero-meta">
-      <span>Brian Connelly / <a href="https://scrappylabs.ai">ScrappyLabs</a></span>
+      <span>Brian Connelly / <a href="/">ScrappyLabs</a></span>
       <span>2026-03-16</span>
       <span>Claude Code &middot; Agent Memory &middot; Infrastructure</span>
     </div>
@@ -591,7 +598,8 @@ echo "Built: $(wc -l < "$OUTPUT") lines"</pre>
   <!-- Footer -->
   <div class="footer anim" style="--i:27">
     <p>Built during a late-night session where we ran out of memory headroom and refused to delete anything. The van life email to ExploreTrekAdventure was more fun, but this is more useful.</p>
-    <p style="margin-top:12px"><a href="https://scrappylabs.ai">ScrappyLabs</a> &middot; Brian Connelly &middot; March 2026</p>
+    <p style="margin-top:12px">More experiments and publications in <a href="/lab">The Lab</a> &middot; the safety layer this pairs with is <a href="/babysitter">We Gave the Robots a Babysitter</a>.</p>
+    <p style="margin-top:12px"><a href="/">ScrappyLabs</a> &middot; Brian Connelly &middot; March 2026</p>
   </div>
 
 </div>
