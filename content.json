@@ -329,6 +329,22 @@
       "public": true,
       "external": true,
       "readMins": 6
+    },
+    {
+      "slug": "ai-fear-segment",
+      "type": "long-read",
+      "date": "2026-07-25",
+      "title": "Anatomy of an AI Fear Segment",
+      "summary": "A good argument about open-weight economics, and the exact moment it turns into something else. Four tells that a technical explainer has stopped reasoning and started steering — plus a five-step checklist you can reuse on any AI threat segment.",
+      "url": "https://stuff.scrappylabs.ai/public/k3-review/fear-segment.html",
+      "tags": [
+        "media literacy",
+        "security",
+        "open models"
+      ],
+      "public": true,
+      "external": true,
+      "readMins": 8
     }
   ],
   "types": {

@@ -6,7 +6,17 @@
     <atom:link href="https://scrappylabs.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Experiments, publications, visual explainers, field notes and open source from ScrappyLabs. Built in the open.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 25 Jul 2026 01:36:42 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 25 Jul 2026 14:46:01 +0000</lastBuildDate>
+    <item>
+      <title>Anatomy of an AI Fear Segment</title>
+      <link>https://stuff.scrappylabs.ai/public/k3-review/fear-segment.html</link>
+      <guid isPermaLink="false">ai-fear-segment</guid>
+      <pubDate>Sat, 25 Jul 2026 12:00:00 +0000</pubDate>
+      <description>A good argument about open-weight economics, and the exact moment it turns into something else. Four tells that a technical explainer has stopped reasoning and started steering — plus a five-step checklist you can reuse on any AI threat segment.</description>
+      <category>media literacy</category>
+      <category>security</category>
+      <category>open models</category>
+    </item>
     <item>
       <title>Mage-Flow, First Light</title>
       <link>https://scrappylabs.ai/mage-flow</link>
