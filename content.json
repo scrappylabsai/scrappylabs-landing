@@ -23,7 +23,8 @@
         "mf-wrangled-poster.webp",
         "mf-patch.webp",
         "mf-chain3.webp"
-      ]
+      ],
+      "group": "mage-flow"
     },
     {
       "slug": "mage-flow-gallery",
@@ -47,7 +48,9 @@
         "mf-stainedglass.webp",
         "mf-diorama.webp"
       ],
-      "public": true
+      "public": true,
+      "group": "mage-flow",
+      "reviewed": true
     },
     {
       "slug": "babysitter",
