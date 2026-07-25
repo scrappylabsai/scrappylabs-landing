@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Log — Notes from the Workshop | ScrappyLabs</title>
+<title>The Lab — Experiments, Publications &amp; Field Notes | ScrappyLabs</title>
 <meta name="description" content="Notes, experiments, and the occasional word of crazy from the ScrappyLabs workshop. Built in the open — half documentation, half thinking out loud.">
-<meta property="og:title" content="The Log — ScrappyLabs">
+<meta property="og:title" content="The Lab — ScrappyLabs">
 <meta property="og:description" content="Notes, experiments, and the occasional word of crazy from the workshop. Built in the open.">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://scrappylabs.ai/log">
+<meta property="og:url" content="https://scrappylabs.ai/lab">
 <meta name="color-scheme" content="dark">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -104,7 +104,7 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
 
 <main class="wrap">
   <section class="intro">
-    <div class="eyebrow">ScrappyLabs · The Log</div>
+    <div class="eyebrow">ScrappyLabs · The Lab</div>
     <h1>Words of <span class="glow">crazy</span>,<br>from the workshop.</h1>
     <p class="lede">Our corner for thinking out loud. Half of what lands here is documentation, half is us working an idea in public, and some of it is a hunch that had no business working — until it did. We <b>build in the open</b>; this is where we say what we found. New entries as they happen.</p>
   </section>
@@ -127,7 +127,7 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
     .post[hidden]{display:none}
     .sl-count{font-size:.78rem;color:var(--muted,#98a2b6);margin:0 0 1.2rem}
   </style>
-  <div class="sl-filter"><button class="sl-chip" data-filter="field-note">Field Notes</button><button class="sl-chip" data-filter="test">Test</button><button class="sl-chip" data-filter="gallery">Sample Art</button><button class="sl-chip" data-filter="demo">Demo</button><button class="sl-chip" data-filter="build">Build</button><button class="sl-chip" data-filter="release">Open Source</button><button class="sl-chip" data-filter="long-read">Long Read</button></div>
+  <div class="sl-filter"><button class="sl-chip" data-filter="field-note">Field Notes</button><button class="sl-chip" data-filter="explainer">Visual Explainer</button><button class="sl-chip" data-filter="test">Test</button><button class="sl-chip" data-filter="long-read">Publication</button><button class="sl-chip" data-filter="gallery">Sample Art</button><button class="sl-chip" data-filter="demo">Demo</button><button class="sl-chip" data-filter="build">Build</button><button class="sl-chip" data-filter="release">Open Source</button></div>
   <p class="sl-count"></p>
 
   <div class="posts">
@@ -147,6 +147,33 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
       <p>Every frame we generated while evaluating Mage-Flow: embroidered patches, cyanotype blueprints, risograph prints, a neon-noir alley, stained glass, and a three-step edit chain. One seed, first output kept, nothing cherry-picked.</p>
       <div class="sl-media" aria-hidden="true"><img src="mf-patch.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-riso.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-blueprint.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-noir.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-stainedglass.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-diorama.webp" alt="" loading="lazy" width="120" height="120"></div>
       <div class="tags"><span class="tag">sample art</span><span class="tag">image models</span><span class="tag">generated</span></div>
+      <div class="read" style="margin-top:1rem">Open &nearr;</div>
+    </a>
+
+    <a class="post" data-type="explainer" href="https://stuff.scrappylabs.ai/public/moya/thinking-skills-outline-20260722.html" target="_blank" rel="noopener">
+      <div class="meta"><span class="kind">Visual Explainer</span><span>22 Jul 2026</span><span>· 6 min read</span></div>
+      <h2>Two Thinking Tools — /office-hours and /diverge</h2>
+      <p>Two tools we built to fight premature convergence: one runs YC-style forcing questions at an idea before anyone writes code, the other spawns isolated agents under distorted frames so nothing anchors on the first answer. What they do, when each one earns its keep.</p>
+      
+      <div class="tags"><span class="tag">agents</span><span class="tag">process</span><span class="tag">thinking tools</span></div>
+      <div class="read" style="margin-top:1rem">Open &nearr;</div>
+    </a>
+
+    <a class="post" data-type="explainer" href="https://stuff.scrappylabs.ai/public/moya/watch-skill-guide-20260722.html" target="_blank" rel="noopener">
+      <div class="meta"><span class="kind">Visual Explainer</span><span>22 Jul 2026</span><span>· 5 min read</span></div>
+      <h2>Giving an AI Eyes on Video</h2>
+      <p>How we let an AI actually watch a video instead of guessing from the title — scene-aware frame extraction, deduplicated shots, transcript from captions or local speech-to-text. The how-to, and what it costs to run.</p>
+      
+      <div class="tags"><span class="tag">video</span><span class="tag">multimodal</span><span class="tag">open source</span></div>
+      <div class="read" style="margin-top:1rem">Open &nearr;</div>
+    </a>
+
+    <a class="post" data-type="explainer" href="https://stuff.scrappylabs.ai/public/moya/mac-mini-m4-brief-20260721.html" target="_blank" rel="noopener">
+      <div class="meta"><span class="kind">Visual Explainer</span><span>21 Jul 2026</span><span>· 4 min read</span></div>
+      <h2>Is a Mac Mini Really a Local-AI Machine?</h2>
+      <p>A viral video claimed Apple just killed AI subscriptions. We pulled the claim apart against what the hardware actually does for local inference — where it holds up, where it doesn't, and who should genuinely buy one.</p>
+      
+      <div class="tags"><span class="tag">hardware</span><span class="tag">local ai</span><span class="tag">decision brief</span></div>
       <div class="read" style="margin-top:1rem">Open &nearr;</div>
     </a>
 
@@ -187,7 +214,7 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
     </a>
 
     <a class="post" data-type="long-read" href="/two-years">
-      <div class="meta"><span class="kind">Long Read</span><span>08 Jul 2026</span><span>· 9 min read</span></div>
+      <div class="meta"><span class="kind">Publication</span><span>08 Jul 2026</span><span>· 9 min read</span></div>
       <h2>Two Years to the Taste of the Stew</h2>
       <p>The honest arc — from fighting Windows to a fleet of local models that finally feel real. The MCP tool-use moment, a memory layer a frontier model graded <strong>A&minus;</strong> (and told us exactly where we're still behind), the month local inference got real, and a take on the buggy-whip crowd.</p>
       

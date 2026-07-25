@@ -1,5 +1,5 @@
 {
-  "_comment": "Single source of truth for The Log — field notes, tests we ran, sample art, video, demos, builds and open-source releases. Managed by `sl-content`; do not hand-edit the generated HTML. Every entry needs public:true or the build refuses to publish it.",
+  "_comment": "Single source of truth for The Lab (scrappylabs.ai/lab) — experiments, publications, visual explainers, field notes, sample art, video, demos, builds and open-source releases. Managed by `sl-content`; do not hand-edit the generated HTML (lab.html SL:CONTENT block or index.html SL:LAB teaser). Every entry needs public:true or the build refuses to publish it.",
   "site": "https://scrappylabs.ai",
   "entries": [
     {
@@ -200,17 +200,82 @@
         "asr"
       ],
       "public": true
+    },
+    {
+      "slug": "thinking-tools",
+      "type": "explainer",
+      "date": "2026-07-22",
+      "title": "Two Thinking Tools — /office-hours and /diverge",
+      "summary": "Two tools we built to fight premature convergence: one runs YC-style forcing questions at an idea before anyone writes code, the other spawns isolated agents under distorted frames so nothing anchors on the first answer. What they do, when each one earns its keep.",
+      "url": "https://stuff.scrappylabs.ai/public/moya/thinking-skills-outline-20260722.html",
+      "tags": [
+        "agents",
+        "process",
+        "thinking tools"
+      ],
+      "public": true,
+      "external": true,
+      "readMins": 6
+    },
+    {
+      "slug": "watch-guide",
+      "type": "explainer",
+      "date": "2026-07-22",
+      "title": "Giving an AI Eyes on Video",
+      "summary": "How we let an AI actually watch a video instead of guessing from the title — scene-aware frame extraction, deduplicated shots, transcript from captions or local speech-to-text. The how-to, and what it costs to run.",
+      "url": "https://stuff.scrappylabs.ai/public/moya/watch-skill-guide-20260722.html",
+      "tags": [
+        "video",
+        "multimodal",
+        "open source"
+      ],
+      "public": true,
+      "external": true,
+      "readMins": 5
+    },
+    {
+      "slug": "mac-mini-brief",
+      "type": "explainer",
+      "date": "2026-07-21",
+      "title": "Is a Mac Mini Really a Local-AI Machine?",
+      "summary": "A viral video claimed Apple just killed AI subscriptions. We pulled the claim apart against what the hardware actually does for local inference — where it holds up, where it doesn't, and who should genuinely buy one.",
+      "url": "https://stuff.scrappylabs.ai/public/moya/mac-mini-m4-brief-20260721.html",
+      "tags": [
+        "hardware",
+        "local ai",
+        "decision brief"
+      ],
+      "public": true,
+      "external": true,
+      "readMins": 4
+    },
+    {
+      "slug": "voice-audition",
+      "type": "experiment",
+      "date": "2026-07-24",
+      "title": "Voice Library Audition — 23 Cloned Voices, Side by Side",
+      "summary": "Every voice in our cloning library, auditioned on the same script so you can hear them back to back.",
+      "url": "https://stuff.scrappylabs.ai/public/moya/voice-audition.html",
+      "tags": [
+        "voice",
+        "tts",
+        "experiment"
+      ],
+      "public": false,
+      "external": true
     }
   ],
   "types": {
+    "experiment": "Experiment",
     "field-note": "Field Notes",
+    "explainer": "Visual Explainer",
     "test": "Test",
+    "long-read": "Publication",
     "gallery": "Sample Art",
     "video": "Video",
     "demo": "Demo",
     "build": "Build",
     "release": "Open Source",
-    "long-read": "Long Read",
     "press": "Press"
   }
 }
