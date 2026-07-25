@@ -1,34 +1,80 @@
-name: Deploy Landing Page
+name: Check Landing Page
+
+# This workflow DELIBERATELY DOES NOT DEPLOY (changed 2026-07-24).
+#
+# The site is Cloudflare Pages *direct upload*, not git-connected, so this repo
+# was never the source of truth for what's live — it was a second, unguarded
+# deploy path. Pushing here used to publish straight to scrappylabs.ai while
+# skipping BOTH safety rails that `sl-content deploy` runs:
+#   1. the confidentiality gate (client identifiers, leaked internals)
+#   2. the double cache purge (a single purge leaves the apex serving stale HTML)
+# So a `git push` could publish content the gate had never approved.
+#
+#   PUBLISH WITH:  sl-content deploy      (builds, gates, deploys, purges twice)
+#   THIS REPO IS:  version control + the tripwire below
+#
+# If you ever want push-to-deploy back, vendor the gate into the repo and run it
+# here FIRST — don't just re-add the wrangler step.
 
 on:
   push:
     branches: [main, develop]
+  pull_request:
 
 jobs:
-  deploy-prod:
-    if: github.ref == 'refs/heads/main'
+  check:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Deploy to Production (scrappylabs.ai)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_PAGES_DEPLOY_TOKEN }}
-          accountId: 80e22f2c524ff215782b3293380c850c
-          command: pages deploy . --project-name=scrappylabs-landing --branch=main
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_PAGES_DEPLOY_TOKEN }}
 
-  deploy-preview:
-    if: github.ref == 'refs/heads/develop'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Deploy Preview (develop branch)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CF_PAGES_DEPLOY_TOKEN }}
-          accountId: 80e22f2c524ff215782b3293380c850c
-          command: pages deploy . --project-name=scrappylabs-landing --branch=develop
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_PAGES_DEPLOY_TOKEN }}
+      - name: Manifest is valid and every entry resolves
+        run: |
+          python3 - <<'PY'
+          import json, pathlib, sys
+          d = json.loads(pathlib.Path('content.json').read_text())
+          problems = []
+          slugs = set()
+          for e in d['entries']:
+              s = e.get('slug')
+              if not s or s in slugs:
+                  problems.append(f"duplicate or missing slug: {s!r}")
+              slugs.add(s)
+              for k in ('type', 'date', 'title', 'summary', 'url'):
+                  if not e.get(k):
+                      problems.append(f"{s}: missing {k}")
+              if e.get('type') not in d['types']:
+                  problems.append(f"{s}: unknown type {e.get('type')!r}")
+              url = e.get('url', '')
+              if e.get('public') and not e.get('external') and url.startswith('/'):
+                  if not pathlib.Path(url.lstrip('/') + '.html').exists():
+                      problems.append(f"{s}: {url} has no matching .html in the repo")
+          print(f"{len(d['entries'])} entries, {sum(1 for e in d['entries'] if e.get('public'))} public")
+          for p in problems:
+              print(f"  ! {p}")
+          sys.exit(1 if problems else 0)
+          PY
+
+      - name: Tripwire — no client identifiers in published HTML
+        run: |
+          python3 - <<'PY'
+          import re, pathlib, sys
+          # Mirrors CLIENT_PATTERNS in ~/bin/sl-content. This is a backstop, not
+          # the gate itself — the real gate runs in `sl-content build`.
+          CLIENT = re.compile(
+              r"better\s+way\s+health|\bBWH\b|beta\s+glucan|\bReggie\b|\bAdrian\b|\bMurad\b|"
+              r"\bNicole\b|\bTicketPouch\b|\bMatMade\b|\bDocketwise\b|\bKlaviyo\b|i3\.digital|"
+              r"\bconfidential\b|\bNDA\b|\bproprietary\b", re.I)
+          hits = []
+          for f in sorted(pathlib.Path('.').glob('*.html')):
+              body = re.sub(r"<script.*?</script>|<style.*?</style>", "",
+                            f.read_text(errors='ignore'), flags=re.S)
+              if found := sorted(set(CLIENT.findall(body))):
+                  hits.append(f"{f.name}: {found}")
+          for h in hits:
+              print(f"  ! {h}")
+          print("no client identifiers found" if not hits else "CLIENT IDENTIFIERS IN PUBLISHED HTML")
+          sys.exit(1 if hits else 0)
+          PY
+
+      - name: Reminder
+        run: echo "Checks passed. Nothing deployed — publish with 'sl-content deploy'."
