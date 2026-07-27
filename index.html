@@ -43,8 +43,9 @@ a{color:inherit;text-decoration:none}
 img,video{max-width:100%}
 button{font-family:inherit}
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(20px,5vw,44px)}
-.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--amber);color:#1a0c04;
+.skip{position:fixed;left:12px;top:-140px;z-index:100;background:var(--amber);color:#1a0c04;
   padding:.6rem 1rem;border-radius:8px;font-weight:600;transition:top .15s}
+/* -140px, not -60px: the link wraps to ~74px tall on narrow phones and used to peek */
 .skip:focus{top:12px}
 :focus-visible{outline:3px solid var(--amber-ink);outline-offset:3px;border-radius:4px}
 
@@ -226,6 +227,59 @@ button{font-family:inherit}
 @media (prefers-reduced-motion:reduce){
   .chap .inner>*{opacity:1;transform:none;transition:none}
 }
+
+/* ==================== NIGHT SHIFT (live city behind the picker) ====================
+   Every rule here is inert until nightshift.js passes its gates and adds .city-on.
+   No JS / reduced-motion / save-data / weak GPU  ->  none of this ever applies. */
+#picker.city-on{position:relative}
+#picker.city-on .wrap{position:relative;z-index:1}
+.nscity{position:absolute;inset:0;overflow:clip;z-index:0;pointer-events:none}
+.nscity canvas{position:sticky;top:0;display:block;width:100%;height:min(100svh,100%);
+  opacity:0;transition:opacity .6s ease}
+.nscity canvas.on{opacity:1}
+.nscity::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(to bottom,var(--bg) 0,transparent 16%,transparent 86%,var(--bg) 100%)}
+/* Text over the live canvas sits on scrim plates — same recipe as the mobile chapter
+   plates above; contrast never depends on which frame the city is showing. */
+/* Geometry-neutral: padding+border are cancelled by negative margins, so the
+   wrapped header occupies the exact box it had without the plate — no section
+   height change in any tier (hard law: anchors and act offsets must not move). */
+#picker.city-on .nsplate{display:inline-block;background:rgba(11,14,21,.74);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border:1px solid rgba(255,255,255,.09);border-radius:18px;
+  padding:1.15rem 1.3rem 1.25rem;
+  margin:calc(-1.15rem - 1px) calc(-1.3rem - 1px) calc(-1.25rem - 1px)}
+#picker.city-on .answer{background:linear-gradient(160deg,rgba(255,107,53,.08),rgba(13,17,27,.95)),#0d111b}
+.nsgarage{position:absolute;top:0;left:0;z-index:2;width:max-content}
+/* Narrow layouts: pinned in the section's bottom padding band — adds no height */
+@media (max-width:900px){.nsgarage{top:auto;bottom:12px;left:50%;
+  transform:translate(-50%,0)!important}}
+.nsgarage .nsg-b{display:block;text-align:left;cursor:pointer;border:1px solid #6e6e82;
+  border-radius:12px;padding:.7rem .95rem;color:var(--body);background:rgba(11,14,21,.74);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nsgarage .nsg-b:hover{border-color:var(--amber)}
+.nsgarage .nsg-k{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--amber-ink);margin-bottom:.3rem}
+.nsgarage .nsg-l{display:block;font-family:var(--mono);font-size:.78rem;color:var(--ink)}
+.nslog{margin-top:1.1rem;font-family:var(--mono);font-size:.78rem;color:var(--muted)}
+.nschip{max-width:100%;text-align:left;line-height:1.5}
+.nsdlg{position:fixed;inset:0;z-index:90;display:none}
+.nsdlg.on{display:block}
+.nsdlg-scrim{position:absolute;inset:0;background:rgba(6,7,11,.62)}
+.nsdlg-panel{position:absolute;top:0;right:0;bottom:0;width:min(480px,94vw);
+  display:flex;flex-direction:column;background:var(--bg);border-left:1px solid var(--line2)}
+.nsdlg-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  padding:.9rem 1.1rem;border-bottom:1px solid var(--line)}
+.nsdlg-k{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;
+  text-transform:uppercase;color:var(--amber-ink)}
+.nsdlg-x{width:44px;height:44px;flex:none;border:1px solid #6e6e82;border-radius:10px;
+  background:none;color:var(--ink);font-size:1.5rem;line-height:1;cursor:pointer}
+.nsdlg-x:hover{border-color:var(--amber);color:var(--amber-ink)}
+.nsdlg-frame{flex:1;width:100%;border:0;background:var(--stage)}
+.nsdlg-foot{display:flex;flex-wrap:wrap;gap:.9rem;justify-content:space-between;
+  padding:.8rem 1.1rem;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted)}
+.nsdlg-foot a{color:var(--amber-ink)}
+html.nsdlg-lock{overflow:hidden}
 </style>
 </head>
 <body>
@@ -731,5 +785,6 @@ button{font-family:inherit}
   });
 })();
 </script>
+<script defer src="/js/nightshift.js?v=20260727"></script>
 </body>
 </html>

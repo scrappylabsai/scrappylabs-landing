@@ -13,3 +13,15 @@
 
 /index.html
   Cache-Control: no-cache, no-store, must-revalidate
+
+# The homepage embeds the live rep (same-origin iframe, /scrappy/) in a slide-over.
+# The /* policy above would deny mic to the whole document tree — a parent's
+# Permissions-Policy is a ceiling no iframe `allow` attribute can raise. Grant
+# mic to self here; the embed still asks for it only on a user gesture.
+# (`!` detaches the /* value first — CF Pages otherwise JOINS duplicate headers.)
+/
+  ! Permissions-Policy
+  Permissions-Policy: camera=(), microphone=(self), geolocation=()
+/index.html
+  ! Permissions-Policy
+  Permissions-Policy: camera=(), microphone=(self), geolocation=()
