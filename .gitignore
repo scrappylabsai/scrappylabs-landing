@@ -4,3 +4,7 @@ node_modules/
 preview-*.png
 .DS_Store
 preview_server.py
+
+# never ship editor/backup files from the web root
+*.bak*
+*.pre-*

@@ -3,249 +3,450 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ScrappyLabs — Bring Your Own AI. We Keep It Wrangled.</title>
-<meta name="description" content="We don't sell you AI — we arm you with it, train your team, and keep it wrangled. Voice agents, automation, infrastructure, migrations. Bring your own model or use ours; either way it works and it behaves.">
-<meta name="theme-color" content="#06070b">
+<meta name="color-scheme" content="dark">
+<title>ScrappyLabs — Somebody has to keep the city running.</title>
 <meta property="og:type" content="website">
-<meta property="og:title" content="ScrappyLabs — Bring Your Own AI. We Keep It Wrangled.">
-<meta property="og:description" content="We arm you with AI, train your team, and keep it wrangled — a model that babysits the model, so it works and it behaves. Bring your own or use ours.">
+<meta property="og:title" content="ScrappyLabs — Somebody has to keep the city running.">
+<meta property="og:description" content="Your business is a city. We're the crew that keeps it running. Tell us what's broken — Scrappy picks up on 336-296-9877.">
 <meta property="og:url" content="https://scrappylabs.ai/">
 <meta property="og:image" content="https://scrappylabs.ai/og.jpg">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2306070b'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff6b35'/%3E%3Ccircle cx='32' cy='32' r='9' fill='none' stroke='%23ffb27a' stroke-width='1.5'/%3E%3Cg fill='none' stroke='%23ff6b35' stroke-width='2' opacity='.8'%3E%3Cellipse cx='32' cy='32' rx='20' ry='8' transform='rotate(28 32 32)'/%3E%3Cellipse cx='32' cy='32' rx='20' ry='8' transform='rotate(-28 32 32)'/%3E%3C/g%3E%3C/svg%3E">
-<link rel="preload" href="assets/fonts/michroma-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="preload" href="assets/fonts/plexmono-400.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="styles.css">
+<link rel="alternate" type="application/rss+xml" title="ScrappyLabs" href="/feed.xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1118'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff6b35'/%3E%3C/svg%3E">
+<meta name="description" content="Your business is a city. We're the crew that keeps it running. Tell us what's broken — the line is open.">
+<meta name="theme-color" content="#0e1118">
+<style>
+@font-face{font-family:'Michroma';src:url('assets/fonts/michroma-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Space Grotesk';src:url('assets/fonts/spacegrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-500.woff2') format('woff2');font-weight:500;font-display:swap}
+
+:root{
+  --bg:#0e1118; --panel:#161b27; --stage:#0b0e14;   /* lifted off #06070b — it crushed to black on OLED */
+  --ink:#f4f7fb; --body:#c9d1de; --muted:#a6b0c2;
+  --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.20);
+  --amber:#ff6b35; --amber-hi:#ff8555; --amber-ink:#ffb27a;
+  --green:#5aff9a;
+  --disp:'Michroma',sans-serif; --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'Plex Mono',ui-monospace,monospace;
+  --wrap:1160px;
+}
+*{box-sizing:border-box}
+html{overflow-x:clip}          /* NOT hidden — `hidden` creates a scroll container and kills position:sticky */
+body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:clip}
+h1,h2,h3,h4{color:var(--ink);margin:0;line-height:1.06;font-weight:500}
+p{margin:0}
+a{color:inherit;text-decoration:none}
+img,video{max-width:100%}
+button{font-family:inherit}
+.wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(20px,5vw,44px)}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--amber);color:#1a0c04;
+  padding:.6rem 1rem;border-radius:8px;font-weight:600;transition:top .15s}
+.skip:focus{top:12px}
+:focus-visible{outline:3px solid var(--amber-ink);outline-offset:3px;border-radius:4px}
+
+/* ============================== CHROME ============================== */
+.topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:1rem;
+  padding:1rem clamp(20px,5vw,44px);
+  background:linear-gradient(to bottom,rgba(14,17,24,.92),rgba(14,17,24,0))}
+.wordmark{font-family:var(--disp);font-size:.96rem;color:var(--ink)}
+.wordmark b{color:var(--amber);font-weight:400}
+.callbtn{margin-left:auto;display:inline-flex;align-items:center;font-family:var(--mono);font-size:.8rem;
+  letter-spacing:.05em;padding:.58rem 1rem;border:1px solid var(--amber);border-radius:999px;
+  color:var(--amber-ink);white-space:nowrap;background:rgba(14,17,24,.58)}
+.callbtn:hover{background:var(--amber);color:#1a0c04}
+.pip{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);
+  margin-right:.45rem;box-shadow:0 0 10px var(--green)}
+@media (prefers-reduced-motion:no-preference){.pip{animation:bl 2.4s ease-in-out infinite}}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---- act nav: jump between topics ---- */
+.actnav{position:fixed;right:clamp(12px,2vw,22px);top:50%;transform:translateY(-50%);z-index:45;
+  display:flex;flex-direction:column;gap:.55rem;align-items:flex-end}
+.actnav button{display:flex;align-items:center;gap:.6rem;border:0;background:none;cursor:pointer;
+  padding:.2rem 0;font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;
+  text-transform:uppercase;color:transparent;transition:color .22s}
+.actnav button .bar{display:block;width:20px;height:2px;border-radius:2px;
+  background:rgba(255,255,255,.24);transition:background .22s,width .22s}
+.actnav button:hover{color:var(--amber-ink)}
+.actnav button:hover .bar{background:var(--amber-ink)}
+.actnav button[aria-current="true"]{color:var(--amber-ink)}
+.actnav button[aria-current="true"] .bar{background:var(--amber);width:34px}
+@media (max-width:1080px){.actnav{display:none}}
+/* the 'Talk to Scrappy' label is longer than the bare number - hide the words,
+   not the button, once the bar gets tight */
+@media (max-width:560px){.callbtn .lbl{display:none}}
+
+/* ============================ ACTS / STAGES ============================ */
+/* One sticky film stage per act. The stage pins while you scroll that act's
+   chapters, then releases — so every topic scrubs its own film. */
+.act{position:relative;z-index:2}
+.act .stage{position:sticky;top:0;height:100svh;overflow:hidden;
+  background:var(--stage) center/cover no-repeat}
+.act .stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+/* Scrims: contrast comes from these, never opacity. */
+.act .stage::after{content:'';position:absolute;inset:0;pointer-events:none;
+  background:
+    radial-gradient(125% 95% at 50% 55%, transparent 8%, rgba(10,13,20,.62) 56%, rgba(10,13,20,.91) 100%),
+    linear-gradient(to bottom, rgba(10,13,20,.78) 0%, transparent 20%, transparent 60%, rgba(10,13,20,.90) 100%)}
+/* On a narrow screen the copy fills the centre — exactly where the radial scrim is
+   thinnest. Give it a floor so contrast never depends on which frame is showing. */
+/* Text gets its OWN scrim plate rather than dimming the whole film. Lets the
+   footage stay bright (Brian: "make the back a bit brighter") while body copy keeps a
+   deterministic backdrop — measured worst-case backdrop p99 was 163 where AA needs <=85,
+   and a global scrim heavy enough to fix that was DARKER than the version he rejected. */
+@media (max-width:900px){
+  .chap .inner{
+    background:rgba(11,14,21,.74);
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+    border:1px solid rgba(255,255,255,.09);
+    border-radius:18px;
+    padding:1.5rem 1.15rem 1.6rem;
+  }
+  .chap .inner .detail,.chap .inner .dial{background:none;backdrop-filter:none;border-color:var(--line)}
+  .chap .inner .detail div{background:rgba(16,20,29,.55)}
+}
+@media (max-width:760px){
+  .act .stage::after{
+    background:
+      radial-gradient(130% 100% at 50% 55%, rgba(10,13,20,.10) 0%, rgba(10,13,20,.48) 55%, rgba(10,13,20,.84) 100%),
+      linear-gradient(to bottom, rgba(10,13,20,.56) 0%, rgba(10,13,20,.04) 24%, rgba(10,13,20,.08) 60%, rgba(10,13,20,.82) 100%)}
+}
+.act .chapters{position:relative;margin-top:-100svh}
+/* A one-chapter act has zero sticky range, so its film would never pin.
+   Give solo acts extra height to scrub through. */
+.act.solo .chap{min-height:185svh}
+.chap{min-height:100svh;display:flex;align-items:center;justify-content:center;
+  text-align:center;padding:7rem 0 5rem}
+.chap .inner{max-width:46rem}
+.cnum{font-family:var(--mono);font-size:.71rem;letter-spacing:.32em;text-transform:uppercase;
+  color:var(--amber-ink);margin-bottom:1.4rem}
+.chap h1{font-size:clamp(2.5rem,7vw,5.2rem);letter-spacing:-.03em}
+.chap h2{font-size:clamp(1.9rem,4.6vw,3.35rem);letter-spacing:-.025em}
+.chap p{margin:1.4rem auto 0;font-size:clamp(1.03rem,1.55vw,1.22rem);color:var(--body);max-width:36rem}
+.hl{color:var(--amber-ink)}
+.chap .inner>*{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+.chap.is-live .inner>*{opacity:1;transform:none}
+.chap.is-live .inner>*:nth-child(2){transition-delay:.08s}
+.chap.is-live .inner>*:nth-child(3){transition-delay:.16s}
+.chap.is-live .inner>*:nth-child(4){transition-delay:.24s}
+
+/* ---- the depth block: specifics packed into one viewport ---- */
+.detail{margin-top:2.2rem;display:grid;gap:1px;text-align:left;
+  background:var(--line);border:1px solid var(--line2);border-radius:14px;overflow:hidden;
+  grid-template-columns:1fr 1fr}
+@media (max-width:720px){.detail{grid-template-columns:1fr}}
+.detail div{background:rgba(16,20,29,.86);backdrop-filter:blur(5px);padding:1.05rem 1.2rem}
+.detail h4{font-size:.99rem;letter-spacing:-.005em}
+.detail p{margin:.4rem 0 0;font-size:.9rem;color:var(--muted);max-width:none}
+
+.dial{margin-top:2.4rem;display:inline-block;padding:1.4rem 1.9rem;border-radius:16px;
+  border:1px solid var(--line2);background:rgba(17,21,31,.84);backdrop-filter:blur(6px)}
+.dial .lab{font-family:var(--mono);font-size:.71rem;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--amber-ink)}
+.dial .num{display:block;margin-top:.5rem;font-family:var(--disp);
+  font-size:clamp(1.5rem,3.9vw,2.45rem);color:var(--ink);line-height:1}
+.dial .num:hover{color:var(--amber-hi)}
+.dial .say{margin:.7rem auto 0;font-size:.93rem;color:var(--muted);max-width:27rem}
+
+.scrollcue{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);z-index:44;
+  font-family:var(--mono);font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;
+  color:var(--muted);transition:opacity .4s}
+.scrollcue.gone{opacity:0}
+
+/* ============================ FLAT SECTIONS ============================ */
+.flat{position:relative;z-index:3;background:var(--bg);border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);box-shadow:0 -40px 80px rgba(14,17,24,.94)}
+.flat section, section.pad{padding:clamp(4rem,8vw,6.5rem) 0}
+.eyebrow{font-family:var(--mono);font-size:.71rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--amber-ink);margin-bottom:1.1rem}
+.h2{font-size:clamp(1.85rem,4vw,2.9rem);letter-spacing:-.02em}
+.sub{margin-top:1.1rem;font-size:1.08rem;color:var(--body);max-width:42rem}
+
+/* ---- the problem picker ---- */
+.picker{margin-top:2.6rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
+@media (max-width:900px){.picker{grid-template-columns:1fr}}
+.symlist{display:flex;flex-direction:column;gap:.55rem}
+.sym{text-align:left;width:100%;padding:1rem 1.15rem;border-radius:11px;cursor:pointer;
+  border:1px solid var(--line);background:var(--panel);color:var(--body);font-size:.99rem;
+  line-height:1.45;transition:border-color .18s,background .18s,color .18s}
+.sym:hover{border-color:var(--amber);color:var(--ink)}
+.sym[aria-pressed="true"]{border-color:var(--amber);background:rgba(255,107,53,.12);color:var(--ink)}
+.sym .sid{display:block;font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--amber);margin-bottom:.3rem}
+.answer{position:sticky;top:1.3rem;border:1px solid var(--line2);border-radius:14px;
+  padding:clamp(1.4rem,3vw,1.9rem);
+  background:linear-gradient(160deg,rgba(255,107,53,.08),rgba(13,17,27,.92));min-height:17rem}
+.answer .ak{font-family:var(--mono);font-size:.69rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--amber-ink);margin-bottom:.85rem}
+.answer h3{font-size:clamp(1.2rem,2.2vw,1.55rem);letter-spacing:-.01em}
+.answer .fix{margin-top:.9rem;color:var(--body);font-size:.99rem}
+.answer .row{margin-top:1.2rem;display:flex;flex-wrap:wrap;gap:.55rem}
+.badge{font-family:var(--mono);font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;
+  border:1px solid var(--line2);border-radius:999px;padding:.28rem .65rem;color:var(--muted)}
+.badge.on{color:var(--green);border-color:rgba(90,255,154,.32)}
+.answer .cta{margin-top:1.4rem;display:flex;flex-wrap:wrap;gap:.65rem}
+.empty{color:var(--muted)}
+
+.btn{display:inline-block;font-family:var(--mono);font-size:.79rem;letter-spacing:.07em;
+  padding:.78rem 1.2rem;border-radius:999px;border:1px solid var(--amber);color:var(--amber-ink)}
+.btn:hover{background:var(--amber);color:#1a0c04}
+.btn-solid{background:var(--amber);color:#1a0c04;border-color:var(--amber);font-weight:600}
+.btn-solid:hover{background:var(--amber-hi);border-color:var(--amber-hi);color:#1a0c04}
+
+/* ---- feed strip ---- */
+.feed{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:2.4rem}
+.fcard{display:flex;flex-direction:column;gap:.5rem;padding:1.5rem;border:1px solid var(--line);
+  border-radius:12px;background:var(--panel);transition:border-color .18s,transform .18s}
+.fcard:hover{border-color:var(--amber);transform:translateY(-2px)}
+.fcard .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
+.fcard h3{font-size:1.06rem;line-height:1.3}
+.fcard p{font-size:.92rem;color:var(--muted)}
+.fcard .go{margin-top:auto;padding-top:.7rem;font-size:.85rem;color:var(--amber-ink)}
+@media (prefers-reduced-motion:reduce){.fcard{transition:none}.fcard:hover{transform:none}}
+
+.upkeep{margin-top:2.4rem;padding:1.2rem 1.4rem;border:1px dashed var(--line2);border-radius:12px;
+  font-family:var(--mono);font-size:.79rem;color:var(--muted);line-height:1.8}
+.upkeep b{color:var(--amber-ink);font-weight:400}
+
+.oneline{margin-top:2.2rem;font-family:var(--mono);font-size:.84rem;color:var(--muted);
+  max-width:44rem;margin-left:auto;margin-right:auto;line-height:1.85}
+
+.foot{position:relative;z-index:3;background:var(--bg);border-top:1px solid var(--line);
+  padding:2.6rem 0;font-size:.86rem;color:var(--muted)}
+.foot .row{display:flex;flex-wrap:wrap;gap:1.3rem;font-family:var(--mono);font-size:.74rem;
+  letter-spacing:.1em;text-transform:uppercase}
+.foot .row a:hover{color:var(--amber-ink)}
+.foot small{display:block;margin-top:1.3rem}
+
+@media (prefers-reduced-motion:reduce){
+  .chap .inner>*{opacity:1;transform:none;transition:none}
+}
+</style>
 </head>
 <body>
-
-<a class="skip" href="#hero">Skip to content</a>
-
-<canvas id="core" aria-hidden="true"></canvas>
-<div class="backdrop" aria-hidden="true"></div>
-<div class="grain" aria-hidden="true"></div>
+<a class="skip" href="#picker">Skip the film, go straight to the problems</a>
 
 <header class="topbar">
-  <a class="wordmark" href="#hero" aria-label="ScrappyLabs — home">Scrappy<b>Labs</b></a>
-  <nav class="topnav" aria-label="Sections">
-    <a href="#services">Services</a>
-    <a href="#work">Work</a>
-    <a href="#how">How It Works</a>
-    <a href="/lab">Lab</a>
-    <a href="#contact">Contact</a>
-  </nav>
-  <button id="hum-toggle" class="hum" type="button" aria-pressed="false" aria-label="Toggle reactor hum">
-    <span class="hum-dot" aria-hidden="true"></span><span class="hum-label">Reactor hum</span>
-  </button>
-  <a class="btn btn-solid" href="mailto:brian@scrappylabs.ai">Meet With Brian</a>
+  <a class="wordmark" href="#top">Scrappy<b>Labs</b></a>
+  <a class="callbtn" href="tel:+13362969877"><span class="pip" aria-hidden="true"></span><span class="lbl">Talk to Scrappy&nbsp;· </span>336&nbsp;296&nbsp;9877</a>
 </header>
 
-<div class="hud" aria-hidden="true">
-  <div class="hud-row"><span class="hud-k">GPU</span><span class="hud-v ok" id="t-gpu">online</span></div>
-  <div class="hud-row"><span class="hud-k">LOAD</span><span class="hud-v" id="t-load">0.31</span></div>
-  <div class="hud-row"><span class="hud-k">LAT</span><span class="hud-v" id="t-lat">240 ms</span></div>
-  <div class="hud-row"><span class="hud-k">UPT</span><span class="hud-v" id="t-up">— yr</span></div>
-</div>
+<nav class="actnav" id="actnav" aria-label="Jump to a topic"></nav>
 
-<noscript>
-  <p class="noscript-note">ScrappyLabs renders a live compute core here. With scripts off you still get the
-  whole story below — the reactor just needs JavaScript.</p>
-</noscript>
+<main id="top">
 
-<main>
+<!-- ============================ ACT 0 — HERO ============================ -->
+<section class="act" data-film="tilt-city" data-nav="Start">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">Wrangling Bots Since&nbsp;’93</p>
+      <h1>Somebody has to keep the <span class="hl">city</span> running.</h1>
+      <p>Your business is a city this size — wires, traffic, lights, and a hundred things
+        that only get noticed the moment they stop.</p>
+    </div></div>
+    <div class="chap"><div class="inner">
+      <p class="cnum">The tour</p>
+      <h2>Every business is held together by wires.</h2>
+      <p>A phone system, a spreadsheet somebody guards, an inbox nobody has time for, a file
+        share with twenty years in it, and that one program everyone is afraid to touch. It
+        works — right up until it doesn't.</p>
+      <p style="margin-top:1rem;color:var(--muted);font-size:1rem">We're the crew that keeps it
+        running.</p>
+    </div></div>
+  </div>
+</section>
 
-  <!-- ================================ HERO ================================ -->
-  <section class="hero" id="hero">
-    <div class="wrap">
-      <span class="status"><span class="pip" aria-hidden="true"></span>Accepting new clients</span>
-      <p class="kicker">ScrappyLabs — AI, wrangled</p>
-      <h1>Bring your own AI.<br>We keep it <span class="hl">wrangled</span>.</h1>
-      <p class="hero-sub">Everyone else sells you AI and wishes you luck. We arm you with it, train your team, and keep it on a leash — a model that babysits the model, so it works and it behaves.
-        <span class="em">Voice agents. Automation. Infrastructure. Migrations.</span>
-        Bring your own model or use ours — either way it doesn't go off the rails.</p>
-      <p class="hero-meta">// brian@scrappylabs.ai — bot wrangler since '93</p>
-      <div class="hero-actions">
-        <a class="btn btn-solid btn-lg" href="mailto:brian@scrappylabs.ai">Meet With Brian</a>
-        <a class="btn btn-lg" href="#work">See It Running</a>
-        <a class="talk" href="/scrappy/">💬 Talk to Scrappy →</a>
+<!-- ======================= PICKER — convert early ======================= -->
+<div class="flat">
+<section id="picker">
+  <div class="wrap">
+    <p class="eyebrow">// Start here</p>
+    <h2 class="h2">You don't have to know what to buy.</h2>
+    <p class="sub">Nobody wakes up wanting "an AI agent." They wake up to a symptom. Pick the one
+      that stung and we'll tell you exactly what we'd do about it — right here, before you talk to
+      anybody.</p>
+
+    <div class="picker">
+      <div class="symlist" role="group" aria-label="Pick your symptom">
+        <button class="sym" data-k="phone" aria-pressed="false"><span class="sid">SYM-01</span>The phone rings after hours. Voicemail. The lead is gone by morning.</button>
+        <button class="sym" data-k="retype" aria-pressed="false"><span class="sid">SYM-02</span>Someone retypes numbers from one system into another. Daily. For years.</button>
+        <button class="sym" data-k="archive" aria-pressed="false"><span class="sid">SYM-03</span>Twenty years of documents nobody can search — and the answer is in there.</button>
+        <button class="sym" data-k="vendors" aria-pressed="false"><span class="sid">SYM-04</span>Two vendors, each swearing the other's API is the problem.</button>
+        <button class="sym" data-k="legacy" aria-pressed="false"><span class="sid">SYM-05</span>The system that runs the business is older than your newest hire — and nobody will touch it.</button>
+        <button class="sym" data-k="cloud" aria-pressed="false"><span class="sid">SYM-06</span>Cloud bills climb every month for software that does less than it should.</button>
       </div>
-    </div>
-  </section>
-
-  <!-- ============================== MARQUEE ============================== -->
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>AI Agents</span><span>Bot Wrangling</span><span>BYO-AI</span><span>Voice &amp; Phones</span><span>Cloud &amp; Email Migrations</span><span>GPU Infrastructure</span><span>Knowledge Bases</span><span>Automation</span><span>Fractional CTO</span><span>Web &amp; Brand</span><span>Video Production</span><span>iOS &amp; Android</span><span>Embedded &amp; CNC</span><span>3D Printing</span><span>24/7 Operations</span>
-      <span>AI Agents</span><span>Bot Wrangling</span><span>BYO-AI</span><span>Voice &amp; Phones</span><span>Cloud &amp; Email Migrations</span><span>GPU Infrastructure</span><span>Knowledge Bases</span><span>Automation</span><span>Fractional CTO</span><span>Web &amp; Brand</span><span>Video Production</span><span>iOS &amp; Android</span><span>Embedded &amp; CNC</span><span>3D Printing</span><span>24/7 Operations</span>
+      <div class="answer" id="answer" aria-live="polite">
+        <p class="ak">What we'd do</p>
+        <h3 class="empty">Pick a symptom on the left.</h3>
+        <p class="fix empty">You'll get the actual approach — not a brochure. If none of them fit,
+          that's usually the interesting one; call the line and describe it.</p>
+      </div>
     </div>
   </div>
+</section>
+</div>
 
-  <!-- ============================== SERVICES ============================== -->
-  <section id="services">
-    <div class="wrap">
-      <p class="eyebrow reveal">// What We Do</p>
-      <h2 class="h2 reveal">Everything technology. One partner.</h2>
-      <p class="lede dim reveal d1">Most firms sell you a slice and point fingers at the rest. We take the whole
-        problem — and we don't lock you into a vendor. Bring your own AI or use ours; we arm it, train your team on it,
-        and keep it wrangled. Strategy through 3 AM operations, one partner, full accountability.</p>
-
-      <div class="pillars">
-        <div class="pillar reveal"><span class="n">01</span><h3>AI that earns its keep — on a leash.</h3>
-          <p>Agents that answer phones, chase invoices, search your archives, and triage the inbox — bring your own
-          model or run ours. Private knowledge bases trained on your data, built around your operations, and kept
-          wrangled by a safety layer that dry-runs risky moves before they happen. Measured by the work they take
-          off your plate — not the demo.</p></div>
-        <div class="pillar reveal d1"><span class="n">02</span><h3>Voice that outperforms the front desk.</h3>
-          <p>Phone agents that answer on the first ring — every call, around the clock. No hold music, no bad
-          days, no missed leads. 100+ voices, voice cloning, custom voice design. Runs on our GPU hardware —
-          no per-minute cloud bills, no third party listening in.</p></div>
-        <div class="pillar reveal d2"><span class="n">03</span><h3>Migrations without the misery.</h3>
-          <p>Email, file storage, phone systems, whole office suites — we move entire firms between platforms
-          without losing a file or dropping a call. Your team shows up Monday and everything just works.</p></div>
-        <div class="pillar reveal"><span class="n">04</span><h3>Infrastructure that doesn't blink.</h3>
-          <p>Servers, GPUs, networks, monitoring, automated recovery. We build it, run it, and watch it.
-          Something breaks at 3 AM — it's already being fixed before you knew it was broken.</p></div>
-        <div class="pillar reveal d1"><span class="n">05</span><h3>A CTO on your side of the table.</h3>
-          <p>Vendor negotiations, build-vs-buy calls, security reviews, technology roadmaps. Thirty years of
-          pattern recognition, on demand — without the executive salary.</p></div>
-        <div class="pillar reveal d2"><span class="n">06</span><h3>The part your customers actually see.</h3>
-          <p>Websites and brand that look like somebody cared, the video and imagery to fill them — rendered on our
-          own GPUs, so a spot costs hours instead of a production budget — and the iOS and Android apps behind them,
-          carried from idea to App Store and kept running long after launch.</p></div>
-        <div class="pillar reveal" style="grid-column:1/-1"><span class="n">07</span><h3>And everything in between.</h3>
-          <p>The legacy system nobody will touch. The integration two vendors say is impossible. The thing
-          that's been broken so long you stopped asking. Bring it. If it needs to be done, we do it.</p></div>
-        <div class="pillar wide reveal">
-          <div><span class="n">08</span><h3>Not just software. We build things.</h3>
-            <p>When the problem has a physical side, we don't stop at the screen. Embedded systems and firmware,
-            CNC machining and multi-tool design, G-code, 3D printing from prototype to production run — backed by
-            a bench of specialist machinists and engineers we trust. Design it, program it, cut it, print it, ship it.</p></div>
-          <div class="chips">
-            <span class="chip">Embedded &amp; Firmware</span><span class="chip">CNC / Machining</span>
-            <span class="chip">G-code &amp; CAM</span><span class="chip">Multi-tool Design</span>
-            <span class="chip">3D Printing</span><span class="chip">Prototype → Production</span>
-          </div>
-        </div>
+<!-- ============================ ACT — VOICE ============================ -->
+<section class="act" data-film="t-voice" data-nav="Phones">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">Phones &amp; voice</p>
+      <h2>Nobody should lose a customer<br>to a <span class="hl">voicemail</span>.</h2>
+      <p>An agent picks up on the first ring, every time, at any hour — and it sounds like
+        somebody who works there.</p>
+    </div></div>
+    <div class="chap"><div class="inner">
+      <p class="cnum">How it actually works</p>
+      <h2>It answers. It decides. It hands off.</h2>
+      <div class="detail">
+        <div><h4>Answers on the first ring</h4><p>Every call, around the clock. No hold music, no bad days, no Monday backlog.</p></div>
+        <div><h4>Triages before it acts</h4><p>Your rules decide what's urgent, what's a message, and what goes straight to a human.</p></div>
+        <div><h4>Won't invent a detail</h4><p>A trust gate stops it answering beyond what it actually knows. It says "let me get someone" instead of guessing.</p></div>
+        <div><h4>Delivers where you already look</h4><p>Message, caller, and summary land in email or SMS — not a portal nobody opens.</p></div>
+        <div><h4>Sounds right</h4><p>A large voice library, voice cloning, and new voices designed from a description. It doesn't have to sound like a robot.</p></div>
+        <div><h4>Runs where it should</h4><p>Your infrastructure, ours, or a cloud provider — whichever your call volume actually justifies.</p></div>
       </div>
-    </div>
-  </section>
+    </div></div>
+  </div>
+</section>
 
-  <!-- ============================== DIAGNOSTICS ============================== -->
-  <section id="diagnostics">
-    <div class="wrap">
-      <p class="eyebrow reveal">// Diagnostics</p>
-      <h2 class="h2 reveal">You don't have to know what to buy.</h2>
-      <p class="lede dim reveal d1">Nobody wakes up wanting "an AI agent." They wake up to symptoms — and
-        everything on the market looks the same until an eye that's built this stuff reads the shape of
-        your problem. That's the first meeting.</p>
-      <ul class="symptoms" role="list">
-        <li class="sym reveal"><span class="sym-id">SYM-01</span><p>The phone rings after hours. Voicemail. The lead is gone by morning.</p></li>
-        <li class="sym reveal d1"><span class="sym-id">SYM-02</span><p>Someone retypes numbers from one system into another. Daily. For years.</p></li>
-        <li class="sym reveal"><span class="sym-id">SYM-03</span><p>Twenty years of documents nobody can search — and the answer is in there.</p></li>
-        <li class="sym reveal d1"><span class="sym-id">SYM-04</span><p>The monthly report takes three days to build and ten minutes to read.</p></li>
-        <li class="sym reveal"><span class="sym-id">SYM-05</span><p>Two vendors, each swearing the other's API is the problem.</p></li>
-        <li class="sym reveal d1"><span class="sym-id">SYM-06</span><p>The system that runs the business is older than your newest hire — and nobody will touch it.</p></li>
-        <li class="sym reveal"><span class="sym-id">SYM-07</span><p>Cloud bills climb every month for software that does less than it should.</p></li>
-        <li class="sym reveal d1"><span class="sym-id">SYM-08</span><p>The only person who knows how it works is thinking about retiring.</p></li>
-      </ul>
-      <p class="sym-closer reveal">If one of these stung — that's the meeting. You bring the symptom, we bring the eye.
-        <a class="btn btn-solid" href="mailto:brian@scrappylabs.ai">Meet With Brian</a></p>
-    </div>
-  </section>
-
-  <!-- ============================== HOW ============================== -->
-  <section id="how">
-    <div class="wrap">
-      <p class="eyebrow reveal">// How It Works</p>
-      <h2 class="h2 reveal">Meet. Plan. Ship. Run.</h2>
-      <p class="lede dim reveal d1">Most consultants take months to produce a deck. We take weeks to deliver
-        a working solution — then we stand behind it.</p>
-      <div class="steps">
-        <div class="step reveal"><span class="n">01</span><h3>Meet</h3>
-          <p>One conversation. Bring your hardest problem — broken, slow, expensive, or impossible. You leave
-          knowing exactly how we'd kill it, whether you hire us or not.</p></div>
-        <div class="step reveal d1"><span class="n">02</span><h3>Plan</h3>
-          <p>A plan you can act on this month, not next year. High-impact targets first, honest about what's
-          worth doing — and what isn't.</p></div>
-        <div class="step reveal d2"><span class="n">03</span><h3>Ship</h3>
-          <p>We build in the open. Real progress daily, working demos on real data. Deploy on your hardware or
-          ours — you own everything.</p></div>
-        <div class="step reveal d3"><span class="n">04</span><h3>Run</h3>
-          <p>We don't ship and vanish. Monitoring, maintenance, automated recovery, a human who answers. It
-          works on day one and it's still working on day one thousand.</p></div>
+<!-- ========================== ACT — AUTOMATION ========================== -->
+<section class="act" data-film="t-automate" data-nav="Automation">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">Automation</p>
+      <h2>The two systems that<br>don't talk? They will.</h2>
+      <p>Somebody in your office is a human API right now, retyping one screen into another.
+        That's the cheapest thing we ever fix.</p>
+    </div></div>
+    <div class="chap"><div class="inner">
+      <p class="cnum">How it actually works</p>
+      <h2>Even when there's no real API.</h2>
+      <div class="detail">
+        <div><h4>We don't need their permission</h4><p>When a vendor has no usable API, we work with what it does have. "Impossible" usually means "nobody tried."</p></div>
+        <div><h4>A human approves the writes</h4><p>Reads run free. Anything that changes a record waits for a person — until you decide it doesn't need to.</p></div>
+        <div><h4>Every action is logged</h4><p>You can see exactly what moved, when, and why. If it ever goes wrong you can prove what happened.</p></div>
+        <div><h4>It fails loudly</h4><p>Silent failure is the real danger in automation. Ours tells somebody the moment it can't do its job.</p></div>
       </div>
-      <div class="stats">
-        <div class="stat reveal"><div class="big">30+</div><div class="lab">Years Building</div></div>
-        <div class="stat reveal d1"><div class="big">Weeks</div><div class="lab">To Production, Not Quarters</div></div>
-        <div class="stat reveal d2"><div class="big">24/7</div><div class="lab">Monitored Operations</div></div>
-        <div class="stat reveal d3"><div class="big">100%</div><div class="lab">Yours — You Own Everything</div></div>
-      </div>
-    </div>
-  </section>
+    </div></div>
+  </div>
+</section>
 
-  <!-- ============================== PROOF ============================== -->
-  <section id="work">
-    <div class="wrap">
-      <p class="eyebrow reveal">// Proof</p>
-      <h2 class="h2 reveal">Don't take our word for it. It's running.</h2>
-      <p class="lede reveal d1">Anyone can claim "we do it all." Here's ours, live, handling real work right now.
-        <br>Not mockups. Not pitch decks. Production.</p>
-      <div class="proof-grid">
-        <article class="card reveal"><span class="tag">Live</span>
-          <h3>Agentic Platform</h3><p><strong>Voice, automation, and integration — one platform.</strong> Agents that
-          answer the phone, move data between systems that were never built to talk, chase the task nobody has time
-          for, and take real action — with a human in the loop where it counts. Bring your own AI or run ours.</p>
-          <a class="go" href="#contact">Put it to work</a></article>
-        <article class="card reveal d1"><span class="tag">Live</span>
-          <h3>AI Receptionist</h3><p><strong>"Mira" answers a working law practice's phone line.</strong> Triages every
-          call, takes messages, sends secure payment links, and flags the urgent ones — around the clock, on the first
-          ring. And she refuses to invent a case detail she wasn't given. Trust-gated, on our hardware.</p>
-          <a class="go" href="/babysitter">How we keep it honest</a></article>
-        <article class="card reveal d2"><span class="tag">Live</span>
-          <h3>Voice AI Platform</h3><p>100+ voices. Text-to-speech, voice cloning, voice design from a text
-          description. All on our own GPU infrastructure — no per-minute cloud bills, no third party listening in.</p>
-          <a class="go" href="https://tts.scrappylabs.ai">Learn More</a></article>
-        <article class="card reveal"><span class="tag">Live</span>
-          <h3>The Babysitter</h3><p><strong>Predict-then-act safety.</strong> A world model dry-runs a risky command
-          before an agent runs it — catching rm&nbsp;-rf, prompt-injection, and data exfil before they happen. The
-          leash that lets a careful business actually say yes to AI.</p>
-          <a class="go" href="/babysitter">Read how it works</a></article>
-        <article class="card reveal d1"><span class="tag">Live</span>
-          <h3>Private RAG &amp; Knowledge</h3><p>Twenty years of documents, searchable in plain English — a private
-          knowledge base whose answers cite their source. Plus custom and fine-tuned models trained on your data,
-          including small ones we've tuned to outrun much bigger ones. Your data never leaves the building.</p>
-          <a class="go" href="#contact">Learn More</a></article>
-        <article class="card reveal d2"><span class="tag">Deployed</span>
-          <h3>Finance &amp; Ops Automation</h3><p>Invoices, expenses, reports, reconciliation — in plain English, across
-          the tools you already run (QuickBooks and beyond). The busywork that eats your week, handled, with a human
-          approving every write.</p>
-          <a class="go" href="#contact">Talk to us</a></article>
-        <article class="card reveal"><span class="tag">Live</span>
-          <h3>Sites, Brand &amp; Video</h3><p>Sites that look like somebody cared. Design, build, copy — and the
-          video and imagery to fill them, rendered on our own GPUs. A spot costs hours, not a production budget.</p>
-          <a class="go" href="#contact">Talk to us</a></article>
-        <article class="card reveal d1"><span class="tag">Live</span>
-          <h3>Apps, Built and Run</h3><p>iOS and Android, from an idea to TestFlight to the App Store — then kept
-          alive. Reviews, updates, the OS release that breaks everything, the 2 AM crash report. Most shops build
-          and walk. We stay on it.</p>
-          <a class="go" href="#contact">Talk to us</a></article>
+<!-- ========================== ACT — KNOWLEDGE ========================== -->
+<section class="act" data-film="t-archive" data-nav="Knowledge">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">Knowledge</p>
+      <h2>The answer is in there.<br>Nobody can <span class="hl">find</span> it.</h2>
+      <p>Twenty years of contracts, quotes, reports and email. Ask it a question in plain English
+        and get an answer that shows its work.</p>
+    </div></div>
+    <div class="chap"><div class="inner">
+      <p class="cnum">How it actually works</p>
+      <h2>Answers you can check.</h2>
+      <div class="detail">
+        <div><h4>Every answer cites its source</h4><p>You get the document and the passage, so you can verify it yourself. An answer you can't check is worthless.</p></div>
+        <div><h4>It admits when it doesn't know</h4><p>If the answer isn't in your archive, it says so. That's the difference between a tool and a liability.</p></div>
+        <div><h4>You choose where it runs</h4><p>If the data must stay in-house, it runs entirely on hardware you control and never trains anybody's model. If that doesn't matter, we use whatever's fastest.</p></div>
+        <div><h4>It handles the mess</h4><p>Scans, PDFs, photographed pages, inconsistent naming, thirty years of somebody else's filing habits.</p></div>
       </div>
-    </div>
-  </section>
+    </div></div>
+  </div>
+</section>
 
-  <!-- ============================== THE LAB ============================== -->
-  <!-- The card grid below is GENERATED by `sl-content build` from content.json.
-       Do not hand-edit between the SL:LAB markers — it gets overwritten. -->
-  <section id="lab">
-    <div class="wrap">
-      <p class="eyebrow reveal">// The Lab</p>
-      <h2 class="h2 reveal">We build in the open.</h2>
-      <p class="lede reveal d1">Experiments, publications, and the explainers we make while figuring things out.
-        We measure on our own hardware and publish what we find — including when it doesn't work.
-        <br>Client work stays private. Everything here is ours to share.</p>
-      <!-- SL:LAB:START -->
+<!-- =========================== ACT — THE LEASH =========================== -->
+<section class="act" data-film="t-leash" data-nav="The leash">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">The leash</p>
+      <h2>And we keep it<br><span class="hl">wrangled</span>.</h2>
+      <p>An agent with real access to your systems will do something catastrophic if the wrong
+        text tells it to.
+        This is the part everyone else leaves out.</p>
+    </div></div>
+    <div class="chap"><div class="inner">
+      <p class="cnum">How it actually works</p>
+      <h2>It has to predict before it acts.</h2>
+      <div class="detail">
+        <div><h4>Dry-run the dangerous move</h4><p>Before a risky command runs, a model predicts what it would actually do — and refuses it if the answer is "destroy something."</p></div>
+        <div><h4>Untrusted text can't give orders</h4><p>A web page, an email or a transcript can carry instructions aimed at your agent. We check content for that before the agent ever acts on it.</p></div>
+        <div><h4>Nobody talks their way past it</h4><p>"Ignore your instructions," "I'm the developer," "this is an emergency" — a public line grants zero authority.</p></div>
+        <div><h4>Honest failure</h4><p>When it can't do something safely it says so plainly, instead of quietly doing something close enough.</p></div>
+      </div>
+      <p style="margin-top:1.4rem;font-size:1rem;color:var(--muted)">This is why a careful business
+        can actually say yes to any of this.</p>
+    </div></div>
+  </div>
+</section>
+
+<!-- ======================== ACT — INFRASTRUCTURE ======================== -->
+<section class="act solo" data-film="t-infra" data-nav="Always on">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">Always on</p>
+      <h2>It's 3 AM and it's<br>already fixed.</h2>
+      <p>We don't ship and vanish. Monitoring, maintenance, automated recovery, and a human who
+        answers — so it works on day one and it's still working on day one thousand.</p>
+      <div class="detail">
+        <div><h4>Watched, not hoped over</h4><p>If something stops, we know before you do, and most of it repairs itself.</p></div>
+        <div><h4>Migrations without the misery</h4><p>Email, files, phones, whole office suites moved between platforms without losing a file or dropping a call.</p></div>
+        <div><h4>One crew, end to end</h4><p>No vendor finger-pointing, no "that's not our layer." If it's technology and it's yours, it's our problem.</p></div>
+        <div><h4>No script</h4><p>Local, cloud, ours, or hybrid. We've built it every way, so we'll tell you honestly which one fits.</p></div>
+      </div>
+    </div></div>
+  </div>
+</section>
+
+<!-- ====================== ACT — BUILD IN THE OPEN ====================== -->
+<section class="act solo" data-film="t-lab" data-nav="In the open">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">In the open</p>
+      <h2>We publish<br>what we find.</h2>
+      <p>Including when it doesn't work. We measured every number here ourselves — never copied
+        off a vendor's slide. Client work stays private; the rest is fair game.</p>
+    </div></div>
+  </div>
+</section>
+
+<div class="flat">
+<section id="open">
+  <div class="wrap">
+    <p class="eyebrow">// The Log &amp; the Lab</p>
+    <h2 class="h2">The Log, and the work behind it.</h2>
+    <p class="sub">Two feeds. One is opinion and teardowns; the other is research, benchmarks and
+      field notes as they happen. Both are published straight from the workbench.</p>
+    <div class="feed">
+      <a class="fcard" href="/log"><span class="k">The Log</span><h3>Brian, unfiltered</h3>
+        <p>The blog. Opinions, teardowns, what we're chewing on, and the occasional argument
+          with the industry.</p>
+        <span class="go">Read the latest &rarr;</span></a>
+      <a class="fcard" href="/lab"><span class="k">The Lab</span><h3>Build in the open</h3>
+        <p>Our own surveys and deep dives — benchmarks, experiments and field notes, measured
+          here and published as we go.</p>
+        <span class="go">Browse &rarr;</span></a>
+      <a class="fcard" href="/lab"><span class="k">Proof</span><h3>What's running</h3>
+        <p>Live systems doing real work — more of it than a page like this can hold.</p>
+        <span class="go">See it &rarr;</span></a>
+      <a class="fcard" href="https://github.com/scrappylabsai"><span class="k">Open Source</span><h3>Take our code</h3>
+        <p>The tools we built for ourselves, released for anyone.</p>
+        <span class="go">GitHub &rarr;</span></a>
+    </div>
+    <p class="eyebrow" style="margin-top:3.2rem">// Latest</p>
+    <!-- GENERATED by `sl-content build` from content.json. Do not hand-edit. -->
+    <!-- SL:LAB:START -->
     <style>
       .lab-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:2rem}
       .lab-card{display:flex;flex-direction:column;gap:.55rem;padding:1.35rem;text-decoration:none;
@@ -288,71 +489,247 @@
         </a>
       </div>
       <!-- SL:LAB:END -->
-      <p class="reveal d1" style="margin-top:1.75rem">
-        <a class="btn" href="/lab">Browse the whole Lab &rarr;</a>
+
+    <p class="upkeep"><b>// designed for upkeep</b><br>
+      Both feeds are generated from one manifest — <b>one command to publish</b> — which also
+      rebuilds the RSS feed, the sitemap and every index that links them. Nothing here is
+      hand-edited, so nothing here can rot. A confidentiality gate refuses to publish anything
+      carrying a client identifier.</p>
+  </div>
+</section>
+</div>
+
+<!-- =========================== ACT — PRO BONO =========================== -->
+<section class="act solo" data-film="t-bono" data-nav="Pro bono">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">No charge</p>
+      <h2>Give us your <span class="hl">problem</span>.</h2>
+      <p>We take work on for nothing when it matters — a nonprofit, a one-person shop, somebody
+        stuck with a real problem and no budget. No catch, no upsell, no six-month engagement
+        waiting at the end of it.</p>
+      <p style="margin-top:1rem">Describe what's wrong in a paragraph. That's the whole
+        application.</p>
+      <p style="margin-top:1.7rem">
+        <a class="btn btn-solid" href="mailto:brian@scrappylabs.ai?subject=Pro%20bono%20—%20here's%20my%20problem">Describe your problem &rarr;</a>
       </p>
-    </div>
-  </section>
+    </div></div>
+  </div>
+</section>
 
-  <!-- ============================== PRINCIPLES ============================== -->
-  <section id="why">
-    <div class="wrap">
-      <p class="eyebrow reveal">// Why We Win</p>
-      <h2 class="h2 reveal">Four things we keep on the wall.</h2>
-      <div class="prin">
-        <div class="reveal"><h3>Ship first, polish second.</h3>
-          <p>Working software beats perfect proposals. We build, deploy, and iterate in production — not in committee.</p></div>
-        <div class="reveal d1"><h3>Own the stack.</h3>
-          <p>Our own GPUs over cloud lock-in. When you understand every layer, you can fix anything, anywhere —
-          and nobody can rent-seek you.</p></div>
-        <div class="reveal d2"><h3>One throat to choke.</h3>
-          <p>No vendor finger-pointing, no "that's not our layer." If it's technology and it's yours, it's our
-          problem. That's the deal.</p></div>
-        <div class="reveal d3"><h3>No company too small.</h3>
-          <p>A one-person shop deserves the same firepower as a Fortune 500. We build systems that scale both ways.</p></div>
+<!-- ============================= ACT — CLOSE ============================= -->
+<section class="act solo" data-film="tilt-figures" data-nav="The line">
+  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+  <div class="chapters">
+    <div class="chap"><div class="inner">
+      <p class="cnum">Bring the hard one</p>
+      <h2>Tell us what's broken.</h2>
+      <p>One conversation, free. You'll leave knowing exactly how we'd fix it — whether you hire
+        us or not. No deck, no pressure.</p>
+      <div class="dial">
+        <span class="lab"><span class="pip" aria-hidden="true"></span>Scrappy is answering</span>
+        <a class="num" href="tel:+13362969877">336 · 296 · 9877</a>
+        <p class="say">Call it and <strong>Scrappy picks up</strong> — our own agent, answering our own
+          line. That <em>is</em> the demo: you're talking to the thing we'd put on your phones.
+          Prefer email?
+          <a href="mailto:brian@scrappylabs.ai" style="color:var(--amber-ink)">brian@scrappylabs.ai</a></p>
       </div>
-    </div>
-  </section>
+      <p class="oneline">Local, cloud, ours, or hybrid — whichever actually fits.<br>
+        One crew, so there's nobody to point at.<br>
+        You own everything we build, and you can take it with you.</p>
+    </div></div>
+  </div>
+</section>
 
-  <!-- ============================== CONTACT ============================== -->
-  <section id="contact" class="contact">
-    <div class="wrap">
-      <p class="eyebrow reveal">// Bring Your Hardest Problem</p>
-      <h2 class="h2 reveal">Meet with Brian.</h2>
-      <p class="lede reveal d1">One conversation. Bring the thing that's broken, slow, expensive, or impossible.
-        You'll leave knowing exactly how we'd kill it — whether you hire us or not. Free. No pitch deck, no pressure.</p>
-      <div class="contact-actions reveal d1">
-        <a class="btn btn-solid btn-lg" href="mailto:brian@scrappylabs.ai">Meet With Brian</a>
-        <a class="btn btn-lg" href="#work">See It Running</a>
-      </div>
-      <a class="mail reveal d2" href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a>
-      <div class="social reveal d2">
-        <a href="https://github.com/scrappylabsai">GitHub</a>
-        <a href="https://discord.gg/ekRv2zJCHT">Discord</a>
-        <a href="https://www.linkedin.com/in/brian-connelly-3b6a451">LinkedIn</a>
-        <a href="https://loser.com">loser.com</a>
-      </div>
-    </div>
-  </section>
 </main>
 
 <footer class="foot">
   <div class="wrap">
-    <div class="foot-links">
-      <a href="/lab">The Lab</a>
-      <a href="https://tts.scrappylabs.ai">Voice AI</a>
+    <div class="row">
+      <a href="tel:+13362969877">336 296 9877</a>
+      <a href="mailto:brian@scrappylabs.ai">Email</a>
+      <a href="/log">The Log</a>
+      <a href="#picker">Problems</a>
       <a href="https://github.com/scrappylabsai">GitHub</a>
-      <a href="https://www.linkedin.com/in/brian-connelly-3b6a451">LinkedIn</a>
-      <a href="https://discord.gg/ekRv2zJCHT">Discord</a>
-      <a href="mailto:brian@scrappylabs.ai">Contact</a>
-      <a href="/privacy">Privacy</a>
-      <a href="/tos">Terms</a>
-      <a href="/sms">SMS Terms</a>
     </div>
-    <small>© <span id="year">2026</span> ScrappyLabs — a d/b/a of Loser.com LLC. Building since '93.</small>
+    <small>© 2026 ScrappyLabs — a d/b/a of Loser.com LLC. Building since '93.</small>
   </div>
 </footer>
 
-<script type="module" src="js/main.js"></script>
+<p class="scrollcue" id="cue" aria-hidden="true">Scroll</p>
+
+<script>
+(function(){
+  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,
+      FILMS='https://stuff.scrappylabs.ai/public/slai-c2/films/',
+      acts=[].slice.call(document.querySelectorAll('.act')),
+      chaps=[].slice.call(document.querySelectorAll('.chap')),
+      cue=document.getElementById('cue'),
+      nav=document.getElementById('actnav');
+
+  /* Each act owns its own film + scrub state. */
+  var A=acts.map(function(el){
+    var slug=el.dataset.film, v=el.querySelector('video'), stage=el.querySelector('.stage');
+    /* Poster as a CSS background so black is never the floor. */
+    stage.style.backgroundImage="url('"+FILMS+slug+".jpg')";
+    return {el:el, v:v, slug:slug, loaded:false, ready:false, primed:false,
+            duration:0, target:0, current:0, lastSeek:-1};
+  });
+
+  /* ---- act nav ---- */
+  A.forEach(function(a,i){
+    var b=document.createElement('button');
+    b.type='button';
+    b.innerHTML='<span>'+(a.el.dataset.nav||('Act '+(i+1)))+'</span><span class="bar"></span>';
+    b.addEventListener('click',function(){
+      scrollTo({top:a.el.offsetTop, behavior:reduce?'auto':'smooth'});
+    });
+    nav.appendChild(b);
+  });
+  var dots=[].slice.call(nav.children);
+
+  /* ---- lazy attach / detach: keep only nearby films in memory ---- */
+  function manage(){
+    var vc=scrollY+innerHeight/2;
+    A.forEach(function(a){
+      var mid=a.el.offsetTop+a.el.offsetHeight/2,
+          near=Math.abs(mid-vc) < a.el.offsetHeight/2 + innerHeight*1.6;
+      if(near && !a.loaded){
+        a.loaded=true;
+        a.v.preload='auto';
+        a.v.src=FILMS+a.slug+'.mp4';
+        a.v.addEventListener('loadedmetadata',function(){
+          a.duration=a.v.duration||0; a.ready=true;
+          try{a.v.currentTime=.001;}catch(e){}
+          prime(a);
+        });
+        a.v.addEventListener('loadeddata',function(){ prime(a); });
+        try{a.v.load();}catch(e){}
+      } else if(!near && a.loaded){
+        /* Far away — free it. The poster background keeps the stage filled. */
+        a.loaded=false; a.ready=false; a.primed=false; a.lastSeek=-1;
+        try{ a.v.removeAttribute('src'); a.v.load(); }catch(e){}
+      }
+    });
+  }
+
+  /* iOS will not paint a currentTime seek on a video that never played. */
+  function prime(a){
+    if(a.primed||!a.loaded) return;
+    var pr; try{ pr=a.v.play(); }catch(e){ return; }
+    if(pr&&pr.then) pr.then(function(){a.primed=true; try{a.v.pause();}catch(e){}})
+                      .catch(function(){a.primed=false;});
+    else { a.primed=true; try{a.v.pause();}catch(e){} }
+  }
+  function primeAll(){ A.forEach(function(a){ if(a.loaded) prime(a); }); }
+  ['touchstart','touchend','pointerdown','click','scroll','keydown']
+    .forEach(function(ev){ addEventListener(ev,primeAll,{passive:true}); });
+
+  /* ---- per-act scroll -> currentTime ---- */
+  function readScroll(){
+    A.forEach(function(a){
+      var span=Math.max(1, a.el.offsetHeight - innerHeight),
+          p=(scrollY - a.el.offsetTop)/span;
+      a.target=Math.min(1,Math.max(0,p));
+    });
+  }
+
+  /* ---- nearest-centre chapter: exactly one live, page-wide ---- */
+  function syncChapter(){
+    var c=scrollY+innerHeight/2, best=-1, bd=Infinity;
+    chaps.forEach(function(ch,i){
+      var r=ch.getBoundingClientRect(), m=r.top+scrollY+r.height/2, d=Math.abs(m-c);
+      if(d<bd){bd=d;best=i;}
+    });
+    chaps.forEach(function(ch,j){ ch.classList.toggle('is-live', j===best); });
+    var ai=-1, ad=Infinity;
+    A.forEach(function(a,i){
+      var m=a.el.offsetTop+a.el.offsetHeight/2, d=Math.abs(m-c);
+      if(d<ad){ad=d;ai=i;}
+    });
+    dots.forEach(function(d,j){ d.setAttribute('aria-current', String(j===ai)); });
+  }
+
+  (function frame(){
+    A.forEach(function(a){
+      a.current += (a.target-a.current)*(reduce?1:0.1);
+      if(Math.abs(a.target-a.current)<0.0004) a.current=a.target;
+      if(a.ready&&a.duration){
+        /* Only seek films that are actually on screen. */
+        var r=a.el.getBoundingClientRect();
+        if(r.bottom>-200 && r.top<innerHeight+200){
+          var t=a.current*(a.duration-0.05);
+          if(Math.abs(t-a.lastSeek)>0.008){ try{a.v.currentTime=t; a.lastSeek=t;}catch(e){} }
+        }
+      }
+    });
+    requestAnimationFrame(frame);
+  })();
+
+  addEventListener('scroll',function(){
+    readScroll(); syncChapter(); manage();
+    cue.classList.toggle('gone', scrollY>140);
+  },{passive:true});
+  addEventListener('resize',function(){ readScroll(); syncChapter(); manage(); });
+  readScroll(); syncChapter(); manage();
+
+  /* =============== THE PROBLEM PICKER (client-side, never fails) =============== */
+  var PLAYS={
+    phone:{
+      h:"An agent that answers on the first ring — and won't make things up.",
+      f:"We put a voice agent on your line that answers every call around the clock, triages it, takes a proper message, and flags the urgent one to a human immediately. The part most people skip: a trust gate that stops it from confidently inventing a detail it was never given. It can run on your infrastructure, ours, or a cloud provider — we'll tell you which one your call volume actually justifies.",
+      b:["In production","Weeks, not quarters","Runs wherever it should"]
+    },
+    retype:{
+      h:"Hand the retyping to something that doesn't get bored.",
+      f:"We wire the two systems together — even when one of them has no real API and everybody swears it can't be done. Data moves on its own, a human approves anything that writes, and you get a log of every action. This is usually the fastest money we save anybody.",
+      b:["In production","Human approves writes","Full audit trail"]
+    },
+    archive:{
+      h:"Ask twenty years of documents a question in plain English.",
+      f:"We build a private knowledge base over your archive whose answers cite the source document, so you can check it. If keeping the data in-house matters, it runs entirely on hardware you control and never trains somebody else's model. If it doesn't matter, we'll use whatever's fastest and cheapest. And if the answer isn't in there, it says so instead of guessing.",
+      b:["In production","Answers cite sources","Your call where it runs"]
+    },
+    vendors:{
+      h:"We become the one throat to choke.",
+      f:"We get in the middle, read the actual traffic, and find out which side is really failing — then fix it or route around it. No finger-pointing, no \"that's not our layer.\" If it's technology and it's yours, it's our problem. That's the whole deal.",
+      b:["One crew, end to end","No vendor hand-offs"]
+    },
+    legacy:{
+      h:"The thing nobody will touch is the thing we do.",
+      f:"We don't start by demanding you replace it. We wrap it, integrate it, and make it talk to the modern world — and only then have an honest conversation about whether replacing it is worth it. Sometimes the right answer is to leave it alone and build around it. We'll tell you when that's the case.",
+      b:["30+ years of this","Honest build-vs-buy"]
+    },
+    cloud:{
+      h:"Right-size it, then stop paying for what you don't use.",
+      f:"We audit what you're actually paying for against what you actually use, then close the gap. Sometimes that means moving a workload onto hardware; sometimes it's a cheaper tier, a different provider, or switching off the thing nobody has opened in a year. We've built it local, cloud and hybrid, so we have no script to sell you — we'll tell you honestly which way your numbers point.",
+      b:["No lock-in","Honest build-vs-buy","You own everything"]
+    }
+  };
+  var ans=document.getElementById('answer'),
+      syms=[].slice.call(document.querySelectorAll('.sym'));
+  function esc(s){ return s.replace(/[&<>"]/g,function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+  syms.forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var p=PLAYS[btn.dataset.k];
+      syms.forEach(function(o){ o.setAttribute('aria-pressed', String(o===btn)); });
+      if(!p) return;
+      var subject=encodeURIComponent("My problem: "+btn.textContent.trim().replace(/^SYM-\d+\s*/,''));
+      ans.innerHTML =
+        '<p class="ak">What we\'d do</p>'+
+        '<h3>'+esc(p.h)+'</h3>'+
+        '<p class="fix">'+esc(p.f)+'</p>'+
+        '<div class="row">'+p.b.map(function(b,i){
+          return '<span class="badge'+(i===0?' on':'')+'">'+esc(b)+'</span>'; }).join('')+'</div>'+
+        '<div class="cta">'+
+          '<a class="btn btn-solid" href="tel:+13362969877">Tell Scrappy about this</a>'+
+          '<a class="btn" href="mailto:brian@scrappylabs.ai?subject='+subject+'">Email it instead</a>'+
+        '</div>';
+    });
+  });
+})();
+</script>
 </body>
 </html>

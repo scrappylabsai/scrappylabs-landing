@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>The Log — ScrappyLabs</title>
+<meta name="description" content="Brian, unfiltered. Opinions, teardowns, what we're chewing on, and the occasional argument with the industry.">
+<meta name="theme-color" content="#0e1118">
+<meta property="og:type" content="website">
+<meta property="og:title" content="The Log — ScrappyLabs">
+<meta property="og:description" content="Brian, unfiltered. Opinions, teardowns, and the occasional argument with the industry.">
+<meta property="og:url" content="https://scrappylabs.ai/log">
+<meta property="og:image" content="https://scrappylabs.ai/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/rss+xml" title="ScrappyLabs" href="/feed.xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1118'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff6b35'/%3E%3C/svg%3E">
+<!-- Deliberately NOT linking styles.css: it is the homepage's sheet (owns .hero, sets
+     p{margin:0} and a{color:inherit}) and has broken standalone pages before. Self-contained. -->
+<style>
+@font-face{font-family:'Michroma';src:url('assets/fonts/michroma-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Space Grotesk';src:url('assets/fonts/spacegrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-500.woff2') format('woff2');font-weight:500;font-display:swap}
+
+:root{
+  --bg:#0e1118; --panel:#161b27; --ink:#f4f7fb; --body:#c9d1de; --muted:#a6b0c2;
+  --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.20);
+  --amber:#ff6b35; --amber-hi:#ff8555; --amber-ink:#ffb27a; --green:#5aff9a;
+  --disp:'Michroma',sans-serif; --sans:'Space Grotesk',system-ui,sans-serif;
+  --mono:'Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased}
+h1,h2,h3{color:var(--ink);margin:0;line-height:1.12;font-weight:500}
+p{margin:0}
+a{color:var(--amber-ink);text-decoration:none}
+a:hover{color:var(--amber-hi)}
+:focus-visible{outline:3px solid var(--amber-ink);outline-offset:3px;border-radius:4px}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--amber);color:#1a0c04;
+  padding:.6rem 1rem;border-radius:8px;font-weight:600;transition:top .15s}
+.skip:focus{top:12px}
+.wrap{max-width:820px;margin:0 auto;padding:0 clamp(20px,5vw,44px)}
+
+.topbar{display:flex;align-items:center;gap:1rem;padding:1.1rem clamp(20px,5vw,44px);
+  border-bottom:1px solid var(--line)}
+.wordmark{font-family:var(--disp);font-size:.96rem;color:var(--ink)}
+.wordmark b{color:var(--amber);font-weight:400}
+.topnav{margin-left:auto;display:flex;gap:1.3rem;font-family:var(--mono);font-size:.74rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.topnav a{color:var(--muted)}
+.topnav a:hover,.topnav a[aria-current="page"]{color:var(--amber-ink)}
+
+header.hd{padding:clamp(3rem,7vw,5rem) 0 clamp(1.6rem,3vw,2.4rem)}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;
+  color:var(--amber-ink);margin-bottom:1.1rem}
+h1{font-size:clamp(2.1rem,5.4vw,3.3rem);letter-spacing:-.025em}
+.strap{margin-top:1.2rem;font-size:1.1rem;color:var(--body);max-width:40rem}
+.strap b{color:var(--ink);font-weight:500}
+
+.posts{padding-bottom:4rem}
+.post{display:block;padding:1.9rem 0;border-top:1px solid var(--line)}
+.post:hover h2{color:var(--amber-ink)}
+.meta{display:flex;align-items:center;gap:.9rem;font-family:var(--mono);font-size:.7rem;
+  letter-spacing:.16em;text-transform:uppercase;margin-bottom:.75rem;color:var(--muted)}
+.meta .t{color:var(--amber)}
+.post h2{font-size:clamp(1.3rem,2.8vw,1.75rem);letter-spacing:-.015em}
+.post p{margin-top:.7rem;color:var(--muted);font-size:1rem}
+.post .go{display:inline-block;margin-top:.85rem;font-family:var(--mono);font-size:.78rem;
+  letter-spacing:.08em;color:var(--amber-ink)}
+.empty{padding:2.4rem 0;border-top:1px solid var(--line);color:var(--muted)}
+
+.foot{border-top:1px solid var(--line);padding:2.4rem 0;font-size:.86rem;color:var(--muted)}
+.foot .row{display:flex;flex-wrap:wrap;gap:1.2rem;font-family:var(--mono);font-size:.74rem;
+  letter-spacing:.1em;text-transform:uppercase}
+.foot .row a{color:var(--muted)}
+.foot .row a:hover{color:var(--amber-ink)}
+.foot small{display:block;margin-top:1.2rem}
+</style>
+</head>
+<body>
+<a class="skip" href="#posts">Skip to the posts</a>
+
+<div class="topbar">
+  <a class="wordmark" href="/">Scrappy<b>Labs</b></a>
+  <nav class="topnav" aria-label="Sections">
+    <a href="/log" aria-current="page">The Log</a>
+    <a href="/lab">The Lab</a>
+    <a href="/#picker">Problems</a>
+    <a href="tel:+13362969877">336 296 9877</a>
+  </nav>
+</div>
+
+<div class="wrap">
+  <header class="hd">
+    <p class="eyebrow">// The Log</p>
+    <h1>Brian, unfiltered.</h1>
+    <p class="strap">Opinions, teardowns, what we're chewing on, and the occasional argument with
+      the industry. <b>The Lab</b> is where the measured work goes — <a href="/lab">that's next
+      door</a>. This is where I say what I think.</p>
+  </header>
+
+  <!-- The list below is GENERATED by `sl-content build` from content.json.
+       Do not hand-edit between the SL:LOG markers — it gets overwritten. -->
+  <div class="posts" id="posts">
+  <!-- SL:LOG:START -->
+    <a class="post" href="https://stuff.scrappylabs.ai/public/k3-review/fear-segment.html" target="_blank" rel="noopener">
+      <div class="meta"><span class="t">Long Read</span><span>25 Jul 2026</span><span>8 min</span></div>
+      <h2>Anatomy of an AI Fear Segment</h2>
+      <p>A good argument about open-weight economics, and the exact moment it turns into something else. Four tells that a technical explainer has stopped reasoning and started steering — plus a five-step checklist you can reuse on any AI threat seg</p>
+      <span class="go">Open &nearr;</span>
+    </a>
+    <a class="post" href="/two-years">
+      <div class="meta"><span class="t">Long Read</span><span>08 Jul 2026</span><span>9 min</span></div>
+      <h2>Two Years to the Taste of the Stew</h2>
+      <p>The honest arc — from fighting Windows to a fleet of local models that finally feel real. The MCP tool-use moment, a memory layer a frontier model graded A&minus; (and told us exactly where we're still behind), the month local inference got</p>
+      <span class="go">Read it &rarr;</span>
+    </a>
+  <!-- SL:LOG:END -->
+  </div>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="row">
+      <a href="/">Home</a>
+      <a href="/lab">The Lab</a>
+      <a href="/feed.xml">RSS</a>
+      <a href="tel:+13362969877">336 296 9877</a>
+      <a href="mailto:brian@scrappylabs.ai">Email</a>
+      <a href="https://github.com/scrappylabsai">GitHub</a>
+    </div>
+    <small>© 2026 ScrappyLabs — a d/b/a of Loser.com LLC. Building since '93.</small>
+  </div>
+</footer>
+</body>
+</html>

@@ -6,7 +6,7 @@
     <atom:link href="https://scrappylabs.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Experiments, publications, visual explainers, field notes and open source from ScrappyLabs. Built in the open.</description>
     <language>en</language>
-    <lastBuildDate>Sat, 25 Jul 2026 14:46:01 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jul 2026 02:50:02 +0000</lastBuildDate>
     <item>
       <title>Anatomy of an AI Fear Segment</title>
       <link>https://stuff.scrappylabs.ai/public/k3-review/fear-segment.html</link>
@@ -39,26 +39,6 @@
       <category>generated</category>
     </item>
     <item>
-      <title>Daily Dive — What Shipped in Open Models This Week</title>
-      <link>https://stuff.scrappylabs.ai/public/moya/hf-daily-2026-07-23.html</link>
-      <guid isPermaLink="false">hf-daily-0723</guid>
-      <pubDate>Thu, 23 Jul 2026 12:00:00 +0000</pubDate>
-      <description>One day's pass over the open-model firehose: what's genuinely new, what only looks new, which releases fit real hardware budgets, and which are too big to be useful to anyone without a datacentre.</description>
-      <category>open models</category>
-      <category>evaluation</category>
-      <category>daily</category>
-    </item>
-    <item>
-      <title>Two Thinking Tools — /office-hours and /diverge</title>
-      <link>https://stuff.scrappylabs.ai/public/moya/thinking-skills-outline-20260722.html</link>
-      <guid isPermaLink="false">thinking-tools</guid>
-      <pubDate>Wed, 22 Jul 2026 12:00:00 +0000</pubDate>
-      <description>Two tools we built to fight premature convergence: one runs YC-style forcing questions at an idea before anyone writes code, the other spawns isolated agents under distorted frames so nothing anchors on the first answer. What they do, when each one earns its keep.</description>
-      <category>agents</category>
-      <category>process</category>
-      <category>thinking tools</category>
-    </item>
-    <item>
       <title>Giving an AI Eyes on Video</title>
       <link>https://stuff.scrappylabs.ai/public/moya/watch-skill-guide-20260722.html</link>
       <guid isPermaLink="false">watch-guide</guid>
@@ -67,35 +47,6 @@
       <category>video</category>
       <category>multimodal</category>
       <category>open source</category>
-    </item>
-    <item>
-      <title>Watch Brief — Signal from the AI Video Firehose</title>
-      <link>https://stuff.scrappylabs.ai/public/briefs/video-gold-2026-07-22.html</link>
-      <guid isPermaLink="false">video-gold-0722</guid>
-      <pubDate>Wed, 22 Jul 2026 12:00:00 +0000</pubDate>
-      <description>We pointed our own video-watching tool at the week's AI channels and pulled out the few claims worth acting on — including a speed-up we decided to go measure ourselves rather than take on faith.</description>
-      <category>video</category>
-      <category>evaluation</category>
-      <category>brief</category>
-    </item>
-    <item>
-      <title>Is a Mac Mini Really a Local-AI Machine?</title>
-      <link>https://stuff.scrappylabs.ai/public/moya/mac-mini-m4-brief-20260721.html</link>
-      <guid isPermaLink="false">mac-mini-brief</guid>
-      <pubDate>Tue, 21 Jul 2026 12:00:00 +0000</pubDate>
-      <description>A viral video claimed Apple just killed AI subscriptions. We pulled the claim apart against what the hardware actually does for local inference — where it holds up, where it doesn't, and who should genuinely buy one.</description>
-      <category>hardware</category>
-      <category>local ai</category>
-      <category>decision brief</category>
-    </item>
-    <item>
-      <title>Field Notes from the Model Firehose</title>
-      <link>https://stuff.scrappylabs.ai/public/moya/hf-trending-field-notes.html</link>
-      <guid isPermaLink="false">hf-field-notes</guid>
-      <pubDate>Sun, 19 Jul 2026 12:00:00 +0000</pubDate>
-      <description>Hundreds of open models drop every week and almost none of them matter to you. How we triage what's actually worth running — licence, size, and whether it survives a same-prompt test on hardware we own.</description>
-      <category>open models</category>
-      <category>evaluation</category>
     </item>
     <item>
       <title>audhd — Divergent Ideation for Coding Agents</title>
@@ -149,15 +100,6 @@
       <category>memory</category>
     </item>
     <item>
-      <title>Fleet Log — Thirty Days in the Open</title>
-      <link>https://stuff.scrappylabs.ai/public/blog/fleet-log.html</link>
-      <guid isPermaLink="false">fleet-log</guid>
-      <pubDate>Wed, 08 Jul 2026 12:00:00 +0000</pubDate>
-      <description>A month of building in the open, logged as it happened.</description>
-      <category>build in the open</category>
-      <category>fleet</category>
-    </item>
-    <item>
       <title>Scrappy Tools — Teaching Small Models to Use CLI Tools</title>
       <link>https://scrappylabs.ai/scrappy-tools</link>
       <guid isPermaLink="false">scrappy-tools</guid>
@@ -178,31 +120,21 @@
       <category>agents</category>
     </item>
     <item>
-      <title>The GPU Warranty Fight</title>
-      <link>https://scrappylabs.ai/gpu-warranty</link>
-      <guid isPermaLink="false">gpu-warranty</guid>
-      <pubDate>Sat, 14 Mar 2026 12:00:00 +0000</pubDate>
-      <description>A dead card, three companies, and a two-year paper trail. What actually happens when a warranty claim goes wrong — documented in full, because everyone deserves to know before they buy.</description>
-      <category>hardware</category>
-      <category>warranty</category>
-      <category>receipts</category>
-    </item>
-    <item>
-      <title>QB Agent — An AI Bookkeeper for QuickBooks Online</title>
+      <title>Agentic Accounting</title>
       <link>https://scrappylabs.ai/qb-agent</link>
       <guid isPermaLink="false">qb-agent</guid>
       <pubDate>Tue, 10 Feb 2026 12:00:00 +0000</pubDate>
-      <description>Invoices, expenses, reports and purchase orders through plain English, wired directly into QuickBooks Online. No dashboards to learn and no forms to fill out — you talk to it like you'd talk to a bookkeeper.</description>
+      <description>Bookkeeping by conversation instead of by form. Invoices, expenses, reports and purchase orders handled in plain English, wired straight into the accounting system you already run — with a human approving anything that writes.</description>
       <category>agents</category>
       <category>quickbooks</category>
       <category>automation</category>
     </item>
     <item>
-      <title>Multilingual TTS — Live Demo</title>
+      <title>Hear It Talk — Live Voice Demo</title>
       <link>https://scrappylabs.ai/demo</link>
       <guid isPermaLink="false">demo</guid>
       <pubDate>Wed, 04 Feb 2026 12:00:00 +0000</pubDate>
-      <description>Our text-to-speech running live in the browser, across languages. Type something and hear it back.</description>
+      <description>Our text-to-speech running live in your browser, across languages. Type something and hear it back — no signup, nothing to install.</description>
       <category>tts</category>
       <category>voice</category>
       <category>demo</category>

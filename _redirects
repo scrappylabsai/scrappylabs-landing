@@ -1,2 +1,4 @@
-/log                    /lab         301
-/log.html               /lab         301
+# /log is now The Log (the blog) — it must NOT redirect to /lab.
+# Keep the .html form pointing at the clean URL.
+/log.html               /log         301
+/lab.html               /lab         301

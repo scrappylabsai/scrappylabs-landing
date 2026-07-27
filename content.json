@@ -112,7 +112,8 @@
         "fleet"
       ],
       "readMins": 4,
-      "public": true
+      "public": false,
+      "retired_note": "30-day internal retrospective; navel-gazing, teaches a prospect nothing"
     },
     {
       "slug": "scrappy-tools",
@@ -142,14 +143,15 @@
         "receipts"
       ],
       "readMins": 7,
-      "public": true
+      "public": false,
+      "retired_note": "Brian 07-26: unpublish for now, decide where it lives later"
     },
     {
       "slug": "qb-agent",
       "type": "build",
       "date": "2026-02-10",
-      "title": "QB Agent — An AI Bookkeeper for QuickBooks Online",
-      "summary": "Invoices, expenses, reports and purchase orders through plain English, wired directly into QuickBooks Online. No dashboards to learn and no forms to fill out — you talk to it like you'd talk to a bookkeeper.",
+      "title": "Agentic Accounting",
+      "summary": "Bookkeeping by conversation instead of by form. Invoices, expenses, reports and purchase orders handled in plain English, wired straight into the accounting system you already run — with a human approving anything that writes.",
       "url": "/qb-agent",
       "tags": [
         "agents",
@@ -163,8 +165,8 @@
       "slug": "demo",
       "type": "demo",
       "date": "2026-02-04",
-      "title": "Multilingual TTS — Live Demo",
-      "summary": "Our text-to-speech running live in the browser, across languages. Type something and hear it back.",
+      "title": "Hear It Talk — Live Voice Demo",
+      "summary": "Our text-to-speech running live in your browser, across languages. Type something and hear it back — no signup, nothing to install.",
       "url": "/demo",
       "tags": [
         "tts",
@@ -216,9 +218,10 @@
         "process",
         "thinking tools"
       ],
-      "public": true,
+      "public": false,
       "external": true,
-      "readMins": 6
+      "readMins": 6,
+      "retired_note": "outline of two internal skills; reads like working notes, not a publication"
     },
     {
       "slug": "watch-guide",
@@ -248,9 +251,10 @@
         "local ai",
         "decision brief"
       ],
-      "public": true,
+      "public": false,
       "external": true,
-      "readMins": 4
+      "readMins": 4,
+      "retired_note": "Brian 07-26: drop it"
     },
     {
       "slug": "voice-audition",
@@ -294,9 +298,10 @@
         "open models",
         "evaluation"
       ],
-      "public": true,
+      "public": false,
       "external": true,
-      "readMins": 5
+      "readMins": 5,
+      "retired_note": "Brian 07-26: not the old HF stuff — new surveys/dives will replace it"
     },
     {
       "slug": "hf-daily-0723",
@@ -310,9 +315,10 @@
         "evaluation",
         "daily"
       ],
-      "public": true,
+      "public": false,
       "external": true,
-      "readMins": 7
+      "readMins": 7,
+      "retired_note": "one-day digest from 23 Jul; zero evergreen value, ages instantly"
     },
     {
       "slug": "video-gold-0722",
@@ -326,9 +332,10 @@
         "evaluation",
         "brief"
       ],
-      "public": true,
+      "public": false,
       "external": true,
-      "readMins": 6
+      "readMins": 6,
+      "retired_note": "dated model comparison; ages badly, reads stale within weeks"
     },
     {
       "slug": "ai-fear-segment",
@@ -360,6 +367,8 @@
     "build": "Build",
     "release": "Open Source",
     "long-read": "Long Read",
-    "press": "Press"
+    "press": "Press",
+    "rant": "Rant",
+    "news": "News"
   }
 }
