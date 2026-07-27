@@ -3,6 +3,24 @@
   "site": "https://scrappylabs.ai",
   "entries": [
     {
+      "slug": "memory-invocation",
+      "type": "publication",
+      "date": "2026-07-27",
+      "title": "The Retrieval Was Fine. The Agent Never Looked.",
+      "summary": "We built a four-tier memory system for our coding agents, then instrumented it to find what was still failing. It wasn't the retriever — every \"forgotten\" fact came back at <strong>rank 1</strong>. The failure was <strong>invocation</strong>, and what predicts it is how the task is framed. Includes the architecture, the numbers, the audit that caught us, and a build path you can point your own agent at.",
+      "url": "/memory-invocation",
+      "tags": [
+        "agent memory",
+        "architecture",
+        "evaluation",
+        "build in the open"
+      ],
+      "public": true,
+      "featured": true,
+      "readMins": 11,
+      "group": "memory"
+    },
+    {
       "slug": "mage-flow",
       "type": "test",
       "date": "2026-07-23",
@@ -283,9 +301,10 @@
         "architecture",
         "agents"
       ],
-      "public": true,
+      "public": false,
       "readMins": 9,
-      "featured": true
+      "featured": true,
+      "retired_note": "superseded 2026-07-27 by memory-invocation (three-tier -> four-tier); page stays live with a forward pointer"
     },
     {
       "slug": "hf-field-notes",

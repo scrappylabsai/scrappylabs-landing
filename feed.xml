@@ -6,7 +6,18 @@
     <atom:link href="https://scrappylabs.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Experiments, publications, visual explainers, field notes and open source from ScrappyLabs. Built in the open.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Jul 2026 02:50:02 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 27 Jul 2026 05:24:50 +0000</lastBuildDate>
+    <item>
+      <title>The Retrieval Was Fine. The Agent Never Looked.</title>
+      <link>https://scrappylabs.ai/memory-invocation</link>
+      <guid isPermaLink="false">memory-invocation</guid>
+      <pubDate>Mon, 27 Jul 2026 12:00:00 +0000</pubDate>
+      <description>We built a four-tier memory system for our coding agents, then instrumented it to find what was still failing. It wasn't the retriever — every "forgotten" fact came back at rank 1. The failure was invocation, and what predicts it is how the task is framed. Includes the architecture, the numbers, the audit that caught us, and a build path you can point your own agent at.</description>
+      <category>agent memory</category>
+      <category>architecture</category>
+      <category>evaluation</category>
+      <category>build in the open</category>
+    </item>
     <item>
       <title>Anatomy of an AI Fear Segment</title>
       <link>https://stuff.scrappylabs.ai/public/k3-review/fear-segment.html</link>
@@ -108,16 +119,6 @@
       <category>small models</category>
       <category>tool use</category>
       <category>local inference</category>
-    </item>
-    <item>
-      <title>Three-Tier Memory — Breaking the 200-Line Limit</title>
-      <link>https://scrappylabs.ai/three-tier-memory</link>
-      <guid isPermaLink="false">three-tier-memory</guid>
-      <pubDate>Mon, 16 Mar 2026 12:00:00 +0000</pubDate>
-      <description>An AI coding agent forgets everything between sessions, and the usual fix — one big instructions file — collapses under its own weight. This is the architecture we landed on instead: three tiers, what each one is allowed to hold, measured results, and the tier we tried that failed.</description>
-      <category>memory</category>
-      <category>architecture</category>
-      <category>agents</category>
     </item>
     <item>
       <title>Agentic Accounting</title>

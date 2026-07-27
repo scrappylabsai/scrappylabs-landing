@@ -1,0 +1,428 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>The Retrieval Was Fine. The Agent Never Looked. — ScrappyLabs</title>
+<meta name="description" content="We instrumented our agent's memory system and found the retriever was already working. Every missed fact was sitting at rank 1. The failure was invocation — and what predicts it is task framing.">
+<meta name="theme-color" content="#0e1118">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Retrieval Was Fine. The Agent Never Looked.">
+<meta property="og:description" content="Everyone is optimising the wrong half of agent memory. What we measured across 10 sessions, 740 memory files and a 97-line index.">
+<meta property="og:url" content="https://scrappylabs.ai/memory-invocation">
+<meta property="og:image" content="https://scrappylabs.ai/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/rss+xml" title="ScrappyLabs" href="/feed.xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1118'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff6b35'/%3E%3C/svg%3E">
+<!-- Self-contained on purpose: styles.css is the homepage sheet (owns .hero, sets
+     p{margin:0} and a{color:inherit}) and has broken standalone pages before. -->
+<style>
+@font-face{font-family:'Michroma';src:url('assets/fonts/michroma-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Space Grotesk';src:url('assets/fonts/spacegrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-400.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-500.woff2') format('woff2');font-weight:500;font-display:swap}
+:root{
+  --bg:#0e1118; --panel:#161b27; --panel2:#11151f; --ink:#f4f7fb; --body:#c9d1de; --muted:#a6b0c2;
+  --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.20);
+  --amber:#ff6b35; --amber-hi:#ff8555; --amber-ink:#ffb27a; --green:#5aff9a; --red:#ff7a6b;
+  --disp:'Michroma',sans-serif; --sans:'Space Grotesk',system-ui,sans-serif; --mono:'Plex Mono',ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{overflow-x:clip}
+body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans);font-size:17.5px;
+  line-height:1.68;-webkit-font-smoothing:antialiased}
+h1,h2,h3,h4{color:var(--ink);margin:0;line-height:1.15;font-weight:500}
+p{margin:0}
+a{color:var(--amber-ink);text-decoration:none}
+a:hover{color:var(--amber-hi);text-decoration:underline}
+:focus-visible{outline:3px solid var(--amber-ink);outline-offset:3px;border-radius:4px}
+.skip{position:fixed;left:12px;top:-60px;z-index:100;background:var(--amber);color:#1a0c04;padding:.6rem 1rem;border-radius:8px;font-weight:600;transition:top .15s}
+.skip:focus{top:12px}
+.wrap{max-width:760px;margin:0 auto;padding:0 clamp(20px,5vw,44px)}
+.wide{max-width:960px}
+
+.topbar{display:flex;align-items:center;gap:1rem;padding:1.1rem clamp(20px,5vw,44px);border-bottom:1px solid var(--line)}
+.wordmark{font-family:var(--disp);font-size:.96rem;color:var(--ink)}
+.wordmark b{color:var(--amber);font-weight:400}
+.topnav{margin-left:auto;display:flex;gap:1.3rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+.topnav a{color:var(--muted)}
+.topnav a:hover{color:var(--amber-ink)}
+@media (max-width:680px){.topnav a:not(:last-child){display:none}}
+
+header.hd{padding:clamp(3rem,7vw,5rem) 0 1rem}
+.eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--amber-ink);margin-bottom:1.2rem}
+h1{font-size:clamp(2.1rem,5.6vw,3.5rem);letter-spacing:-.03em}
+.dek{margin-top:1.4rem;font-size:1.18rem;color:var(--body)}
+.byline{margin-top:1.6rem;padding-top:1.2rem;border-top:1px solid var(--line);font-family:var(--mono);font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+
+section{padding:2.4rem 0}
+h2{font-size:clamp(1.5rem,3.2vw,2.1rem);letter-spacing:-.02em;margin-top:1rem}
+h3{font-size:1.15rem;margin-top:2rem}
+p+p{margin-top:1.1rem}
+h2+p,h3+p{margin-top:1rem}
+strong{color:var(--ink);font-weight:600}
+em{color:var(--amber-ink);font-style:normal}
+ul,ol{margin:1.1rem 0 0;padding-left:1.3rem}
+li{margin-bottom:.6rem}
+code{font-family:var(--mono);font-size:.88em;background:var(--panel);padding:.12em .4em;border-radius:4px;color:var(--amber-ink)}
+
+.pull{margin:2.2rem 0;padding:1.5rem 1.7rem;border-left:3px solid var(--amber);background:var(--panel2);border-radius:0 12px 12px 0}
+.pull p{font-size:1.16rem;color:var(--ink);line-height:1.5}
+.pull .src{margin-top:.8rem;font-family:var(--mono);font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--line);
+  border:1px solid var(--line2);border-radius:14px;overflow:hidden;margin:2rem 0}
+.stat{background:var(--panel2);padding:1.3rem 1.1rem}
+.stat .n{font-family:var(--disp);font-size:1.5rem;color:var(--amber-ink);line-height:1}
+.stat .l{margin-top:.5rem;font-size:.86rem;color:var(--muted);line-height:1.4}
+
+/* ---------- the diagram ---------- */
+.diagram{margin:2.4rem 0;border:1px solid var(--line2);border-radius:16px;background:var(--panel2);padding:clamp(1.2rem,3vw,2rem);overflow-x:auto}
+.dlabel{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+.tier{display:grid;grid-template-columns:64px 1fr;gap:1rem;align-items:stretch;margin-bottom:.55rem;min-width:min(100%,420px)}
+.tier .tag{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.8rem;
+  border-radius:9px;border:1px solid var(--line2);color:var(--amber);background:rgba(255,107,53,.07)}
+.tier .box{border:1px solid var(--line2);border-radius:9px;padding:.85rem 1.05rem;background:var(--panel)}
+.tier .box h4{font-size:.99rem}
+.tier .box p{margin-top:.28rem;font-size:.87rem;color:var(--muted);line-height:1.5}
+.tier .box .meta{margin-top:.45rem;font-family:var(--mono);font-size:.7rem;letter-spacing:.08em;color:var(--amber-ink)}
+.tier.cold .tag{color:var(--muted);background:rgba(255,255,255,.03)}
+.doors{margin-top:1.4rem;padding-top:1.2rem;border-top:1px dashed var(--line2)}
+.doors .dl{font-family:var(--mono);font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:.8rem}
+.doorrow{display:flex;flex-wrap:wrap;gap:.55rem}
+.door{font-family:var(--mono);font-size:.76rem;padding:.4rem .75rem;border-radius:999px;border:1px solid var(--line2);color:var(--body)}
+.door b{color:var(--amber-ink);font-weight:400}
+.gap{margin-top:1.2rem;padding:.85rem 1.05rem;border:1px dashed rgba(255,122,107,.4);border-radius:9px;
+  font-size:.88rem;color:var(--muted)}
+.gap b{color:var(--red);font-weight:500}
+
+.callout{margin:2.2rem 0;padding:1.4rem 1.6rem;border:1px solid var(--line2);border-radius:14px;background:var(--panel)}
+.callout h4{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber-ink);margin-bottom:.8rem}
+.callout p{font-size:.98rem}
+.callout.warn{border-color:rgba(255,122,107,.38)}
+.callout.warn h4{color:var(--red)}
+
+.steps{counter-reset:s;margin:1.8rem 0 0;padding:0;list-style:none}
+.steps>li{counter-increment:s;position:relative;padding-left:3rem;margin-bottom:1.5rem}
+.steps>li::before{content:counter(s);position:absolute;left:0;top:0;width:2rem;height:2rem;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:.82rem;
+  color:var(--amber);border:1px solid var(--amber)}
+.steps h4{font-size:1.05rem;margin-bottom:.35rem}
+.steps p{font-size:.95rem;color:var(--muted)}
+
+.foot{border-top:1px solid var(--line);padding:2.6rem 0;margin-top:3rem;font-size:.86rem;color:var(--muted)}
+.foot .row{display:flex;flex-wrap:wrap;gap:1.2rem;font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase}
+.foot .row a{color:var(--muted)}
+.foot .row a:hover{color:var(--amber-ink)}
+.foot small{display:block;margin-top:1.2rem}
+.cta{margin-top:2.4rem;padding:1.6rem 1.8rem;border:1px solid var(--line2);border-radius:16px;
+  background:linear-gradient(150deg,rgba(255,107,53,.09),rgba(22,27,39,.9))}
+.cta p{color:var(--body)}
+.btn{display:inline-block;margin-top:1.1rem;font-family:var(--mono);font-size:.8rem;letter-spacing:.07em;
+  padding:.8rem 1.25rem;border-radius:999px;background:var(--amber);color:#1a0c04;font-weight:600}
+.btn:hover{background:var(--amber-hi);color:#1a0c04;text-decoration:none}
+</style>
+</head>
+<body>
+<a class="skip" href="#start">Skip to the article</a>
+
+<div class="topbar">
+  <a class="wordmark" href="/">Scrappy<b>Labs</b></a>
+  <nav class="topnav" aria-label="Sections">
+    <a href="/log">The Log</a>
+    <a href="/lab">The Lab</a>
+    <a href="/#picker">Problems</a>
+    <a href="tel:+13362969877">336 296 9877</a>
+  </nav>
+</div>
+
+<div class="wrap">
+  <header class="hd" id="start">
+    <p class="eyebrow">// Publication · Agent memory</p>
+    <h1>The retrieval was fine.<br>The agent never looked.</h1>
+    <p class="dek">We spent months building a four-tier memory system for our coding agents. Then we
+      instrumented it to find out what was still failing. The answer wasn't the retriever — every
+      fact we'd "forgotten" was sitting at <strong>rank&nbsp;1</strong>. Nobody had searched.</p>
+    <p class="byline">ScrappyLabs · Asheville, NC · 11 min read</p>
+  </header>
+</div>
+
+<div class="wrap">
+<section>
+  <p>There is a lot of writing about agent memory, and almost all of it is about the same two
+    things: how you <em>store</em> facts, and how you <em>retrieve</em> them. Vector databases,
+    chunking strategies, embedding models, hybrid search, knowledge graphs.</p>
+  <p>We built all of that. It works. And when we finally measured the whole loop end to end, we
+    found the storage and retrieval layers were not where we were losing.</p>
+
+  <div class="pull">
+    <p>Retrieval works. Invocation doesn't. All five missed facts were rank&nbsp;1 in search —
+      the sessions simply never searched.</p>
+    <p class="src">— internal audit, 10 sessions, 11 verified claims</p>
+  </div>
+
+  <p>That is the finding this piece is about, because it is the half of the problem almost nobody
+    is working on. A memory system can be perfect and still be useless if the agent doesn't open
+    the door.</p>
+</section>
+
+<section>
+  <h2>What we actually built</h2>
+  <p>Context first, because the finding only means something if the system underneath it is real.
+    Four tiers, each with a different cost and a different job.</p>
+</section>
+</div>
+
+<div class="wrap wide">
+  <div class="diagram">
+    <p class="dlabel">// four tiers — always-loaded at the top, cold and complete at the bottom</p>
+
+    <div class="tier">
+      <div class="tag">T1</div>
+      <div class="box">
+        <h4>The routing index — always in context</h4>
+        <p>A single short file loaded into every session. It does not hold knowledge; it holds
+          <em>pointers</em>. Hand-curated pins at the top, the rest generated and heat-windowed so
+          recent, actually-used memories surface and stale ones fall below the fold.</p>
+        <div class="meta">97 lines · routes to everything below</div>
+      </div>
+    </div>
+
+    <div class="tier">
+      <div class="tag">T2</div>
+      <div class="box">
+        <h4>One fact per file, typed and linked</h4>
+        <p>Markdown files with frontmatter. Four types — <code>feedback</code>, <code>project</code>,
+          <code>reference</code>, <code>user</code> — read on demand when the index points at them.
+          Cross-linked, so following one lands you in the neighbourhood.</p>
+        <div class="meta">740 files · 307 feedback · 298 project · 110 reference · 23 user</div>
+      </div>
+    </div>
+
+    <div class="tier cold">
+      <div class="tag">T3</div>
+      <div class="box">
+        <h4>Semantic search over the whole corpus</h4>
+        <p>A retrieval service over years of notes and documents. Two-pass, live-first: current
+          material ranks ahead of archived material rather than competing with it.</p>
+        <div class="meta">queried, never loaded</div>
+      </div>
+    </div>
+
+    <div class="tier cold">
+      <div class="tag">T4</div>
+      <div class="box">
+        <h4>Verbatim recall</h4>
+        <p>Full session transcripts, including sub-agent work. Semantic memory paraphrases; this
+          tier is what you reach for when the <em>exact wording</em> matters — what was actually
+          decided, and what was actually said.</p>
+        <div class="meta">the tier most systems skip</div>
+      </div>
+    </div>
+
+    <div class="doors">
+      <p class="dl">// the doors — one verb each, because a door nobody can name is a door nobody opens</p>
+      <div class="doorrow">
+        <span class="door"><b>search</b> — one query, all tiers</span>
+        <span class="door"><b>save</b> — write a fact from any tool, not just the agent</span>
+        <span class="door"><b>index</b> — regenerate T1 from what's hot</span>
+        <span class="door"><b>supersede</b> — retire a fact <em>with</em> its replacement</span>
+        <span class="door"><b>health</b> — score the whole thing</span>
+        <span class="door"><b>consolidate</b> — the weekly human pass</span>
+      </div>
+      <div class="gap"><b>Known gap, published on purpose:</b> there is no reranker in front of
+        retrieval yet. We graded ourselves against the commercial agent-memory products and this is
+        the one component where we sit behind current best practice. It's the next thing we ship.</div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+<section>
+  <h3>The number that matters most</h3>
+  <p>Ninety-seven lines of always-loaded index, routing to seven hundred and forty files. That ratio
+    <em>is</em> the architecture. The common failure mode — one enormous instructions file that grows
+    until it is truncated, ignored, or both — is a context-budget problem pretending to be a memory
+    problem. You do not fix it by writing less down. You fix it by making the always-loaded layer a
+    <strong>routing table instead of a library</strong>.</p>
+
+  <div class="stats">
+    <div class="stat"><div class="n">97</div><div class="l">lines always in context</div></div>
+    <div class="stat"><div class="n">740</div><div class="l">memory files they route to</div></div>
+    <div class="stat"><div class="n">307</div><div class="l">of those are <em>corrections</em></div></div>
+    <div class="stat"><div class="n">99.9</div><div class="l">retrieval health score</div></div>
+  </div>
+
+  <h3>The most valuable memories are the corrections</h3>
+  <p>We did not design for this and only noticed when we counted. The largest single category is not
+    project state or reference material. It's <code>feedback</code> — 307 entries recording things we
+    got wrong, corrections we were given, and the reasoning behind a decision.</p>
+  <p>Project state goes stale on its own; the repository and the commit history already know what was
+    built. What no artifact records is <em>why we stopped doing it the other way</em>. That is the
+    memory that keeps paying, and it's the kind almost nobody writes down.</p>
+</section>
+
+<section>
+  <h2>Then we measured it, and the result was annoying</h2>
+  <p>We built an evaluation harness — a fixed query set, precision scoring, and a weekly run — so
+    changes to the system could be judged rather than argued about. The scores were good. Retrieval
+    health sat at 99.9.</p>
+  <p>So we ran a different test. Instead of asking "can the system find this fact?", we took ten real
+    working sessions and asked: <strong>"was there a fact in memory that would have helped, and did
+    the agent go and get it?"</strong></p>
+  <p>Eleven claims verified. Five confirmed misses. And in every single one of those five, the fact
+    was already in memory, and it came back <strong>first</strong> when we searched for it afterwards.
+    The system had the answer the whole time. It was never asked.</p>
+
+  <div class="callout">
+    <h4>// the second finding, which is the useful one</h4>
+    <p>Whether the agent searched was predicted by <strong>how the task was framed</strong>, not by
+      the model, the prompt, or the quality of the index. Sessions that began with <em>"catch up on
+      X"</em> searched first, almost every time. Sessions that began with <em>"fix X"</em> or
+      <em>"look at X"</em> went straight to exploring — reading files, running commands,
+      re-deriving from scratch things that were already written down.</p>
+  </div>
+
+  <p>That reframes the fix completely. If invocation is the bottleneck, then a better embedding model
+    buys you nothing. The intervention has to happen at the <strong>prompt boundary</strong> — the
+    moment the task arrives and the agent decides what kind of problem it's looking at.</p>
+  <p>So that's where we put it: a hook that inspects the incoming task, notices the fix-and-examine
+    shape, and nudges the agent to search memory before it starts exploring. Not a retrieval change.
+    A <em>habit</em> change.</p>
+</section>
+
+<section>
+  <h2>A worked example, from the week we published this</h2>
+  <p>The honest version of a finding is the one where it happens to you after you've written it down.</p>
+  <p>While preparing this piece, an agent working on our own site was asked whether we had published
+    anything newer on the subject. It searched filenames, found nothing, and reported back: no, there
+    isn't. That was wrong. The document existed, it was substantial, and it had already been sent to
+    a real person to build from — but it was <strong>named for the client it was written for</strong>,
+    not the topic it covered.</p>
+  <p>The nudge had fired. It was skipped. When the search finally ran, the document came back at
+    rank one — the exact failure mode described above, reproduced live, a week after we'd measured it.</p>
+  <p>Two rules came out of that, and both are now memories of the <code>feedback</code> type:</p>
+  <ul>
+    <li><strong>Search content, not filenames.</strong> Files get named for clients and projects, so
+      the topic is invisible from the outside.</li>
+    <li><strong>Say "I didn't find it," never "it doesn't exist."</strong> A negative drawn from an
+      incomplete search is a false statement delivered with confidence.</li>
+  </ul>
+  <p>That is the flywheel working as intended: every miss becomes an evaluation row, and every
+    correction becomes a memory. The system gets better by being caught.</p>
+</section>
+
+<section>
+  <h2>How to build one</h2>
+  <p>You do not need our stack. The portable part is the shape, and you can start it this week.
+    Point your own coding agent at this section if you like — it's written to be executed.</p>
+
+  <ol class="steps">
+    <li>
+      <h4>Crawl — a routing table, not a document</h4>
+      <p>One always-loaded file. Cap it deliberately. It holds one line per fact, each pointing at a
+        separate file. The moment you're tempted to paste knowledge <em>into</em> it, that's the
+        signal to write a new file and link it instead.</p>
+    </li>
+    <li>
+      <h4>Crawl — one fact per file, with a type</h4>
+      <p>Frontmatter with a name, a one-line description used to judge relevance, and a type. Start
+        with the four that earned their place for us: <code>feedback</code>, <code>project</code>,
+        <code>reference</code>, <code>user</code>. Write the description for the future reader who
+        is deciding whether to open it.</p>
+    </li>
+    <li>
+      <h4>Walk — one verb per door</h4>
+      <p>A single command to search everything, and a single command to save a fact. If saving takes
+        more than one line, nothing gets saved. If searching has three possible entry points, the
+        agent picks none of them.</p>
+    </li>
+    <li>
+      <h4>Walk — write down the corrections</h4>
+      <p>Every time you correct the agent, that correction is the memory. Record the rule, the reason,
+        and how to apply it. This will become your largest and most valuable category. It did for us.</p>
+    </li>
+    <li>
+      <h4>Run — measure invocation, not just retrieval</h4>
+      <p>Build a small fixed query set and score retrieval, so changes are measurable. Then run the
+        harder audit: take real sessions, find facts that would have helped, and check whether the
+        agent went and got them. <strong>The gap between those two numbers is the whole game.</strong></p>
+    </li>
+    <li>
+      <h4>Run — intervene at the prompt boundary</h4>
+      <p>If your audit shows the same pattern ours did, add a nudge where the task arrives, not in the
+        retriever. Watch for fix-and-examine framing specifically — that's where the door goes unused.</p>
+    </li>
+  </ol>
+
+  <div class="callout warn">
+    <h4>// three things that will bite you</h4>
+    <p><strong>Skills and tool definitions are an invisible tier.</strong> Two of our five misses were
+      facts that lived inside a skill file, which our search couldn't see. Whatever your agent reads
+      that your search doesn't index is a blind spot with no error message.</p>
+    <p style="margin-top:.9rem"><strong>Superseding is not deleting.</strong> A retired fact needs to
+      point at what replaced it, or you will re-derive the old answer and trust it.</p>
+    <p style="margin-top:.9rem"><strong>Generated sections must be marked as generated.</strong> The
+      moment part of a file is machine-written, a human will hand-edit it and lose the change.</p>
+  </div>
+</section>
+
+<section>
+  <h2>Where this goes next</h2>
+  <p>Three things are queued, in this order.</p>
+  <p><strong>A reranker in front of retrieval.</strong> Our own grading put us at parity with the
+    commercial agent-memory products on architecture, ahead of most on the operations and evaluation
+    layer, and behind on this one component. Retrieve broadly, rerank down to a handful. It's the
+    cheapest remaining upgrade and we're publishing that we haven't done it yet.</p>
+  <p><strong>Harder evaluation queries.</strong> A near-perfect score against your own question set
+    means the question set is too easy. Ours needs cross-project questions, temporal ones — <em>what
+    changed about X since May</em> — and negation traps. Right now the harness is a smoke detector,
+    not a training signal.</p>
+  <p><strong>Mining the verbatim tier for training data.</strong> Every session contains
+    (context → memory action → outcome) triples. Those are labels. The long game is an agent that has
+    learned when to reach for memory, instead of one that has to be nudged.</p>
+
+  <div class="callout">
+    <h4>// what we are not claiming</h4>
+    <p>The invocation audit covered ten sessions, in one week, on one setup. It is directional, not
+      conclusive, and we're saying so rather than rounding it into a law. The retrieval numbers are
+      measured on our own hardware with our own corpus; treat them as evidence the approach works,
+      not as a benchmark you can port. If you run this audit on your own agents, we'd genuinely like
+      to hear what you find — particularly if invocation turns out <em>not</em> to be your bottleneck.</p>
+  </div>
+</section>
+
+<section>
+  <p style="font-size:.95rem;color:var(--muted)">Prior art worth reading: the framing of memory
+    management as a measurable, improvable skill comes from
+    <a href="https://arxiv.org/abs/2607.01224" target="_blank" rel="noopener">AutoMem</a>, and the
+    per-layer ablation and condition-tagged evaluation discipline from
+    <a href="https://arxiv.org/abs/2607.02255" target="_blank" rel="noopener">AgenticSTS</a>. Both
+    shaped what we shipped.</p>
+
+  <div class="cta">
+    <p><strong>We build in the open because it's how we'd want to be sold to.</strong> If you're
+      standing up something like this and want a second opinion — or you have a system that's broken,
+      slow, expensive, or impossible — tell us. We'll say straight away whether it's something we can
+      help with, and if it isn't, we'll say so.</p>
+    <a class="btn" href="/#picker">Tell us what's broken &rarr;</a>
+  </div>
+</section>
+</div>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="row">
+      <a href="/">Home</a>
+      <a href="/log">The Log</a>
+      <a href="/lab">The Lab</a>
+      <a href="/feed.xml">RSS</a>
+      <a href="tel:+13362969877">336 296 9877</a>
+      <a href="mailto:brian@scrappylabs.ai">Email</a>
+    </div>
+    <small>© 2026 ScrappyLabs — a d/b/a of Loser.com LLC. Building since '93.</small>
+  </div>
+</footer>
+</body>
+</html>
