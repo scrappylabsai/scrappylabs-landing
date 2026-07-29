@@ -371,6 +371,24 @@
       "public": true,
       "external": true,
       "readMins": 8
+    },
+    {
+      "slug": "scrappy-voice",
+      "type": "release",
+      "date": "2026-07-28",
+      "title": "Scrappy: a voice in 37 megabytes",
+      "summary": "We gave our AI a voice in one day — distilled a cloud narrator into a 9M-param CPU-only model, raced the GPUs, gated the data, and published it open with the trainer upstream doesn't ship.",
+      "url": "/scrappy-voice",
+      "tags": [
+        "tts",
+        "voice",
+        "open-source",
+        "edge-ai",
+        "build-log"
+      ],
+      "public": true,
+      "readMins": 6,
+      "featured": true
     }
   ],
   "types": {

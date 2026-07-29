@@ -6,7 +6,19 @@
     <atom:link href="https://scrappylabs.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Experiments, publications, visual explainers, field notes and open source from ScrappyLabs. Built in the open.</description>
     <language>en</language>
-    <lastBuildDate>Mon, 27 Jul 2026 05:35:21 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jul 2026 01:08:50 +0000</lastBuildDate>
+    <item>
+      <title>Scrappy: a voice in 37 megabytes</title>
+      <link>https://scrappylabs.ai/scrappy-voice</link>
+      <guid isPermaLink="false">scrappy-voice</guid>
+      <pubDate>Tue, 28 Jul 2026 12:00:00 +0000</pubDate>
+      <description>We gave our AI a voice in one day — distilled a cloud narrator into a 9M-param CPU-only model, raced the GPUs, gated the data, and published it open with the trainer upstream doesn't ship.</description>
+      <category>tts</category>
+      <category>voice</category>
+      <category>open-source</category>
+      <category>edge-ai</category>
+      <category>build-log</category>
+    </item>
     <item>
       <title>The Retrieval Was Fine. The Agent Never Looked.</title>
       <link>https://scrappylabs.ai/memory-invocation</link>

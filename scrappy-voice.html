@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>Scrappy: a voice in 37 megabytes — ScrappyLabs</title>
+<meta name="description" content="We gave our AI a voice in one day: a 9M-parameter CPU-only TTS model, distilled from a cloud narrator, published open with the trainer upstream doesn't ship.">
+<meta name="theme-color" content="#06070b">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scrappy: a voice in 37 megabytes — ScrappyLabs">
+<meta property="og:description" content="A same-day build: distill a voice into a 9M-param CPU model, race the GPUs, gate the data, ship it open — weights, samples, and the missing trainer.">
+<meta property="og:url" content="https://scrappylabs.ai/scrappy-voice">
+<link rel="stylesheet" href="styles.css">
+<style>
+  .sv-wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
+  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber-ink);margin:0 0 12px}
+  h1{font-family:var(--disp);font-size:clamp(25px,4.2vw,46px);line-height:1.16;margin:0 0 16px;color:var(--ink)}
+  .lede{font-size:clamp(16px,2vw,19px);line-height:1.6;color:var(--body);max-width:62ch;margin:0 0 10px}
+  .lede b{color:var(--ink)}
+  section{margin:0 0 52px}
+  h2{font-family:var(--disp);font-size:clamp(19px,2.6vw,27px);margin:0 0 8px;color:var(--ink)}
+  h3{font-family:var(--disp);font-size:15px;margin:0 0 9px;color:var(--ink)}
+  .sub{color:var(--muted);max-width:64ch;margin:0 0 22px;line-height:1.6}
+  p{color:var(--body);line-height:1.65;max-width:64ch;margin:0 0 14px}
+  p b{color:var(--ink)}
+  .prose a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:3px}
+  .prose a:hover{color:var(--amber)}
+  .prose a:focus-visible{outline:3px solid var(--amber-ink);outline-offset:2px;border-radius:3px}
+  .sv-hero{background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:30px 26px;margin:0 0 44px}
+  .player{display:flex;flex-direction:column;gap:6px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin:10px 0 0}
+  .player b{font-family:var(--disp);font-size:14px;color:var(--ink)}
+  .player span{font-size:13px;color:var(--muted)}
+  .player audio{width:100%;margin-top:6px}
+  .players{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin:0 0 26px}
+  .stat{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
+  .stat b{display:block;font-family:var(--disp);font-size:26px;color:var(--amber);line-height:1.1}
+  .stat b small{font-size:14px;color:var(--amber-ink)}
+  .stat span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-top:7px}
+  .bar-row{display:grid;grid-template-columns:minmax(150px,220px) 1fr 90px;gap:14px;align-items:center;margin-bottom:11px}
+  .bar-lab{font-size:13.5px;color:var(--body)}
+  .bar-track{background:var(--bg2);border-radius:4px;height:16px;overflow:hidden;border:1px solid var(--line)}
+  .bar{display:block;height:100%;background:linear-gradient(90deg,var(--amber),var(--amber-hi));border-radius:0 4px 4px 0}
+  .bar-val{font-family:var(--mono);font-size:12.5px;color:var(--ink);text-align:right}
+  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:11px;padding:18px 20px;margin:24px 0 0}
+  .note p{margin:0 0 9px;font-size:14.5px}
+  .note p:last-child{margin:0}
+  code{font-family:var(--mono);font-size:12.5px;color:var(--amber-ink);background:var(--bg2);padding:1px 5px;border-radius:4px}
+  pre{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:16px 18px;overflow-x:auto;margin:0 0 14px}
+  pre code{background:none;padding:0;color:var(--body);font-size:13px;line-height:1.6}
+  pre code .c{color:var(--muted)}
+  .cta{background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:28px 24px;text-align:center}
+  .cta p{margin:0 auto}
+  .cta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
+  .cta a{display:inline-block;background:var(--amber);color:#180a03;font-weight:700;
+    padding:12px 24px;border-radius:9px;text-decoration:none;font-family:var(--mono);letter-spacing:.04em}
+  .cta a.ghost{background:none;color:var(--amber-ink);border:1px solid var(--line2)}
+  .cta a:hover{background:var(--amber-hi)}
+  .cta a.ghost:hover{background:var(--bg2);color:var(--amber)}
+  .cta a:focus-visible{outline:3px solid var(--amber-ink);outline-offset:3px}
+  .backlink{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:inline-block;margin:26px 0 20px;text-decoration:none}
+  .backlink:hover{color:var(--amber-ink)}
+  .backlink:focus-visible{outline:3px solid var(--amber-ink);outline-offset:2px}
+</style>
+</head>
+<body>
+<div class="sv-wrap prose">
+  <a class="backlink" href="/">&larr; scrappylabs.ai</a>
+  <a class="backlink" href="/lab" style="margin-left:1rem">The Lab &rarr;</a>
+
+  <div class="sv-hero">
+    <p class="kicker">Build log · 28 July 2026</p>
+    <h1>We gave our AI a voice in one day. Here's the recipe — and the voice.</h1>
+    <p class="lede">This morning a <b>37-megabyte</b> text-to-speech model crossed our radar:
+    <b>Inflect-Micro-v2</b>, nine million parameters, faster than real-time on a plain CPU. It ships
+    with one fixed voice, no trainer, and a note that says custom voices are "research use."
+    By tonight it speaks with ours. Meet <b>Scrappy</b>.</p>
+    <div class="player">
+      <b>Scrappy's first words</b>
+      <span>Generated by the finished model on a desktop CPU — no GPU, no cloud</span>
+      <audio controls preload="none" src="scrappy-hello.wav"></audio>
+    </div>
+  </div>
+
+  <section>
+    <h2>The numbers first</h2>
+    <p class="sub">Measured on our own hardware, because model cards that only brag are ads.</p>
+    <div class="stats">
+      <div class="stat"><b>37<small>MB</small></b><span>Whole model</span></div>
+      <div class="stat"><b>9.36<small>M</small></b><span>Parameters</span></div>
+      <div class="stat"><b>10&ndash;14<small>×</small></b><span>Faster than real-time, CPU</span></div>
+      <div class="stat"><b>3<small>h</small>09<small>m</small></b><span>Full training run</span></div>
+      <div class="stat"><b>1<small> day</small></b><span>Idea to published</span></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The trick: the corpus is free if you own the teacher</h2>
+    <p>You can't clone a voice into this model — there's no cloning interface. But you can
+    <b>distill</b> one: have a big TTS voice you like read a few thousand sentences, then teach the
+    tiny model to imitate it. The beautiful part: because <b>you wrote the sentences, every transcript
+    is perfect by construction</b>. No transcription step, no labeling budget. We rendered ~4,400
+    clips — about five and a half hours of 24kHz audio — from a commercial cloud narrator voice, for
+    the price of an API lunch.</p>
+  </section>
+
+  <section>
+    <h2>The step everyone skips is the one that saved us</h2>
+    <p>Before training, every clip went through a gate: speech recognition transcribes it back, and
+    if the audio doesn't say what the script says, it dies. Boring, right?</p>
+    <div class="note">
+      <h3>The gate caught audio that lies beautifully</h3>
+      <p>Several clips came back from the cloud API containing a <b>spoken watermark</b> — audio
+      announcing the vendor's product name instead of our sentence. Clean waveform, right duration,
+      perfectly wrong words. A dozen of those baked into a nine-million-parameter model would have
+      been a permanent speech impediment.</p>
+      <p>If you take one thing from this page: <b>gate synthetic training data with ASR
+      round-trips</b>. It's the only check that catches audio that says the wrong thing perfectly.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>The race: laptop GPU vs. rented iron</h2>
+    <p class="sub">Same corpus, same config, same 50,000 steps — two different machines, timed.</p>
+    <div class="bar-row"><span class="bar-lab">Rented RTX PRO 6000 · $2.19/hr</span><span class="bar-track"><span class="bar" style="width:100%"></span></span><span class="bar-val">4.4 steps/s</span></div>
+    <div class="bar-row"><span class="bar-lab">24GB laptop GPU · "free"</span><span class="bar-track"><span class="bar" style="width:48%"></span></span><span class="bar-val">2.1 steps/s</span></div>
+    <p>The rental started four hours behind and finished two hours ahead, for roughly the cost of a
+    sandwich. The laptop spent the afternoon at 98% GPU with the fans screaming. Verdict: laptops are
+    for pilots; rent the training runs. Your hardware — and your lap — will thank you.</p>
+  </section>
+
+  <section>
+    <h2>What transferred, and what didn't</h2>
+    <p>The voice's <b>identity</b> — timbre, warmth, the basic read — transferred remarkably well.
+    What a 9M model can't fully hold is the teacher's <b>timing</b>: the dramatic pause, the
+    phrase-level planning. The organ responsible for timing in this architecture is the size of a
+    walnut. Scrappy reads a little flatter than his teacher, and we're telling you that up front.</p>
+    <div class="players">
+      <div class="player">
+        <b>Prosody &amp; pacing</b>
+        <span>Ordered steps, comma pauses, a full stop ending</span>
+        <audio controls preload="none" src="scrappy-steps.wav"></audio>
+      </div>
+      <div class="player">
+        <b>Quieter register</b>
+        <span>Same model, same seed family, softer material</span>
+        <audio controls preload="none" src="scrappy-ice.wav"></audio>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Run him yourself</h2>
+    <p class="sub">Everything is Apache-2.0 — weights, samples, and the fine-tuning stack the
+    original release doesn't ship. CPU is all you need.</p>
+<pre><code><span class="c"># get it (weights included — ~40MB)</span>
+git clone https://github.com/scrappylabsai/scrappy-voice-1
+cd scrappy-voice-1
+python3 -m venv .venv &amp;&amp; source .venv/bin/activate
+pip install -r requirements.txt
+
+<span class="c"># say something</span>
+python inference.py --model-dir . --device cpu \
+  --text "Hello World. I'm Scrappy." --output hello.wav</code></pre>
+    <p>Or from Python:</p>
+<pre><code>from inference import InflectTTS
+
+tts = InflectTTS(model_dir=".", device="cpu")
+tts.save("Write numbers as words for best results.", "out.wav", seed=7)</code></pre>
+    <p>Knobs: <code>--speed</code> 0.5&ndash;2.0, <code>--variation</code> 0.0&ndash;1.0 (lower =
+    steadier, higher = livelier), <code>--seed</code> for reproducible takes. English only, one
+    voice — <b>his</b>. Want a different voice in there? The <code>trainer/</code> directory in the
+    repo is the fine-tuning stack we had to build: corpus prep with phoneme validation, the full
+    warm-start training loop, and candidate export. Bring ~1&ndash;5 hours of clean single-speaker
+    audio with verified transcripts, and gate it like we told you.</p>
+  </section>
+
+  <section class="cta">
+    <h2>This is a Tuesday for us</h2>
+    <p>A model landed in the morning. By midnight the licence was read, the missing trainer was
+    rebuilt, the data was gated, the GPUs were raced, and the result was published open — with the
+    failure modes documented. We do this daily to stay honest about what's actually possible.</p>
+    <div class="btns">
+      <a href="https://huggingface.co/scrappylabsai/scrappy-voice-1">Get Scrappy on HuggingFace</a>
+      <a class="ghost" href="https://github.com/scrappylabsai/scrappy-voice-1">GitHub mirror</a>
+      <a class="ghost" href="/#contact">Talk to us</a>
+    </div>
+  </section>
+
+  <p class="sub" style="font-size:12.5px;margin:34px 0 44px">
+    Base model: <b>owensong/Inflect-Micro-v2</b> (Apache-2.0) — credit where due: an unusually honest
+    release. Training audio synthesized from a commercial cloud narrator voice (a synthetic persona;
+    no real person's voice was cloned). Speed and cost figures measured on our own runs, 28 July 2026.
+  </p>
+</div>
+</body>
+</html>
