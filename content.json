@@ -389,6 +389,23 @@
       "public": true,
       "readMins": 6,
       "featured": true
+    },
+    {
+      "slug": "fara-wrangled",
+      "type": "explainer",
+      "date": "2026-07-29",
+      "title": "Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU",
+      "summary": "Microsoft's open browser-driving model, running on one GPU in our rack. How the observe-think-act loop works, the two ways to hand it a browser, what it's honestly good at — and the guardrails that keep it wrangled.",
+      "url": "https://stuff.scrappylabs.ai/public/moya/fara-wrangled-20260729.html",
+      "tags": [
+        "agents",
+        "computer use",
+        "local ai",
+        "open models"
+      ],
+      "public": true,
+      "external": true,
+      "readMins": 6
     }
   ],
   "types": {
