@@ -6,7 +6,7 @@
     <atom:link href="https://scrappylabs.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Experiments, publications, visual explainers, field notes and open source from ScrappyLabs. Built in the open.</description>
     <language>en</language>
-    <lastBuildDate>Wed, 29 Jul 2026 16:14:23 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 29 Jul 2026 17:24:51 +0000</lastBuildDate>
     <item>
       <title>Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU</title>
       <link>https://stuff.scrappylabs.ai/public/moya/fara-wrangled-20260729.html</link>
