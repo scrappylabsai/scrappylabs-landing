@@ -189,13 +189,65 @@ tts.save("Write numbers as words for best results.", "out.wav", seed=7)</code></
     audio with verified transcripts, and gate it like we told you.</p>
   </section>
 
+  <section>
+    <h2>Two days later: he has a family</h2>
+    <p>One voice proved the pipeline. So we ran it three more times &mdash; and then did the thing
+    the architecture was quietly built for: trained all four into a <b>single checkpoint</b>. Each
+    voice is one embedding row, which means four voices cost one model, and the space
+    <i>between</i> any two of them is a real place you can stand.</p>
+
+    <div class="players">
+      <div class="player">
+        <b>Scrappy</b>
+        <span>Warm, expressive narrator &mdash; the original</span>
+        <audio controls preload="none" src="family-scrappy.wav"></audio>
+      </div>
+      <div class="player">
+        <b>Clara</b>
+        <span>Clear professional narrator, broadcast polish</span>
+        <audio controls preload="none" src="family-clara.wav"></audio>
+      </div>
+      <div class="player">
+        <b>Silas</b>
+        <span>Deep and gravelly &mdash; movie-trailer gravitas</span>
+        <audio controls preload="none" src="family-silas.wav"></audio>
+      </div>
+      <div class="player">
+        <b>Pip</b>
+        <span>Bright, quick, podcast-host energy</span>
+        <audio controls preload="none" src="family-pip.wav"></audio>
+      </div>
+    </div>
+
+    <p style="margin-top:18px">All four clips above came out of <b>the same 41MB file</b>, on a CPU.
+    The pleasant surprise: pooling four voices' data made the shared model <i>better</i> than the
+    single-voice runs, not worse &mdash; the four voices landed at roughly the quality of our best
+    solo run instead of paying for the company.</p>
+
+    <div class="btns" style="margin-top:20px">
+      <a href="https://voices.scrappylabs.ai">Try all four &mdash; and blend them</a>
+      <a class="ghost" href="https://huggingface.co/scrappylabsai/scrappy-voice-family-1">Family weights</a>
+    </div>
+    <p style="margin:14px auto 0;font-size:13px;color:var(--muted)">The demo runs on our own
+    hardware. Drag the blend slider and you are interpolating between two speaker embeddings live
+    &mdash; near the ends it sounds like a person, and the deep middle gets strange, because only
+    the four anchors were ever trained. Everything between them is the model improvising.</p>
+
+    <p style="margin-top:16px">Solo models, one voice each:
+      <a href="https://huggingface.co/scrappylabsai/clara-voice-1">Clara</a> &middot;
+      <a href="https://huggingface.co/scrappylabsai/silas-voice-1">Silas</a> &middot;
+      <a href="https://huggingface.co/scrappylabsai/pip-voice-1">Pip</a> &middot;
+      <a href="https://huggingface.co/scrappylabsai/scrappy-voice-1">Scrappy</a>
+    </p>
+  </section>
+
   <section class="cta">
     <h2>This is a Tuesday for us</h2>
     <p>A model landed in the morning. By midnight the licence was read, the missing trainer was
     rebuilt, the data was gated, the GPUs were raced, and the result was published open — with the
     failure modes documented. We do this daily to stay honest about what's actually possible.</p>
     <div class="btns">
-      <a href="https://huggingface.co/spaces/scrappylabsai/scrappy-voice-tts">Try Scrappy live</a>
+      <a href="https://voices.scrappylabs.ai">Try the whole family live</a>
       <a class="ghost" href="https://huggingface.co/scrappylabsai/scrappy-voice-1">Weights on HuggingFace</a>
       <a class="ghost" href="https://github.com/scrappylabsai/scrappy-voice-1">GitHub mirror</a>
       <a class="ghost" href="/#contact">Talk to us</a>
