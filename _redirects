@@ -2,3 +2,7 @@
 # Keep the .html form pointing at the clean URL.
 /log.html               /log         301
 /lab.html               /lab         301
+
+# gpu-warranty unpublished 2026-07-26 (Brian); file archived outside the deploy dir.
+/gpu-warranty           /            301
+/gpu-warranty.html      /            301
