@@ -101,8 +101,13 @@
     <b>distill</b> one: have a big TTS voice you like read a few thousand sentences, then teach the
     tiny model to imitate it. The beautiful part: because <b>you wrote the sentences, every transcript
     is perfect by construction</b>. No transcription step, no labeling budget. We rendered ~4,400
-    clips — about five and a half hours of 24kHz audio — from a commercial cloud narrator voice, for
-    the price of an API lunch.</p>
+    clips — about five and a half hours of 24kHz audio — from a commercial cloud narrator voice.</p>
+    <p>The three voices that came after didn't need a vendor at all. <b>They were described, not
+    recorded.</b> One sentence — <i>&ldquo;a deep, authoritative older male narrator, gravelly texture,
+    slow and weighty, movie-trailer gravitas&rdquo;</i> — went into a voice-design model on our own
+    hardware, and what came back was Silas. Clara and Pip arrived the same way, each from a single
+    sentence. That description <em>is</em> the entire origin of the voice; everything after it is
+    the same distill.</p>
   </section>
 
   <section>
@@ -259,8 +264,9 @@ tts.save("Write numbers as words for best results.", "out.wav", seed=7)</code></
 
   <p class="sub" style="font-size:12.5px;margin:34px 0 44px">
     Base model: <b>owensong/Inflect-Micro-v2</b> (Apache-2.0) — credit where due: an unusually honest
-    release. Training audio synthesized from a commercial cloud narrator voice (a synthetic persona;
-    no real person's voice was cloned). Speed and cost figures measured on our own runs, 28 July 2026.
+    release. Training audio synthesized throughout: Scrappy from a commercial cloud narrator voice, and
+    Clara, Silas and Pip from written descriptions via a voice-design model on our own hardware
+    (synthetic personas; no real person's voice was cloned). Figures measured on our own runs.
   </p>
 </div>
 </body>
