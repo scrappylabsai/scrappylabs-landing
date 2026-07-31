@@ -127,10 +127,19 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
     .post[hidden]{display:none}
     .sl-count{font-size:.78rem;color:var(--muted,#98a2b6);margin:0 0 1.2rem}
   </style>
-  <div class="sl-filter"><button class="sl-chip" data-filter="field-note">Field Notes</button><button class="sl-chip" data-filter="explainer">Visual Explainer</button><button class="sl-chip" data-filter="publication">Publication</button><button class="sl-chip" data-filter="test">Test</button><button class="sl-chip" data-filter="gallery">Sample Art</button><button class="sl-chip" data-filter="demo">Demo</button><button class="sl-chip" data-filter="build">Build</button><button class="sl-chip" data-filter="release">Open Source</button><button class="sl-chip" data-filter="long-read">Long Read</button></div>
+  <div class="sl-filter"><button class="sl-chip" data-filter="field-note">Field Notes</button><button class="sl-chip" data-filter="explainer">Visual Explainer</button><button class="sl-chip" data-filter="publication">Publication</button><button class="sl-chip" data-filter="test">Test</button><button class="sl-chip" data-filter="gallery">Sample Art</button><button class="sl-chip" data-filter="build">Build</button><button class="sl-chip" data-filter="release">Open Source</button></div>
   <p class="sl-count"></p>
 
   <div class="posts">
+
+    <a class="post" data-type="field-note" href="/babysitter">
+      <div class="meta"><span class="kind">Field Notes</span><span>10 Jul 2026</span><span>· 6 min read</span></div>
+      <h2>We Gave the Robots a Babysitter</h2>
+      <p>An autonomous agent with a terminal will happily run <strong>rm&nbsp;-rf</strong> if a poisoned web page tells it to. So before any of ours runs a command, a world model dry-runs it in an imagined world and flags <strong>DESTRUCTIVE</strong> before it happens. The predict-then-act gate that catches <em>rm -rf</em>, agentjacking, and exfil — and the honest reason “we keep it wrangled” is a mechanism, not a slogan.</p>
+      
+      <div class="tags"><span class="tag">world model</span><span class="tag">agent safety</span><span class="tag">predict-then-act</span><span class="tag">prompt injection</span></div>
+      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
+    </a>
 
     <a class="post" data-type="explainer" href="https://stuff.scrappylabs.ai/public/moya/fara-wrangled-20260729.html" target="_blank" rel="noopener">
       <div class="meta"><span class="kind">Visual Explainer</span><span>29 Jul 2026</span><span>· 6 min read</span></div>
@@ -157,15 +166,6 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
       
       <div class="tags"><span class="tag">agent memory</span><span class="tag">architecture</span><span class="tag">evaluation</span><span class="tag">build in the open</span></div>
       <div class="read" style="margin-top:1rem">Read it &rarr;</div>
-    </a>
-
-    <a class="post" data-type="long-read" href="https://stuff.scrappylabs.ai/public/k3-review/fear-segment.html" target="_blank" rel="noopener">
-      <div class="meta"><span class="kind">Long Read</span><span>25 Jul 2026</span><span>· 8 min read</span></div>
-      <h2>Anatomy of an AI Fear Segment</h2>
-      <p>A good argument about open-weight economics, and the exact moment it turns into something else. Four tells that a technical explainer has stopped reasoning and started steering — plus a five-step checklist you can reuse on any AI threat segment.</p>
-      
-      <div class="tags"><span class="tag">media literacy</span><span class="tag">security</span><span class="tag">open models</span></div>
-      <div class="read" style="margin-top:1rem">Open &nearr;</div>
     </a>
 
     <a class="post" data-type="test" href="/mage-flow">
@@ -213,30 +213,12 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
       <div class="read" style="margin-top:1rem">Open &nearr;</div>
     </a>
 
-    <a class="post" data-type="field-note" href="/babysitter">
-      <div class="meta"><span class="kind">Field Notes</span><span>10 Jul 2026</span><span>· 6 min read</span></div>
-      <h2>We Gave the Robots a Babysitter</h2>
-      <p>An autonomous agent with a terminal will happily run <strong>rm&nbsp;-rf</strong> if a poisoned web page tells it to. So before any of ours runs a command, a world model dry-runs it in an imagined world and flags <strong>DESTRUCTIVE</strong> before it happens. The predict-then-act gate that catches <em>rm -rf</em>, agentjacking, and exfil — and the honest reason “we keep it wrangled” is a mechanism, not a slogan.</p>
-      
-      <div class="tags"><span class="tag">world model</span><span class="tag">agent safety</span><span class="tag">predict-then-act</span><span class="tag">prompt injection</span></div>
-      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
-    </a>
-
     <a class="post" data-type="field-note" href="/specvoice">
       <div class="meta"><span class="kind">Field Notes</span><span>10 Jul 2026</span><span>· 5 min read</span></div>
       <h2>SPECVOICE — Speculative Execution at the Dialog Layer</h2>
       <p>Borrowing a trick from CPU design and applying it to conversation: start computing the likely answer before the caller has finished asking. What speculative execution looks like when the pipeline is a voice agent rather than a processor.</p>
       
       <div class="tags"><span class="tag">voice agents</span><span class="tag">latency</span><span class="tag">architecture</span></div>
-      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
-    </a>
-
-    <a class="post" data-type="long-read" href="/two-years">
-      <div class="meta"><span class="kind">Long Read</span><span>08 Jul 2026</span><span>· 9 min read</span></div>
-      <h2>Two Years to the Taste of the Stew</h2>
-      <p>The honest arc — from fighting Windows to a fleet of local models that finally feel real. The MCP tool-use moment, a memory layer a frontier model graded <strong>A&minus;</strong> (and told us exactly where we're still behind), the month local inference got real, and a take on the buggy-whip crowd.</p>
-      
-      <div class="tags"><span class="tag">local inference</span><span class="tag">the arc</span><span class="tag">memory</span></div>
       <div class="read" style="margin-top:1rem">Read it &rarr;</div>
     </a>
 
@@ -255,15 +237,6 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
       <p>Bookkeeping by conversation instead of by form. Invoices, expenses, reports and purchase orders handled in plain English, wired straight into the accounting system you already run — with a human approving anything that writes.</p>
       
       <div class="tags"><span class="tag">agents</span><span class="tag">quickbooks</span><span class="tag">automation</span></div>
-      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
-    </a>
-
-    <a class="post" data-type="demo" href="/demo">
-      <div class="meta"><span class="kind">Demo</span><span>04 Feb 2026</span><span>· 1 min read</span></div>
-      <h2>Hear It Talk — Live Voice Demo</h2>
-      <p>Our text-to-speech running live in your browser, across languages. Type something and hear it back — no signup, nothing to install.</p>
-      
-      <div class="tags"><span class="tag">tts</span><span class="tag">voice</span><span class="tag">demo</span></div>
       <div class="read" style="margin-top:1rem">Read it &rarr;</div>
     </a>
   </div>

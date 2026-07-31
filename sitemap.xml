@@ -2,16 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://scrappylabs.ai/</loc></url>
   <url><loc>https://scrappylabs.ai/babysitter</loc></url>
-  <url><loc>https://scrappylabs.ai/demo</loc></url>
   <url><loc>https://scrappylabs.ai/lab</loc></url>
+  <url><loc>https://scrappylabs.ai/log</loc></url>
   <url><loc>https://scrappylabs.ai/mage-flow</loc></url>
   <url><loc>https://scrappylabs.ai/memory-invocation</loc></url>
+  <url><loc>https://scrappylabs.ai/privacy</loc></url>
   <url><loc>https://scrappylabs.ai/qb-agent</loc></url>
   <url><loc>https://scrappylabs.ai/scrappy-tools</loc></url>
   <url><loc>https://scrappylabs.ai/scrappy-voice</loc></url>
-  <url><loc>https://scrappylabs.ai/specvoice</loc></url>
-  <url><loc>https://scrappylabs.ai/two-years</loc></url>
-  <url><loc>https://scrappylabs.ai/privacy</loc></url>
-  <url><loc>https://scrappylabs.ai/tos</loc></url>
   <url><loc>https://scrappylabs.ai/sms</loc></url>
+  <url><loc>https://scrappylabs.ai/specvoice</loc></url>
+  <url><loc>https://scrappylabs.ai/tos</loc></url>
+  <url><loc>https://scrappylabs.ai/two-years</loc></url>
 </urlset>

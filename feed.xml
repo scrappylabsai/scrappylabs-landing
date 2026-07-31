@@ -6,7 +6,18 @@
     <atom:link href="https://scrappylabs.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Experiments, publications, visual explainers, field notes and open source from ScrappyLabs. Built in the open.</description>
     <language>en</language>
-    <lastBuildDate>Fri, 31 Jul 2026 04:52:26 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 31 Jul 2026 12:29:06 +0000</lastBuildDate>
+    <item>
+      <title>We Gave the Robots a Babysitter</title>
+      <link>https://scrappylabs.ai/babysitter</link>
+      <guid isPermaLink="false">babysitter</guid>
+      <pubDate>Fri, 10 Jul 2026 12:00:00 +0000</pubDate>
+      <description>An autonomous agent with a terminal will happily run rm&amp;nbsp;-rf if a poisoned web page tells it to. So before any of ours runs a command, a world model dry-runs it in an imagined world and flags DESTRUCTIVE before it happens. The predict-then-act gate that catches rm -rf, agentjacking, and exfil — and the honest reason “we keep it wrangled” is a mechanism, not a slogan.</description>
+      <category>world model</category>
+      <category>agent safety</category>
+      <category>predict-then-act</category>
+      <category>prompt injection</category>
+    </item>
     <item>
       <title>Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU</title>
       <link>https://stuff.scrappylabs.ai/public/moya/fara-wrangled-20260729.html</link>
@@ -103,17 +114,6 @@
       <category>asr</category>
     </item>
     <item>
-      <title>We Gave the Robots a Babysitter</title>
-      <link>https://scrappylabs.ai/babysitter</link>
-      <guid isPermaLink="false">babysitter</guid>
-      <pubDate>Fri, 10 Jul 2026 12:00:00 +0000</pubDate>
-      <description>An autonomous agent with a terminal will happily run rm&amp;nbsp;-rf if a poisoned web page tells it to. So before any of ours runs a command, a world model dry-runs it in an imagined world and flags DESTRUCTIVE before it happens. The predict-then-act gate that catches rm -rf, agentjacking, and exfil — and the honest reason “we keep it wrangled” is a mechanism, not a slogan.</description>
-      <category>world model</category>
-      <category>agent safety</category>
-      <category>predict-then-act</category>
-      <category>prompt injection</category>
-    </item>
-    <item>
       <title>SPECVOICE — Speculative Execution at the Dialog Layer</title>
       <link>https://scrappylabs.ai/specvoice</link>
       <guid isPermaLink="false">specvoice</guid>
@@ -152,16 +152,6 @@
       <category>agents</category>
       <category>quickbooks</category>
       <category>automation</category>
-    </item>
-    <item>
-      <title>Hear It Talk — Live Voice Demo</title>
-      <link>https://scrappylabs.ai/demo</link>
-      <guid isPermaLink="false">demo</guid>
-      <pubDate>Wed, 04 Feb 2026 12:00:00 +0000</pubDate>
-      <description>Our text-to-speech running live in your browser, across languages. Type something and hear it back — no signup, nothing to install.</description>
-      <category>tts</category>
-      <category>voice</category>
-      <category>demo</category>
     </item>
   </channel>
 </rss>

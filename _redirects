@@ -6,3 +6,9 @@
 # gpu-warranty unpublished 2026-07-26 (Brian); file archived outside the deploy dir.
 /gpu-warranty           /            301
 /gpu-warranty.html      /            301
+
+# Superseded 2026-07-31.
+/three-tier-memory      /memory-invocation   301
+/three-tier-memory.html /memory-invocation   301
+/demo                   /scrappy-voice       301
+/demo.html              /scrappy-voice       301
