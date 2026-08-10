@@ -3,790 +3,771 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="color-scheme" content="dark">
-<title>ScrappyLabs — Somebody has to keep the city running.</title>
-<meta property="og:type" content="website">
-<meta property="og:title" content="ScrappyLabs — Somebody has to keep the city running.">
-<meta property="og:description" content="Your business is a city. We're the crew that keeps it running. Tell us what's broken — Scrappy picks up on 336-296-9877.">
-<meta property="og:url" content="https://scrappylabs.ai/">
-<meta property="og:image" content="https://scrappylabs.ai/og.jpg">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="alternate" type="application/rss+xml" title="ScrappyLabs" href="/feed.xml">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230e1118'/%3E%3Ccircle cx='32' cy='32' r='9' fill='%23ff6b35'/%3E%3C/svg%3E">
-<meta name="description" content="Your business is a city. We're the crew that keeps it running. Tell us what's broken and we'll tell you straight whether we can help.">
-<meta name="theme-color" content="#0e1118">
+<title>ScrappyLabs — Hire AI staff for the shifts you can't cover.</title>
+<meta name="description" content="A receptionist that answers your phone at 9pm. A file clerk that read every job you ever did. When one isn't sure, it says so and gets a human. Interview a candidate: (336) 296-9877.">
+<meta property="og:title" content="ScrappyLabs — Hire AI staff for the shifts you can't cover.">
+<meta property="og:description" content="Interview a candidate right now: (336) 296-9877. Our AI answers. Say whatever you'd say to a person.">
+<meta property="og:image" content="https://scrappylabs.ai/assets/films/poster-4.jpg">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f6f1e3'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%231c6a49'/%3E%3C/svg%3E">
 <style>
-@font-face{font-family:'Michroma';src:url('assets/fonts/michroma-400.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Space Grotesk';src:url('assets/fonts/spacegrotesk-var.woff2') format('woff2');font-weight:300 700;font-display:swap}
-@font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-400.woff2') format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:'Plex Mono';src:url('assets/fonts/plexmono-500.woff2') format('woff2');font-weight:500;font-display:swap}
+/* ============================================================
+   NIGHT SHIFT — the new face of scrappylabs.ai
+   Commit sheet: design/COMMIT-SHEET.md. Target page mean L: 0.80.
+   One night of film inside a daylight page of paperwork.
+   ============================================================ */
 
+@font-face{
+  font-family:'Fraunces';
+  src:url('assets/fonts/Fraunces-600.woff2') format('woff2');
+  font-weight:100 900; font-display:swap;
+}
+@font-face{
+  font-family:'Public Sans';
+  src:url('assets/fonts/PublicSans-400.woff2') format('woff2');
+  font-weight:400; font-display:swap;
+}
+@font-face{
+  font-family:'Public Sans';
+  src:url('assets/fonts/PublicSans-600.woff2') format('woff2');
+  font-weight:600; font-display:swap;
+}
+
+/* slop-allow: CREAM_DEFAULT -- cream is not a warmth reflex here, it is the concept's
+   material: the whole design system is employment paperwork (job cards, a shift report,
+   exit terms printed at the entrance) and the paper is the metaphor. Argued in
+   design/COMMIT-SHEET.md section 2 and gated by chromagate --target-l 0.80. */
 :root{
-  --bg:#0e1118; --panel:#161b27; --stage:#0b0e14;   /* lifted off #06070b — it crushed to black on OLED */
-  --ink:#f4f7fb; --body:#c9d1de; --muted:#a6b0c2;
-  --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.20);
-  --amber:#ff6b35; --amber-hi:#ff8555; --amber-ink:#ffb27a;
-  --green:#5aff9a;
-  --disp:'Michroma',sans-serif; --sans:'Space Grotesk',system-ui,sans-serif;
-  --mono:'Plex Mono',ui-monospace,monospace;
-  --wrap:1160px;
-}
-*{box-sizing:border-box}
-html{overflow-x:clip}          /* NOT hidden — `hidden` creates a scroll container and kills position:sticky */
-body{margin:0;background:var(--bg);color:var(--body);font-family:var(--sans);
-  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:clip}
-h1,h2,h3,h4{color:var(--ink);margin:0;line-height:1.06;font-weight:500}
-p{margin:0}
-a{color:inherit;text-decoration:none}
-img,video{max-width:100%}
-button{font-family:inherit}
-.wrap{max-width:var(--wrap);margin:0 auto;padding:0 clamp(20px,5vw,44px)}
-.skip{position:fixed;left:12px;top:-140px;z-index:100;background:var(--amber);color:#1a0c04;
-  padding:.6rem 1rem;border-radius:8px;font-weight:600;transition:top .15s}
-/* -140px, not -60px: the link wraps to ~74px tall on narrow phones and used to peek */
-.skip:focus{top:12px}
-:focus-visible{outline:3px solid var(--amber-ink);outline-offset:3px;border-radius:4px}
-
-/* ============================== CHROME ============================== */
-.topbar{position:fixed;top:0;left:0;right:0;z-index:50;display:flex;align-items:center;gap:1rem;
-  padding:1rem clamp(20px,5vw,44px);
-  background:linear-gradient(to bottom,rgba(14,17,24,.92),rgba(14,17,24,0))}
-.wordmark{font-family:var(--disp);font-size:.96rem;color:var(--ink)}
-.wordmark b{color:var(--amber);font-weight:400}
-.callbtn{margin-left:auto;display:inline-flex;align-items:center;font-family:var(--mono);font-size:.8rem;
-  letter-spacing:.05em;padding:.58rem 1rem;border:1px solid var(--amber);border-radius:999px;
-  color:var(--amber-ink);white-space:nowrap;background:rgba(14,17,24,.58)}
-.callbtn:hover{background:var(--amber);color:#1a0c04}
-.pip{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);
-  margin-right:.45rem;box-shadow:0 0 10px var(--green)}
-@media (prefers-reduced-motion:no-preference){.pip{animation:bl 2.4s ease-in-out infinite}}
-@keyframes bl{0%,100%{opacity:1}50%{opacity:.35}}
-
-/* ---- act nav: jump between topics ---- */
-.actnav{position:fixed;right:clamp(12px,2vw,22px);top:50%;transform:translateY(-50%);z-index:45;
-  display:flex;flex-direction:column;gap:.55rem;align-items:flex-end}
-.actnav button{display:flex;align-items:center;gap:.6rem;border:0;background:none;cursor:pointer;
-  padding:.2rem 0;font-family:var(--mono);font-size:.64rem;letter-spacing:.16em;
-  text-transform:uppercase;color:transparent;transition:color .22s}
-.actnav button .bar{display:block;width:20px;height:2px;border-radius:2px;
-  background:rgba(255,255,255,.24);transition:background .22s,width .22s}
-.actnav button:hover{color:var(--amber-ink)}
-.actnav button:hover .bar{background:var(--amber-ink)}
-.actnav button[aria-current="true"]{color:var(--amber-ink)}
-.actnav button[aria-current="true"] .bar{background:var(--amber);width:34px}
-@media (max-width:1080px){.actnav{display:none}}
-/* the 'Talk to Scrappy' label is longer than the bare number - hide the words,
-   not the button, once the bar gets tight */
-@media (max-width:560px){.callbtn .lbl{display:none}}
-
-/* ============================ ACTS / STAGES ============================ */
-/* One sticky film stage per act. The stage pins while you scroll that act's
-   chapters, then releases — so every topic scrubs its own film. */
-.act{position:relative;z-index:2}
-.act .stage{position:sticky;top:0;height:100svh;overflow:hidden;
-  background:var(--stage) center/cover no-repeat}
-.act .stage video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-/* Scrims: contrast comes from these, never opacity. */
-.act .stage::after{content:'';position:absolute;inset:0;pointer-events:none;
-  background:
-    radial-gradient(125% 95% at 50% 55%, transparent 8%, rgba(10,13,20,.62) 56%, rgba(10,13,20,.91) 100%),
-    linear-gradient(to bottom, rgba(10,13,20,.78) 0%, transparent 20%, transparent 60%, rgba(10,13,20,.90) 100%)}
-/* On a narrow screen the copy fills the centre — exactly where the radial scrim is
-   thinnest. Give it a floor so contrast never depends on which frame is showing. */
-/* Text gets its OWN scrim plate rather than dimming the whole film. Lets the
-   footage stay bright (Brian: "make the back a bit brighter") while body copy keeps a
-   deterministic backdrop — measured worst-case backdrop p99 was 163 where AA needs <=85,
-   and a global scrim heavy enough to fix that was DARKER than the version he rejected. */
-@media (max-width:900px){
-  .chap .inner{
-    background:rgba(11,14,21,.74);
-    backdrop-filter:blur(12px);
-    -webkit-backdrop-filter:blur(12px);
-    border:1px solid rgba(255,255,255,.09);
-    border-radius:18px;
-    padding:1.5rem 1.15rem 1.6rem;
-  }
-  .chap .inner .detail,.chap .inner .dial{background:none;backdrop-filter:none;border-color:var(--line)}
-  .chap .inner .detail div{background:rgba(16,20,29,.55)}
-}
-@media (max-width:760px){
-  .act .stage::after{
-    background:
-      radial-gradient(130% 100% at 50% 55%, rgba(10,13,20,.10) 0%, rgba(10,13,20,.48) 55%, rgba(10,13,20,.84) 100%),
-      linear-gradient(to bottom, rgba(10,13,20,.56) 0%, rgba(10,13,20,.04) 24%, rgba(10,13,20,.08) 60%, rgba(10,13,20,.82) 100%)}
-}
-.act .chapters{position:relative;margin-top:-100svh}
-/* A one-chapter act has zero sticky range, so its film would never pin.
-   Give solo acts extra height to scrub through. */
-.act.solo .chap{min-height:185svh}
-.chap{min-height:100svh;display:flex;align-items:center;justify-content:center;
-  text-align:center;padding:7rem 0 5rem}
-.chap .inner{max-width:46rem}
-.cnum{font-family:var(--mono);font-size:.71rem;letter-spacing:.32em;text-transform:uppercase;
-  color:var(--amber-ink);margin-bottom:1.4rem}
-.chap h1{font-size:clamp(2.5rem,7vw,5.2rem);letter-spacing:-.03em}
-.chap h2{font-size:clamp(1.9rem,4.6vw,3.35rem);letter-spacing:-.025em}
-.chap p{margin:1.4rem auto 0;font-size:clamp(1.03rem,1.55vw,1.22rem);color:var(--body);max-width:36rem}
-.hl{color:var(--amber-ink)}
-.chap .inner>*{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
-.chap.is-live .inner>*{opacity:1;transform:none}
-.chap.is-live .inner>*:nth-child(2){transition-delay:.08s}
-.chap.is-live .inner>*:nth-child(3){transition-delay:.16s}
-.chap.is-live .inner>*:nth-child(4){transition-delay:.24s}
-
-/* ---- the depth block: specifics packed into one viewport ---- */
-.detail{margin-top:2.2rem;display:grid;gap:1px;text-align:left;
-  background:var(--line);border:1px solid var(--line2);border-radius:14px;overflow:hidden;
-  grid-template-columns:1fr 1fr}
-@media (max-width:720px){.detail{grid-template-columns:1fr}}
-.detail div{background:rgba(16,20,29,.86);backdrop-filter:blur(5px);padding:1.05rem 1.2rem}
-.detail h4{font-size:.99rem;letter-spacing:-.005em}
-.detail p{margin:.4rem 0 0;font-size:.9rem;color:var(--muted);max-width:none}
-
-.dial{margin-top:2.4rem;display:inline-block;padding:1.4rem 1.9rem;border-radius:16px;
-  border:1px solid var(--line2);background:rgba(17,21,31,.84);backdrop-filter:blur(6px)}
-.dial .lab{font-family:var(--mono);font-size:.71rem;letter-spacing:.22em;text-transform:uppercase;
-  color:var(--amber-ink)}
-.dial .num{display:block;margin-top:.5rem;font-family:var(--disp);
-  font-size:clamp(1.5rem,3.9vw,2.45rem);color:var(--ink);line-height:1}
-.dial .num:hover{color:var(--amber-hi)}
-.dial .say{margin:.7rem auto 0;font-size:.93rem;color:var(--muted);max-width:27rem}
-
-.scrollcue{position:fixed;bottom:1.4rem;left:50%;transform:translateX(-50%);z-index:44;
-  font-family:var(--mono);font-size:.66rem;letter-spacing:.26em;text-transform:uppercase;
-  color:var(--muted);transition:opacity .4s}
-.scrollcue.gone{opacity:0}
-
-/* ============================ FLAT SECTIONS ============================ */
-.flat{position:relative;z-index:3;background:var(--bg);border-top:1px solid var(--line);
-  border-bottom:1px solid var(--line);box-shadow:0 -40px 80px rgba(14,17,24,.94)}
-.flat section, section.pad{padding:clamp(4rem,8vw,6.5rem) 0}
-.eyebrow{font-family:var(--mono);font-size:.71rem;letter-spacing:.28em;text-transform:uppercase;
-  color:var(--amber-ink);margin-bottom:1.1rem}
-.h2{font-size:clamp(1.85rem,4vw,2.9rem);letter-spacing:-.02em}
-.sub{margin-top:1.1rem;font-size:1.08rem;color:var(--body);max-width:42rem}
-
-/* ---- the problem picker ---- */
-.picker{margin-top:2.6rem;display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;align-items:start}
-@media (max-width:900px){.picker{grid-template-columns:1fr}}
-.symlist{display:flex;flex-direction:column;gap:.55rem}
-.sym{text-align:left;width:100%;padding:1rem 1.15rem;border-radius:11px;cursor:pointer;
-  border:1px solid var(--line);background:var(--panel);color:var(--body);font-size:.99rem;
-  line-height:1.45;transition:border-color .18s,background .18s,color .18s}
-.sym:hover{border-color:var(--amber);color:var(--ink)}
-.sym[aria-pressed="true"]{border-color:var(--amber);background:rgba(255,107,53,.12);color:var(--ink)}
-.sym .sid{display:block;font-family:var(--mono);font-size:.65rem;letter-spacing:.2em;
-  text-transform:uppercase;color:var(--amber);margin-bottom:.3rem}
-.answer{position:sticky;top:1.3rem;border:1px solid var(--line2);border-radius:14px;
-  padding:clamp(1.4rem,3vw,1.9rem);
-  background:linear-gradient(160deg,rgba(255,107,53,.08),rgba(13,17,27,.92));min-height:17rem}
-.answer .ak{font-family:var(--mono);font-size:.69rem;letter-spacing:.2em;text-transform:uppercase;
-  color:var(--amber-ink);margin-bottom:.85rem}
-.answer h3{font-size:clamp(1.2rem,2.2vw,1.55rem);letter-spacing:-.01em}
-.answer .fix{margin-top:.9rem;color:var(--body);font-size:.99rem}
-.answer .row{margin-top:1.2rem;display:flex;flex-wrap:wrap;gap:.55rem}
-.badge{font-family:var(--mono);font-size:.67rem;letter-spacing:.12em;text-transform:uppercase;
-  border:1px solid var(--line2);border-radius:999px;padding:.28rem .65rem;color:var(--muted)}
-.badge.on{color:var(--green);border-color:rgba(90,255,154,.32)}
-.answer .cta{margin-top:1.4rem;display:flex;flex-wrap:wrap;gap:.65rem}
-.empty{color:var(--muted)}
-
-.btn{display:inline-block;font-family:var(--mono);font-size:.79rem;letter-spacing:.07em;
-  padding:.78rem 1.2rem;border-radius:999px;border:1px solid var(--amber);color:var(--amber-ink)}
-.btn:hover{background:var(--amber);color:#1a0c04}
-.btn-solid{background:var(--amber);color:#1a0c04;border-color:var(--amber);font-weight:600}
-.btn-solid:hover{background:var(--amber-hi);border-color:var(--amber-hi);color:#1a0c04}
-
-/* ---- feed strip ---- */
-.feed{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));margin-top:2.4rem}
-.fcard{display:flex;flex-direction:column;gap:.5rem;padding:1.5rem;border:1px solid var(--line);
-  border-radius:12px;background:var(--panel);transition:border-color .18s,transform .18s}
-.fcard:hover{border-color:var(--amber);transform:translateY(-2px)}
-.fcard .k{font-family:var(--mono);font-size:.68rem;letter-spacing:.18em;text-transform:uppercase;color:var(--amber)}
-.fcard h3{font-size:1.06rem;line-height:1.3}
-.fcard p{font-size:.92rem;color:var(--muted)}
-.fcard .go{margin-top:auto;padding-top:.7rem;font-size:.85rem;color:var(--amber-ink)}
-@media (prefers-reduced-motion:reduce){.fcard{transition:none}.fcard:hover{transform:none}}
-
-.upkeep{margin-top:2.4rem;padding:1.2rem 1.4rem;border:1px dashed var(--line2);border-radius:12px;
-  font-family:var(--mono);font-size:.79rem;color:var(--muted);line-height:1.8}
-.upkeep b{color:var(--amber-ink);font-weight:400}
-
-.oneline{margin-top:2.2rem;font-family:var(--mono);font-size:.84rem;color:var(--muted);
-  max-width:44rem;margin-left:auto;margin-right:auto;line-height:1.85}
-
-.foot{position:relative;z-index:3;background:var(--bg);border-top:1px solid var(--line);
-  padding:2.6rem 0;font-size:.86rem;color:var(--muted)}
-.foot .row{display:flex;flex-wrap:wrap;gap:1.3rem;font-family:var(--mono);font-size:.74rem;
-  letter-spacing:.1em;text-transform:uppercase}
-.foot .row a:hover{color:var(--amber-ink)}
-.foot small{display:block;margin-top:1.3rem}
-
-@media (prefers-reduced-motion:reduce){
-  .chap .inner>*{opacity:1;transform:none;transition:none}
+  --paper:#f6f1e3;      --paper:oklch(0.96 0.02 85);
+  --paper-dim:#efe8d5;  --paper-dim:oklch(0.93 0.025 85);
+  --kraft:#e7dcc0;      --kraft:oklch(0.90 0.04 85);
+  --ink:#332d21;        --ink:oklch(0.30 0.02 85);
+  --ink-soft:#575038;   --ink-soft:oklch(0.44 0.025 85);
+  --pine:#1c6a49;       --pine:oklch(0.45 0.09 155);
+  --pine-deep:#14523a;  --pine-deep:oklch(0.38 0.08 155);
+  --rule:#c9bd9c;       --rule:oklch(0.80 0.04 85);
+  --plate:rgba(246,241,227,.94);
+  --serif:'Fraunces',Georgia,serif;
+  --sans:'Public Sans',system-ui,sans-serif;
 }
 
-/* ==================== NIGHT SHIFT (live city behind the picker) ====================
-   Every rule here is inert until nightshift.js passes its gates and adds .city-on.
-   No JS / reduced-motion / save-data / weak GPU  ->  none of this ever applies. */
-#picker.city-on{position:relative}
-#picker.city-on .wrap{position:relative;z-index:1}
-.nscity{position:absolute;inset:0;overflow:clip;z-index:0;pointer-events:none}
-.nscity canvas{position:sticky;top:0;display:block;width:100%;height:min(100svh,100%);
-  opacity:0;transition:opacity .6s ease}
-.nscity canvas.on{opacity:1}
-.nscity::after{content:'';position:absolute;inset:0;
-  background:linear-gradient(to bottom,var(--bg) 0,transparent 16%,transparent 86%,var(--bg) 100%)}
-/* Text over the live canvas sits on scrim plates — same recipe as the mobile chapter
-   plates above; contrast never depends on which frame the city is showing. */
-/* Geometry-neutral: padding+border are cancelled by negative margins, so the
-   wrapped header occupies the exact box it had without the plate — no section
-   height change in any tier (hard law: anchors and act offsets must not move). */
-#picker.city-on .nsplate{display:inline-block;background:rgba(11,14,21,.74);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
-  border:1px solid rgba(255,255,255,.09);border-radius:18px;
-  padding:1.15rem 1.3rem 1.25rem;
-  margin:calc(-1.15rem - 1px) calc(-1.3rem - 1px) calc(-1.25rem - 1px)}
-#picker.city-on .answer{background:linear-gradient(160deg,rgba(255,107,53,.08),rgba(13,17,27,.95)),#0d111b}
-.nsgarage{position:absolute;top:0;left:0;z-index:2;width:max-content}
-/* Narrow layouts: pinned in the section's bottom padding band — adds no height */
-@media (max-width:900px){.nsgarage{top:auto;bottom:12px;left:50%;
-  transform:translate(-50%,0)!important}}
-.nsgarage .nsg-b{display:block;text-align:left;cursor:pointer;border:1px solid #6e6e82;
-  border-radius:12px;padding:.7rem .95rem;color:var(--body);background:rgba(11,14,21,.74);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.nsgarage .nsg-b:hover{border-color:var(--amber)}
-.nsgarage .nsg-k{display:block;font-family:var(--mono);font-size:.62rem;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--amber-ink);margin-bottom:.3rem}
-.nsgarage .nsg-l{display:block;font-family:var(--mono);font-size:.78rem;color:var(--ink)}
-.nslog{margin-top:1.1rem;font-family:var(--mono);font-size:.78rem;color:var(--muted)}
-.nschip{max-width:100%;text-align:left;line-height:1.5}
-.nsdlg{position:fixed;inset:0;z-index:90;display:none}
-.nsdlg.on{display:block}
-.nsdlg-scrim{position:absolute;inset:0;background:rgba(6,7,11,.62)}
-.nsdlg-panel{position:absolute;top:0;right:0;bottom:0;width:min(480px,94vw);
-  display:flex;flex-direction:column;background:var(--bg);border-left:1px solid var(--line2)}
-.nsdlg-top{display:flex;align-items:center;justify-content:space-between;gap:1rem;
-  padding:.9rem 1.1rem;border-bottom:1px solid var(--line)}
-.nsdlg-k{font-family:var(--mono);font-size:.74rem;letter-spacing:.18em;
-  text-transform:uppercase;color:var(--amber-ink)}
-.nsdlg-x{width:44px;height:44px;flex:none;border:1px solid #6e6e82;border-radius:10px;
-  background:none;color:var(--ink);font-size:1.5rem;line-height:1;cursor:pointer}
-.nsdlg-x:hover{border-color:var(--amber);color:var(--amber-ink)}
-.nsdlg-frame{flex:1;width:100%;border:0;background:var(--stage)}
-.nsdlg-foot{display:flex;flex-wrap:wrap;gap:.9rem;justify-content:space-between;
-  padding:.8rem 1.1rem;border-top:1px solid var(--line);font-size:.82rem;color:var(--muted)}
-.nsdlg-foot a{color:var(--amber-ink)}
-html.nsdlg-lock{overflow:hidden}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+html,body{overflow-x:clip}  /* clip, never hidden: hidden kills position:sticky */
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--sans);
+  font-size:1.0625rem;
+  line-height:1.6;
+}
+
+::selection{background:var(--pine);color:var(--paper)}
+
+a{color:var(--pine);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--pine-deep)}
+:focus-visible{outline:3px solid var(--pine);outline-offset:3px;border-radius:2px}
+
+.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:.7rem 1.2rem;z-index:100}
+.skip:focus{left:.5rem;top:.5rem}
+
+/* ---- letterhead ---- */
+header.letterhead{
+  position:sticky;top:0;z-index:40;
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  padding:.65rem clamp(1rem,4vw,2.5rem);
+  background:var(--plate);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--rule);
+}
+.letterhead .name{font-family:var(--serif);font-weight:700;font-size:1.05rem;letter-spacing:.01em;color:var(--ink)}
+.letterhead .name span{color:var(--pine)}
+.letterhead .place{font-size:.85rem;color:var(--ink-soft)}
+.letterhead a.desk{font-size:.9rem;font-weight:600;white-space:nowrap}
+@media(max-width:640px){.letterhead .place{display:none}}
+
+/* ---- film acts ---- */
+.act{position:relative;min-height:200svh}
+.act .stage{
+  position:sticky;top:0;height:100svh;overflow:hidden;
+  background:var(--ink) center/cover no-repeat; /* poster set inline per act: black is never the floor */
+}
+.act .stage video{width:100%;height:100%;object-fit:cover;display:block}
+.act .chapters{margin-top:-100svh;padding-bottom:100svh} /* trailing hold: film plays out on a held beat */
+.chap{min-height:100svh;display:flex;align-items:center;padding:2rem clamp(1rem,5vw,4rem)}
+.chap.low{align-items:flex-end;padding-bottom:14svh}
+
+/* paper plates over film: the plate carries the contrast, the footage stays bright */
+.plate{
+  max-width:34rem;
+  background:var(--plate);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  border:1px solid var(--rule);
+  border-radius:4px;
+  padding:1.6rem 1.8rem 1.7rem;
+  box-shadow:0 1px 2px rgba(51,45,33,.14),0 12px 32px rgba(51,45,33,.18);
+}
+.timechip{
+  display:inline-block;
+  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
+  letter-spacing:.04em;font-size:1.05rem;color:var(--pine);
+  border-bottom:2px solid var(--pine);
+  margin-bottom:.7rem;
+}
+.plate p{font-size:1.1rem;max-width:65ch}
+.plate .quiet{font-size:.95rem;color:var(--ink-soft);margin-top:.6rem}
+
+/* hero plate */
+.hero-plate{max-width:44rem}
+h1{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(2.1rem,5.2vw,3.6rem);
+  line-height:1.08;letter-spacing:-.015em;
+  margin:.2rem 0 .9rem;
+}
+.hero-plate .sub{font-size:clamp(1.05rem,1.6vw,1.2rem);max-width:60ch}
+.hero-plate .call{
+  margin-top:1.1rem;padding-top:1rem;border-top:1px dashed var(--rule);
+  font-size:1.05rem;
+}
+.hero-plate .call a.tel{
+  font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,3vw,1.9rem);
+  color:var(--pine);text-decoration:none;white-space:nowrap;
+}
+.hero-plate .call a.tel:hover{color:var(--pine-deep);text-decoration:underline}
+.hero-plate .script{font-size:.95rem;color:var(--ink-soft);margin-top:.35rem}
+
+/* the shift report: Act II's paper seeded inside the film */
+.report{
+  max-width:26rem;
+  background:var(--paper);
+  border:1px solid var(--rule);border-radius:3px;
+  padding:1.5rem 1.6rem;
+  transform:rotate(-1.1deg);
+  box-shadow:0 2px 3px rgba(51,45,33,.15),0 16px 40px rgba(51,45,33,.22);
+  font-size:1.02rem;
+}
+.report .rhead{
+  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
+  letter-spacing:.05em;font-size:1.1rem;
+  border-bottom:2px solid var(--ink);padding-bottom:.4rem;margin-bottom:.8rem;
+  display:flex;justify-content:space-between;
+}
+.report ul{list-style:none}
+.report li{padding:.3rem 0;border-bottom:1px dotted var(--rule)}
+.report li:last-child{border-bottom:none}
+.report .gate{color:var(--pine);font-weight:600}
+.report .foot{margin-top:.7rem;font-size:.92rem;color:var(--ink-soft)}
+
+/* ---- Act II: the paperwork ---- */
+main.paper{position:relative;z-index:2;background:var(--paper)}
+.sheet{max-width:72rem;margin:0 auto;padding:clamp(3rem,7vw,5.5rem) clamp(1rem,4vw,2.5rem)}
+.ledger{
+  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
+  letter-spacing:.06em;font-size:1.1rem;color:var(--pine);
+  display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;
+}
+.ledger::after{content:'';flex:1;border-top:1px solid var(--rule)}
+h2{
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(1.7rem,3.4vw,2.5rem);
+  line-height:1.12;letter-spacing:-.01em;
+  margin-bottom:1rem;max-width:24ch;
+}
+.sheet>p.lead{font-size:1.15rem;max-width:62ch;margin-bottom:2rem}
+
+/* job cards: paper artifacts, slightly rotated, settling on reveal */
+.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:1.6rem;margin-top:2.2rem}
+.role{
+  background:var(--paper-dim);
+  border:1px solid var(--rule);border-radius:3px;
+  padding:1.5rem 1.5rem 1.4rem;
+  position:relative;
+  box-shadow:0 1px 2px rgba(51,45,33,.12),0 8px 22px rgba(51,45,33,.12);
+}
+.role:nth-child(odd){transform:rotate(-.7deg)}
+.role:nth-child(even){transform:rotate(.5deg)}
+.role .tab{
+  position:absolute;top:-13px;left:1.2rem;
+  background:var(--kraft);border:1px solid var(--rule);border-bottom:none;
+  border-radius:3px 3px 0 0;
+  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
+  letter-spacing:.05em;font-size:.95rem;color:var(--ink-soft);
+  padding:.15rem .7rem;
+}
+.role h3{font-family:var(--serif);font-weight:700;font-size:1.35rem;margin:.4rem 0 .6rem}
+.role p{font-size:1rem}
+.role .limit{
+  margin-top:.9rem;padding:.7rem .9rem;
+  background:var(--paper);border-left:none;border:1px dashed var(--pine);border-radius:3px;
+  color:var(--pine-deep);font-size:.95rem;
+}
+.role .limit b{font-variant-caps:all-small-caps;font-family:var(--serif);letter-spacing:.04em;font-weight:600}
+.role .ref{margin-top:.9rem;font-size:.92rem;color:var(--ink-soft)}
+.role .ref b{color:var(--ink);font-weight:600}
+
+/* interview block */
+.interview{
+  background:var(--kraft);
+  border:1px solid var(--rule);border-radius:4px;
+  padding:clamp(1.8rem,4vw,3rem);
+  text-align:center;
+  transform:rotate(-.4deg);
+  box-shadow:0 2px 3px rgba(51,45,33,.13),0 14px 36px rgba(51,45,33,.15);
+}
+.interview .biglink{
+  display:inline-block;
+  font-family:var(--serif);font-weight:700;
+  font-size:clamp(2rem,6vw,3.4rem);letter-spacing:.01em;
+  color:var(--pine-deep);text-decoration:none;
+  border-bottom:3px solid var(--pine-deep);
+  margin:.4rem 0 .8rem;
+}
+.interview .biglink:hover{color:var(--pine)}
+.interview .script{max-width:46ch;margin:0 auto;font-size:1.02rem}
+.interview .alt{margin-top:1.2rem;font-size:1rem}
+.interview .alt a{font-weight:600}
+
+/* references */
+.refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:1.6rem;margin-top:2.2rem}
+.refcard{
+  background:var(--paper-dim);border:1px solid var(--rule);border-radius:3px;
+  padding:1.4rem 1.5rem;
+  box-shadow:0 1px 2px rgba(51,45,33,.12),0 8px 22px rgba(51,45,33,.12);
+}
+.refcard:nth-child(odd){transform:rotate(.5deg)}
+.refcard:nth-child(even){transform:rotate(-.6deg)}
+.refcard h3{font-family:var(--serif);font-weight:700;font-size:1.15rem;margin-bottom:.5rem}
+.refcard p{font-size:.98rem}
+.refcard .num{font-family:var(--serif);font-weight:700;color:var(--pine-deep)}
+.refcard .see{display:inline-block;margin-top:.7rem;font-weight:600;font-size:.95rem}
+
+/* files / trust gate */
+.files{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:start}
+@media(max-width:820px){.files{grid-template-columns:1fr}}
+.files p{max-width:62ch;margin-bottom:1rem;font-size:1.05rem}
+.story{
+  background:var(--paper-dim);border:1px solid var(--rule);border-radius:3px;
+  padding:1.5rem 1.6rem;transform:rotate(.6deg);
+  box-shadow:0 1px 2px rgba(51,45,33,.12),0 10px 26px rgba(51,45,33,.13);
+}
+.story .tab2{
+  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
+  letter-spacing:.05em;color:var(--pine);font-size:1rem;margin-bottom:.5rem;display:block;
+}
+.story p{font-size:1rem;margin-bottom:.8rem}
+.story p:last-child{margin-bottom:0}
+
+/* hiring ticket */
+.ticket{
+  background:var(--paper-dim);border:1px solid var(--rule);border-radius:4px;
+  max-width:46rem;padding:clamp(1.6rem,4vw,2.4rem);
+  transform:rotate(-.5deg);
+  box-shadow:0 2px 3px rgba(51,45,33,.13),0 12px 30px rgba(51,45,33,.14);
+}
+.ticket ol{list-style:none;counter-reset:step}
+.ticket li{
+  counter-increment:step;
+  padding:1rem 0 1rem 3.4rem;position:relative;
+  border-bottom:1px dotted var(--rule);
+}
+.ticket li::before{
+  content:counter(step);
+  position:absolute;left:0;top:.9rem;
+  width:2.3rem;height:2.3rem;border-radius:50%;
+  background:var(--pine);color:var(--paper);
+  font-family:var(--serif);font-weight:700;font-size:1.2rem;
+  display:flex;align-items:center;justify-content:center;
+}
+.ticket li b{font-family:var(--serif);font-size:1.12rem}
+.ticket .exit{
+  margin-top:1.2rem;padding:1rem 1.2rem;
+  background:var(--paper);border:1px dashed var(--pine);border-radius:3px;
+}
+.ticket .exit b{
+  font-family:var(--serif);font-variant-caps:all-small-caps;letter-spacing:.05em;
+  color:var(--pine-deep);font-weight:600;
+}
+.ticket .exit p{font-size:.98rem;margin-top:.3rem}
+
+/* the person */
+.person{display:flex;gap:2rem;align-items:start;flex-wrap:wrap}
+.person .bio{max-width:56ch}
+.person .bio p{margin-bottom:.9rem;font-size:1.05rem}
+.person .sig{font-family:var(--serif);font-weight:600;font-size:1.3rem;margin-top:.4rem}
+
+/* footer */
+footer{
+  border-top:1px solid var(--rule);
+  background:var(--paper-dim);
+  padding:2.2rem clamp(1rem,4vw,2.5rem) 6.5rem;
+  font-size:.95rem;color:var(--ink-soft);
+}
+footer .cols{max-width:72rem;margin:0 auto;display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between}
+footer a{color:var(--pine-deep)}
+footer .fine{margin-top:1.2rem;font-size:.85rem}
+
+/* receipt chip: the standing dare, pinned through film and paper */
+.chip{
+  position:fixed;right:1rem;bottom:1rem;z-index:50;
+  display:flex;align-items:center;gap:.55rem;
+  background:var(--paper);
+  border:1px solid var(--pine);border-radius:999px;
+  padding:.5rem 1rem .5rem .8rem;
+  box-shadow:0 2px 4px rgba(51,45,33,.18),0 10px 26px rgba(51,45,33,.2);
+  text-decoration:none;font-size:.92rem;font-weight:600;color:var(--pine-deep);
+  white-space:nowrap;
+}
+.chip .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--pine);animation:pulse 2.2s ease-out infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(28,106,73,.45)}70%{box-shadow:0 0 0 9px rgba(28,106,73,0)}100%{box-shadow:0 0 0 0 rgba(28,106,73,0)}}
+.chip:hover{background:var(--kraft)}
+@media(max-width:640px){.chip span.long{display:none}}
+
+/* reveals: enhance an already-visible default; never gate visibility */
+.rv{transition:opacity .5s ease-out,transform .5s ease-out}
+.js .rv{opacity:0;transform:translateY(14px)}
+.js .rv.in{opacity:1;transform:none}
+.js .role.rv,.js .refcard.rv{transform:translateY(14px) rotate(0)}
+.js .role.rv.in:nth-child(odd){transform:rotate(-.7deg)}
+.js .role.rv.in:nth-child(even){transform:rotate(.5deg)}
+.js .refcard.rv.in:nth-child(odd){transform:rotate(.5deg)}
+.js .refcard.rv.in:nth-child(even){transform:rotate(-.6deg)}
+
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto}
+  .act .stage video{display:none}   /* posters carry the scene; gentler, not zero */
+  .js .rv{opacity:1;transform:none;transition:none}
+  .js .role.rv.in:nth-child(odd),.js .role.rv:nth-child(odd){transform:rotate(-.7deg)}
+  .js .role.rv.in:nth-child(even),.js .role.rv:nth-child(even){transform:rotate(.5deg)}
+  .chip .dot{animation:none}
+}
 </style>
 </head>
 <body>
-<a class="skip" href="#picker">Skip the film, go straight to the problems</a>
+<a class="skip" href="#staff">Skip the film, meet the staff</a>
 
-<header class="topbar">
-  <a class="wordmark" href="#top">Scrappy<b>Labs</b></a>
-  <a class="callbtn" href="tel:+13362969877"><span class="pip" aria-hidden="true"></span><span class="lbl">Talk to Scrappy&nbsp;· </span>336&nbsp;296&nbsp;9877</a>
+<header class="letterhead">
+  <div>
+    <span class="name">Scrappy<span>Labs</span></span>
+    <span class="place">&nbsp;· Asheville, North Carolina</span>
+  </div>
+  <a class="desk" href="tel:+13362969877">Call the desk</a>
 </header>
 
-<nav class="actnav" id="actnav" aria-label="Jump to a topic"></nav>
+<!-- ============ ACT I — ONE NIGHT ============ -->
 
-<main id="top">
-
-<!-- ============================ ACT 0 — HERO ============================ -->
-<section class="act" data-film="tilt-city" data-nav="Start">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
-  <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">Wrangling Bots Since&nbsp;’93</p>
-      <h1>Somebody has to keep the <span class="hl">city</span> running.</h1>
-      <p>Your business is a city this size — wires, traffic, lights, and a hundred things
-        that only get noticed the moment they stop.</p>
-    </div></div>
-    <div class="chap"><div class="inner">
-      <p class="cnum">The tour</p>
-      <h2>Every business is held together by wires.</h2>
-      <p>A phone system, a spreadsheet somebody guards, an inbox nobody has time for, a file
-        share with twenty years in it, and that one program everyone is afraid to touch. It
-        works — right up until it doesn't.</p>
-      <p style="margin-top:1rem;color:var(--muted);font-size:1rem">We're the crew that keeps it
-        running.</p>
-    </div></div>
+<!-- 5:12 PM -->
+<section class="act" aria-label="5:12 PM, the missed call">
+  <div class="stage" style="background-image:url('assets/films/poster-1.jpg')">
+    <video muted playsinline preload="auto" poster="assets/films/poster-1.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f1.mp4"></video>
   </div>
-</section>
-
-<!-- ======================= PICKER — convert early ======================= -->
-<div class="flat">
-<section id="picker">
-  <div class="wrap">
-    <p class="eyebrow">// Start here</p>
-    <h2 class="h2">You don't have to know what to buy.</h2>
-    <p class="sub">Nobody wakes up wanting "an AI agent." They wake up to a symptom. Pick the one
-      that stung and we'll tell you exactly what we'd do about it — right here, before you talk to
-      anybody.</p>
-
-    <div class="picker">
-      <div class="symlist" role="group" aria-label="Pick your symptom">
-        <button class="sym" data-k="phone" aria-pressed="false"><span class="sid">SYM-01</span>The phone rings after hours. Voicemail. The lead is gone by morning.</button>
-        <button class="sym" data-k="retype" aria-pressed="false"><span class="sid">SYM-02</span>Someone retypes numbers from one system into another. Daily. For years.</button>
-        <button class="sym" data-k="archive" aria-pressed="false"><span class="sid">SYM-03</span>Twenty years of documents nobody can search — and the answer is in there.</button>
-        <button class="sym" data-k="vendors" aria-pressed="false"><span class="sid">SYM-04</span>Two vendors, each swearing the other's API is the problem.</button>
-        <button class="sym" data-k="legacy" aria-pressed="false"><span class="sid">SYM-05</span>The system that runs the business is older than your newest hire — and nobody will touch it.</button>
-        <button class="sym" data-k="cloud" aria-pressed="false"><span class="sid">SYM-06</span>Cloud bills climb every month for software that does less than it should.</button>
+  <div class="chapters">
+    <div class="chap">
+      <div class="plate hero-plate">
+        <span class="timechip">5:12 PM</span>
+        <h1>Hire AI staff for the shifts you can't cover.</h1>
+        <p class="sub">A receptionist that answers your phone at 9pm. A file clerk that read
+        every job you ever did. When one isn't sure, it says so and gets a human.</p>
+        <p class="call">Interview a candidate right now:<br>
+          <a class="tel" href="tel:+13362969877">(336)&nbsp;296&#8209;9877</a></p>
+        <p class="script">Our AI answers. Say whatever you'd say to a person.
+        Brian reads every transcript and calls you back.</p>
       </div>
-      <div class="answer" id="answer" aria-live="polite">
-        <p class="ak">What we'd do</p>
-        <h3 class="empty">Pick a symptom on the left.</h3>
-        <p class="fix empty">You'll get the actual approach — not a brochure. If none of them fit,
-          that's usually the interesting one; call the line and describe it.</p>
+    </div>
+    <div class="chap low">
+      <div class="plate rv">
+        <span class="timechip">Still 5:12 PM</span>
+        <p>You're on a ladder. The phone rings twice and gives up.
+        That lead is already calling the next name on Google.</p>
       </div>
     </div>
   </div>
 </section>
-</div>
 
-<!-- ============================ ACT — VOICE ============================ -->
-<section class="act" data-film="t-voice" data-nav="Phones">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+<!-- 9:14 PM -->
+<section class="act" aria-label="9:14 PM, the admin shift">
+  <div class="stage" style="background-image:url('assets/films/poster-2.jpg')">
+    <video muted playsinline preload="none" poster="assets/films/poster-2.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f2.mp4"></video>
+  </div>
   <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">Phones &amp; voice</p>
-      <h2>Nobody should lose a customer<br>to a <span class="hl">voicemail</span>.</h2>
-      <p>An agent picks up on the first ring, every time, at any hour — and it sounds like
-        somebody who works there.</p>
-    </div></div>
-    <div class="chap"><div class="inner">
-      <p class="cnum">How it actually works</p>
-      <h2>It answers. It decides. It hands off.</h2>
-      <div class="detail">
-        <div><h4>Answers on the first ring</h4><p>Every call, around the clock. No hold music, no bad days, no Monday backlog.</p></div>
-        <div><h4>Triages before it acts</h4><p>Your rules decide what's urgent, what's a message, and what goes straight to a human.</p></div>
-        <div><h4>Won't invent a detail</h4><p>A trust gate stops it answering beyond what it actually knows. It says "let me get someone" instead of guessing.</p></div>
-        <div><h4>Delivers where you already look</h4><p>Message, caller, and summary land in email or SMS — not a portal nobody opens.</p></div>
-        <div><h4>Sounds right</h4><p>A large voice library, voice cloning, and new voices designed from a description. It doesn't have to sound like a robot.</p></div>
-        <div><h4>Runs where it should</h4><p>Your infrastructure, ours, or a cloud provider — whichever your call volume actually justifies.</p></div>
+    <div class="chap">
+      <div class="plate rv">
+        <span class="timechip">9:14 PM</span>
+        <p>Quotes. Invoices. The inbox. The shift nobody pays you for,
+        worked at the kitchen table after the real work is done.</p>
       </div>
-    </div></div>
-  </div>
-</section>
-
-<!-- ========================== ACT — AUTOMATION ========================== -->
-<section class="act" data-film="t-automate" data-nav="Automation">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
-  <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">Automation</p>
-      <h2>The two systems that<br>don't talk? They will.</h2>
-      <p>Somebody in your office is a human API right now, retyping one screen into another.
-        That's the cheapest thing we ever fix.</p>
-    </div></div>
-    <div class="chap"><div class="inner">
-      <p class="cnum">How it actually works</p>
-      <h2>Even when there's no real API.</h2>
-      <div class="detail">
-        <div><h4>We don't need their permission</h4><p>When a vendor has no usable API, we work with what it does have. "Impossible" usually means "nobody tried."</p></div>
-        <div><h4>A human approves the writes</h4><p>Reads run free. Anything that changes a record waits for a person — until you decide it doesn't need to.</p></div>
-        <div><h4>Every action is logged</h4><p>You can see exactly what moved, when, and why. If it ever goes wrong you can prove what happened.</p></div>
-        <div><h4>It fails loudly</h4><p>Silent failure is the real danger in automation. Ours tells somebody the moment it can't do its job.</p></div>
-      </div>
-    </div></div>
-  </div>
-</section>
-
-<!-- ========================== ACT — KNOWLEDGE ========================== -->
-<section class="act" data-film="t-archive" data-nav="Knowledge">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
-  <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">Knowledge</p>
-      <h2>The answer is in there.<br>Nobody can <span class="hl">find</span> it.</h2>
-      <p>Twenty years of contracts, quotes, reports and email. Ask it a question in plain English
-        and get an answer that shows its work.</p>
-    </div></div>
-    <div class="chap"><div class="inner">
-      <p class="cnum">How it actually works</p>
-      <h2>Answers you can check.</h2>
-      <div class="detail">
-        <div><h4>Every answer cites its source</h4><p>You get the document and the passage, so you can verify it yourself. An answer you can't check is worthless.</p></div>
-        <div><h4>It admits when it doesn't know</h4><p>If the answer isn't in your archive, it says so. That's the difference between a tool and a liability.</p></div>
-        <div><h4>You choose where it runs</h4><p>If the data must stay in-house, it runs entirely on hardware you control and never trains anybody's model. If that doesn't matter, we use whatever's fastest.</p></div>
-        <div><h4>It handles the mess</h4><p>Scans, PDFs, photographed pages, inconsistent naming, thirty years of somebody else's filing habits.</p></div>
-      </div>
-    </div></div>
-  </div>
-</section>
-
-<!-- =========================== ACT — THE LEASH =========================== -->
-<section class="act" data-film="t-leash" data-nav="The leash">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
-  <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">The leash</p>
-      <h2>And we keep it<br><span class="hl">wrangled</span>.</h2>
-      <p>An agent with real access to your systems will do something catastrophic if the wrong
-        text tells it to.
-        This is the part everyone else leaves out.</p>
-    </div></div>
-    <div class="chap"><div class="inner">
-      <p class="cnum">How it actually works</p>
-      <h2>It has to predict before it acts.</h2>
-      <div class="detail">
-        <div><h4>Dry-run the dangerous move</h4><p>Before a risky command runs, a model predicts what it would actually do — and refuses it if the answer is "destroy something."</p></div>
-        <div><h4>Untrusted text can't give orders</h4><p>A web page, an email or a transcript can carry instructions aimed at your agent. We check content for that before the agent ever acts on it.</p></div>
-        <div><h4>Nobody talks their way past it</h4><p>"Ignore your instructions," "I'm the developer," "this is an emergency" — a public line grants zero authority.</p></div>
-        <div><h4>Honest failure</h4><p>When it can't do something safely it says so plainly, instead of quietly doing something close enough.</p></div>
-      </div>
-      <p style="margin-top:1.4rem;font-size:1rem;color:var(--muted)">This is why a careful business
-        can actually say yes to any of this.</p>
-    </div></div>
-  </div>
-</section>
-
-<!-- ======================== ACT — INFRASTRUCTURE ======================== -->
-<section class="act solo" data-film="t-infra" data-nav="Always on">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
-  <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">Always on</p>
-      <h2>It's 3 AM and it's<br>already fixed.</h2>
-      <p>We don't ship and vanish. Monitoring, maintenance, automated recovery, and a human who
-        answers — so it works on day one and it's still working on day one thousand.</p>
-      <div class="detail">
-        <div><h4>Watched, not hoped over</h4><p>If something stops, we know before you do, and most of it repairs itself.</p></div>
-        <div><h4>Migrations without the misery</h4><p>Email, files, phones, whole office suites moved between platforms without losing a file or dropping a call.</p></div>
-        <div><h4>One crew, end to end</h4><p>No vendor finger-pointing, no "that's not our layer." If it's technology and it's yours, it's our problem.</p></div>
-        <div><h4>No script</h4><p>Local, cloud, ours, or hybrid. We've built it every way, so we'll tell you honestly which one fits.</p></div>
-      </div>
-    </div></div>
-  </div>
-</section>
-
-<!-- ====================== ACT — BUILD IN THE OPEN ====================== -->
-<section class="act solo" data-film="t-lab" data-nav="In the open">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
-  <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">In the open</p>
-      <h2>We publish<br>what we find.</h2>
-      <p>Including when it doesn't work. We measured every number here ourselves — never copied
-        off a vendor's slide. Client work stays private; the rest is fair game.</p>
-    </div></div>
-  </div>
-</section>
-
-<div class="flat">
-<section id="open">
-  <div class="wrap">
-    <p class="eyebrow">// The Log &amp; the Lab</p>
-    <h2 class="h2">The Log, and the work behind it.</h2>
-    <p class="sub">Two feeds. One is opinion and teardowns; the other is research, benchmarks and
-      field notes as they happen. Both are published straight from the workbench.</p>
-    <div class="feed">
-      <a class="fcard" href="/log"><span class="k">The Log</span><h3>Brian, unfiltered</h3>
-        <p>The blog. Opinions, teardowns, what we're chewing on, and the occasional argument
-          with the industry.</p>
-        <span class="go">Read the latest &rarr;</span></a>
-      <a class="fcard" href="/lab"><span class="k">The Lab</span><h3>Build in the open</h3>
-        <p>Our own surveys and deep dives — benchmarks, experiments and field notes, measured
-          here and published as we go.</p>
-        <span class="go">Browse &rarr;</span></a>
-      <a class="fcard" href="https://github.com/scrappylabsai"><span class="k">Open Source</span><h3>Take our code</h3>
-        <p>The tools we built for ourselves, released for anyone.</p>
-        <span class="go">GitHub &rarr;</span></a>
     </div>
-    <p class="eyebrow" style="margin-top:3.2rem">// Latest</p>
-    <!-- GENERATED by `sl-content build` from content.json. Do not hand-edit. -->
-    <!-- SL:LAB:START -->
-    <style>
-      .lab-grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));margin-top:2rem}
-      .lab-card{display:flex;flex-direction:column;gap:.55rem;padding:1.35rem;text-decoration:none;
-        border:1px solid var(--line,rgba(255,255,255,.09));border-radius:12px;
-        background:var(--panel,rgba(255,255,255,.02));transition:border-color .18s,transform .18s}
-      .lab-card:hover{border-color:var(--amber,#ff6b35);transform:translateY(-2px)}
-      .lab-card:focus-visible{outline:3px solid var(--amber-ink,#ffb27a);outline-offset:3px}
-      .lab-kind{display:flex;justify-content:space-between;gap:.6rem;font-family:var(--mono,monospace);
-        font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:var(--amber,#ff6b35)}
-      .lab-date{color:var(--muted,#98a2b6)}
-      .lab-card h3{margin:0;font-size:1.06rem;line-height:1.3;color:var(--ink,#e6ebf4)}
-      .lab-card p{margin:0;font-size:.92rem;line-height:1.55;color:var(--muted,#98a2b6)}
-      .lab-card .go{margin-top:auto;padding-top:.5rem;font-size:.85rem;color:var(--amber,#ff6b35)}
-      @media (prefers-reduced-motion:reduce){.lab-card{transition:none}.lab-card:hover{transform:none}}
-    </style>
-      <div class="lab-grid">
-        <a class="lab-card reveal" href="/scrappy-voice">
-          <span class="lab-kind">Open Source<span class="lab-date">Jul 2026</span></span>
-          <h3>Scrappy: a voice in 37 megabytes</h3>
-          <p>We gave our AI a voice in one day — distilled a cloud narrator into a 9M-param CPU-only model, raced the GPUs, gated the data, and published it open w</p>
-          <span class="go">Read it &rarr;</span>
-        </a>
-        <a class="lab-card reveal" href="/memory-invocation">
-          <span class="lab-kind">Publication<span class="lab-date">Jul 2026</span></span>
-          <h3>The Retrieval Was Fine. The Agent Never Looked.</h3>
-          <p>We built a four-tier memory system for our coding agents, then instrumented it to find what was still failing. It wasn't the retriever — every "forgot</p>
-          <span class="go">Read it &rarr;</span>
-        </a>
-        <a class="lab-card reveal" href="/mage-flow">
-          <span class="lab-kind">Test<span class="lab-date">Jul 2026</span></span>
-          <h3>Mage-Flow, First Light</h3>
-          <p>Microsoft shipped a 4B image model that does generation and instruction editing under an MIT licence — the licence being the part that usually kills t</p>
-          <span class="go">Read it &rarr;</span>
-        </a>
-        <a class="lab-card reveal" href="/babysitter">
-          <span class="lab-kind">Field Notes<span class="lab-date">Jul 2026</span></span>
-          <h3>We Gave the Robots a Babysitter</h3>
-          <p>An autonomous agent with a terminal will happily run rm&nbsp;-rf if a poisoned web page tells it to. So before any of ours runs a command, a world mod</p>
-          <span class="go">Read it &rarr;</span>
-        </a>
-      </div>
-      <!-- SL:LAB:END -->
-
-    <p class="upkeep"><b>// designed for upkeep</b><br>
-      Both feeds are generated from one manifest — <b>one command to publish</b> — which also
-      rebuilds the RSS feed, the sitemap and every index that links them. Nothing here is
-      hand-edited, so nothing here can rot. A confidentiality gate refuses to publish anything
-      carrying a client identifier.</p>
   </div>
 </section>
-</div>
 
-<!-- =========================== ACT — PRO BONO =========================== -->
-<section class="act solo" data-film="t-bono" data-nav="Pro bono">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+<!-- Sunday 2:40 PM -->
+<section class="act" aria-label="Sunday afternoon, the unsearchable pile">
+  <div class="stage" style="background-image:url('assets/films/poster-3.jpg')">
+    <video muted playsinline preload="none" poster="assets/films/poster-3.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f3.mp4"></video>
+  </div>
   <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">No charge</p>
-      <h2>Give us your <span class="hl">problem</span>.</h2>
-      <p>We take work on for nothing when it matters — a nonprofit, a one-person shop, somebody
-        stuck with a real problem and no budget. No catch, no upsell, no six-month engagement
-        waiting at the end of it.</p>
-      <p style="margin-top:1rem">Describe what's wrong in a paragraph. That's the whole
-        application.</p>
-      <p style="margin-top:1.7rem">
-        <a class="btn btn-solid" href="mailto:brian@scrappylabs.ai?subject=Pro%20bono%20—%20here's%20my%20problem">Describe your problem &rarr;</a>
-      </p>
-    </div></div>
+    <div class="chap">
+      <div class="plate rv">
+        <span class="timechip">Sunday, 2:40 PM</span>
+        <p>Somewhere in these boxes: what you bid the Hendersons in 2019.
+        You know it's in here. The afternoon is gone either way.</p>
+      </div>
+    </div>
   </div>
 </section>
 
-<!-- ============================= ACT — CLOSE ============================= -->
-<section class="act solo" data-film="tilt-figures" data-nav="The line">
-  <div class="stage" aria-hidden="true"><video playsinline muted preload="none" disablepictureinpicture></video></div>
+<!-- 2:03 AM — the turn -->
+<section class="act" aria-label="2:03 AM, something clocks in">
+  <div class="stage" style="background-image:url('assets/films/poster-4.jpg')">
+    <video muted playsinline preload="none" poster="assets/films/poster-4.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f4.mp4"></video>
+  </div>
   <div class="chapters">
-    <div class="chap"><div class="inner">
-      <p class="cnum">Bring the hard one</p>
-      <h2>Tell us what's broken.</h2>
-      <p>One conversation, free. We'll tell you straight whether this is something we can
-        help with — and if it isn't, we'll say so. No deck, no pressure.</p>
-      <div class="dial">
-        <span class="lab"><span class="pip" aria-hidden="true"></span>Scrappy is answering</span>
-        <a class="num" href="tel:+13362969877">336 · 296 · 9877</a>
-        <p class="say">Call it and <strong>Scrappy picks up</strong> — our own agent, answering our own
-          line. That <em>is</em> the demo: you're talking to the thing we'd put on your phones.
-          Prefer email?
-          <a href="mailto:brian@scrappylabs.ai" style="color:var(--amber-ink)">brian@scrappylabs.ai</a></p>
+    <div class="chap">
+      <div class="plate rv">
+        <span class="timechip">2:03 AM</span>
+        <p>Your phone rings. Something picks up on the first ring.
+        It sounds like somebody who works there.</p>
+        <p class="quiet">Because now, something does.</p>
       </div>
-      <p class="oneline">Local, cloud, ours, or hybrid — whichever actually fits.<br>
-        One crew, so there's nobody to point at.<br>
-        You own everything we build, and you can take it with you.</p>
-    </div></div>
+    </div>
   </div>
 </section>
+
+<!-- 7:00 AM — the shift report -->
+<section class="act" aria-label="7:00 AM, the morning report">
+  <div class="stage" style="background-image:url('assets/films/poster-5.jpg')">
+    <video muted playsinline preload="none" poster="assets/films/poster-5.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f5.mp4"></video>
+  </div>
+  <div class="chapters">
+    <div class="chap">
+      <div class="report rv" role="note" aria-label="Night shift report">
+        <div class="rhead"><span>Night shift report</span><span>7:00 AM</span></div>
+        <ul>
+          <li>4 calls answered.</li>
+          <li>3 messages taken, waiting in your inbox.</li>
+          <li class="gate">1 caller heard: &ldquo;I'm not sure. A human will call you back.&rdquo;</li>
+        </ul>
+        <p class="foot">That last line is the point. It does not guess.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8:00 AM -->
+<section class="act" aria-label="8:00 AM, the day is yours">
+  <div class="stage" style="background-image:url('assets/films/poster-6.jpg')">
+    <video muted playsinline preload="none" poster="assets/films/poster-6.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f6.mp4"></video>
+  </div>
+  <div class="chapters">
+    <div class="chap">
+      <div class="plate rv">
+        <span class="timechip">8:00 AM</span>
+        <p>You do the work only you can do. Your new hire covers the rest.</p>
+        <p class="quiet"><a href="#staff">Meet the staff ↓</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ACT II — THE PAPERWORK ============ -->
+<main class="paper" id="staff">
+
+  <section class="sheet" aria-labelledby="roles-h">
+    <div class="ledger">Open roles · hire any or all</div>
+    <h2 id="roles-h">Four positions. Every one already working somewhere real.</h2>
+    <p class="lead">These aren't products with feature lists. They're jobs with duties,
+    a printed limit, and a reference you can check. Like any hire worth making.</p>
+
+    <div class="roles">
+      <article class="role rv">
+        <span class="tab">Role No. 01</span>
+        <h3>The Receptionist</h3>
+        <p>Answers your line on the first ring. Every call, all night, all weekend.
+        Takes messages, answers the questions you approve, and sends a summary
+        you can read in ten seconds.</p>
+        <p class="limit"><b>One limit, printed on purpose:</b> when it isn't sure, it says so
+        and takes a message for a human. No guessing. Ever.</p>
+        <p class="ref"><b>Reference:</b> answers the front line of an immigration law office
+        in North Carolina. Live for months. Invoiced. Paid.</p>
+      </article>
+
+      <article class="role rv">
+        <span class="tab">Role No. 02</span>
+        <h3>The File Clerk</h3>
+        <p>Reads everything you have. Twenty years of quotes, contracts, emails,
+        job photos. Then answers in plain words and shows you the exact page
+        the answer came from.</p>
+        <p class="limit"><b>One limit:</b> if it isn't in your files, it says it isn't there.</p>
+        <p class="ref"><b>Reference:</b> working inside an e&#8209;commerce company's stack
+        today, reading years of tickets and records so every answer arrives with
+        the page it came from.</p>
+      </article>
+
+      <article class="role rv">
+        <span class="tab">Role No. 03</span>
+        <h3>The Bridge</h3>
+        <p>Carries data between the two systems that refuse to talk, so nobody
+        retypes numbers from one screen into another. Daily. For years.</p>
+        <p class="limit"><b>One limit:</b> a human approves anything it writes. If it can't
+        verify a match, it queues the record for a person instead of forcing it.</p>
+        <p class="ref"><b>Reference:</b> matches court emails to a law office's case files
+        automatically. A person reviews every match before it lands.</p>
+      </article>
+
+      <article class="role rv">
+        <span class="tab">Role No. 04</span>
+        <h3>The Web Front Desk</h3>
+        <p>A site like this one. A film of your business, rendered on our own
+        machines, with an estimator that gives honest ballparks and a desk
+        that books the visit.</p>
+        <p class="limit"><b>One limit:</b> the estimates it quotes are ranges you set.
+        It never invents a price.</p>
+        <p class="ref"><b>Reference:</b> we built a painting contractor his whole new site,
+        with a working estimator, before he agreed to anything. You're reading
+        another one right now.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="interview-h">
+    <div class="ledger">The interview</div>
+    <h2 id="interview-h">Don't take our word. Interview the candidate.</h2>
+    <div class="interview rv">
+      <p>The number below is our real line. The thing that answers is the thing we sell.</p>
+      <a class="biglink" href="tel:+13362969877">(336)&nbsp;296&#8209;9877</a>
+      <p class="script">Say whatever you'd say to a person. Ask it something it shouldn't know,
+      and listen to it decline to guess. Brian reads every transcript and calls
+      you back within one business day.</p>
+      <p class="alt">Rather type? <a href="https://scrappylabs.ai/scrappy/">Talk to it in your
+      browser</a> instead.</p>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="refs-h">
+    <div class="ledger">References</div>
+    <h2 id="refs-h">Receipts, not stats. Check them now, not after the pitch.</h2>
+    <div class="refs">
+      <article class="refcard rv">
+        <h3>An immigration law office, North Carolina</h3>
+        <p>Before us, their own phone records told the story:
+        <span class="num">most calls never reached a person.</span>
+        Their line is answered 24/7 now, and a human reads every transcript.
+        Live for months. Invoiced. Paid.</p>
+      </article>
+      <article class="refcard rv">
+        <h3>An e&#8209;commerce company</h3>
+        <p>Many levels: storefront, support desk, accounting, dev. We work as their
+        fractional CTO, with agents built into the flow, so orders, books, and
+        systems finally talk to each other.</p>
+        <p><span class="num">No numbers on this card on purpose.</span> Their books
+        are their business. That restraint is part of what you're hiring.</p>
+      </article>
+      <article class="refcard rv">
+        <h3>A painting contractor, Western North Carolina</h3>
+        <p>We built his site first and pitched second. Working AI estimator,
+        his real photos, <span class="num">before he'd agreed to a dime.</span></p>
+        <a class="see" href="https://stuff.scrappylabs.ai/public/huskey/index.html">See the actual site →</a>
+      </article>
+      <article class="refcard rv">
+        <h3>Baltinglass Brewing Co., Waynesville NC</h3>
+        <p>Opening this fall. Brand film, identity, and site,
+        <span class="num">all rendered on machines we own.</span>
+        Zero vendor render credits.</p>
+        <a class="see" href="https://baltinglassbrewing.com">Visit the brewery site →</a>
+      </article>
+      <article class="refcard rv">
+        <h3>A.J. Lanigan</h3>
+        <p>Sample site: <a class="see" href="https://alanigan.net">alanigan.net →</a></p>
+      </article>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="files-h">
+    <div class="ledger">Where your files work</div>
+    <h2 id="files-h">Your data stays on machines we own.</h2>
+    <div class="files">
+      <div>
+        <p>Twelve machines, in North Carolina, that we physically own. For most jobs
+        your files go there. Not to a big AI company's cloud. Nothing you give us
+        ever trains anyone's model.</p>
+        <p>When a job genuinely needs a cloud model, we say so first. You decide.
+        Where your data lives is a design decision we make with you, not fine print.</p>
+        <p>And because we own the machines, our costs are flat. So yours are.
+        Flat monthly. No meter. No surprise bill at the end of the month.</p>
+      </div>
+      <aside class="story rv">
+        <span class="tab2">Why we built the trust gate</span>
+        <p>In an early test, our own AI confidently invented a caller's email address.
+        It sounded completely sure. It was completely wrong.</p>
+        <p>So we rebuilt the system so that can't happen: what you said is the record,
+        and the AI is never allowed to &ldquo;correct&rdquo; it. When it isn't sure,
+        it flags a human instead of guessing.</p>
+        <p>Every receptionist we ship carries that gate. It's why a law office
+        trusts one with its front line.</p>
+      </aside>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="hiring-h">
+    <div class="ledger">How hiring works</div>
+    <h2 id="hiring-h">Three steps. The exit is printed at the entrance.</h2>
+    <div class="ticket rv">
+      <ol>
+        <li><b>Interview. Today.</b><br>Call the number or talk in your browser.
+        Five minutes. No commitment, no form, no deck.</li>
+        <li><b>We go first.</b><br>Before you commit, we build it working on
+        <em>your</em> business. Your hours, your services, your files.
+        You judge the work, not the pitch.</li>
+        <li><b>You get a number.</b><br>Flat monthly, quoted by the end of the first
+        real conversation. It doesn't wobble afterward.</li>
+      </ol>
+      <div class="exit">
+        <b>Exit terms, up front</b>
+        <p>Your phone number stays yours. Your domain stays yours. Your data leaves
+        with you. No long contract on the first project. Walk away clean.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sheet" aria-labelledby="person-h">
+    <div class="ledger">The person who builds it</div>
+    <h2 id="person-h">You talk to the builder. There is no account manager.</h2>
+    <div class="person">
+      <div class="bio rv">
+        <p>ScrappyLabs is Brian Connelly's shop in Asheville, North Carolina.
+        Building since '93. The AI answering the phone on this page is his work,
+        and so is the page.</p>
+        <p>Small on purpose: you get the person who builds it, and the machines
+        it runs on sit in the building.</p>
+        <p class="sig">— Brian</p>
+      </div>
+    </div>
+  </section>
 
 </main>
 
-<footer class="foot">
-  <div class="wrap">
-    <div class="row">
-      <a href="tel:+13362969877">336 296 9877</a>
-      <a href="mailto:brian@scrappylabs.ai">Email</a>
-      <a href="/log">The Log</a>
-      <a href="#picker">Problems</a>
+<footer>
+  <div class="cols">
+    <div>
+      <strong style="font-family:var(--serif);color:var(--ink)">ScrappyLabs</strong><br>
+      Asheville, North Carolina<br>
+      <a href="tel:+13362969877">(336) 296-9877</a> ·
+      <a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a>
+    </div>
+    <div>
+      <a href="https://scrappylabs.ai/scrappy/">Talk to Scrappy</a><br>
+      <a href="https://scrappylabs.ai/lab">The Lab</a> · <a href="https://scrappylabs.ai/log">The Log</a><br>
       <a href="https://github.com/scrappylabsai">GitHub</a>
     </div>
-    <div class="row">
-      <a href="/privacy">Privacy</a>
-      <a href="/tos">Terms</a>
-      <a href="/sms">SMS Terms &amp; Consent</a>
+    <div>
+      <a href="https://scrappylabs.ai/privacy">Privacy</a> ·
+      <a href="https://scrappylabs.ai/tos">Terms</a> ·
+      <a href="https://scrappylabs.ai/sms">SMS Terms</a>
     </div>
-    <small>© 2026 ScrappyLabs — a d/b/a of Loser.com LLC. Building since '93.</small>
   </div>
+  <p class="fine">© 2026 ScrappyLabs, a d/b/a of Loser.com LLC. Building since '93.
+  This page, its films, and the AI answering its phone were all made on our own machines.</p>
 </footer>
 
-<p class="scrollcue" id="cue" aria-hidden="true">Scroll</p>
+<a class="chip" href="tel:+13362969877" aria-label="Call the ScrappyLabs desk, our AI answers now">
+  <span class="dot" aria-hidden="true"></span>
+  <span class="long">(336) 296-9877 ·&nbsp;</span><span>answering now</span>
+</a>
 
 <script>
+document.documentElement.classList.add('js');
+
+/* ---- per-act scroll-scrub engine (house pattern, cinematic-scrollytelling) ---- */
 (function(){
-  var reduce=matchMedia('(prefers-reduced-motion:reduce)').matches,
-      FILMS='https://stuff.scrappylabs.ai/public/slai-c2/films/',
-      acts=[].slice.call(document.querySelectorAll('.act')),
-      chaps=[].slice.call(document.querySelectorAll('.chap')),
-      cue=document.getElementById('cue'),
-      nav=document.getElementById('actnav');
-
-  /* Each act owns its own film + scrub state. */
-  var A=acts.map(function(el){
-    var slug=el.dataset.film, v=el.querySelector('video'), stage=el.querySelector('.stage');
-    /* Poster as a CSS background so black is never the floor. */
-    stage.style.backgroundImage="url('"+FILMS+slug+".jpg')";
-    return {el:el, v:v, slug:slug, loaded:false, ready:false, primed:false,
-            duration:0, target:0, current:0, lastSeek:-1};
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var acts = [].slice.call(document.querySelectorAll('.act'));
+  var state = acts.map(function(act){
+    return { act: act, video: act.querySelector('video'),
+             target: 0, current: 0, lastSeek: -1, ready: false, attached: false };
   });
 
-  /* ---- act nav ---- */
-  A.forEach(function(a,i){
-    var b=document.createElement('button');
-    b.type='button';
-    b.innerHTML='<span>'+(a.el.dataset.nav||('Act '+(i+1)))+'</span><span class="bar"></span>';
-    b.addEventListener('click',function(){
-      scrollTo({top:a.el.offsetTop, behavior:reduce?'auto':'smooth'});
-    });
-    nav.appendChild(b);
-  });
-  var dots=[].slice.call(nav.children);
-
-  /* ---- lazy attach / detach: keep only nearby films in memory ---- */
-  function manage(){
-    var vc=scrollY+innerHeight/2;
-    A.forEach(function(a){
-      var mid=a.el.offsetTop+a.el.offsetHeight/2,
-          near=Math.abs(mid-vc) < a.el.offsetHeight/2 + innerHeight*1.6;
-      if(near && !a.loaded){
-        a.loaded=true;
-        a.v.preload='auto';
-        a.v.src=FILMS+a.slug+'.mp4';
-        a.v.addEventListener('loadedmetadata',function(){
-          a.duration=a.v.duration||0; a.ready=true;
-          try{a.v.currentTime=.001;}catch(e){}
-          prime(a);
-        });
-        a.v.addEventListener('loadeddata',function(){ prime(a); });
-        try{a.v.load();}catch(e){}
-      } else if(!near && a.loaded){
-        /* Far away — free it. The poster background keeps the stage filled. */
-        a.loaded=false; a.ready=false; a.primed=false; a.lastSeek=-1;
-        try{ a.v.removeAttribute('src'); a.v.load(); }catch(e){}
+  function readScroll(){
+    window.__nsCalls = (window.__nsCalls || 0) + 1;
+    var vh = innerHeight;
+    state.forEach(function(s){
+      var r = s.act.getBoundingClientRect();
+      var top = r.top + scrollY;                      /* .act offsetTop is unreliable: positioned ancestors */
+      var span = Math.max(1, s.act.offsetHeight - vh);
+      s.target = Math.min(1, Math.max(0, (scrollY - top) / span));
+      /* lazy attach/detach by distance: ~1.6 viewports keeps ≤2 films in memory */
+      var near = r.bottom > -1.6 * vh && r.top < 2.6 * vh;
+      if (near && !s.attached){
+        s.attached = true;
+        s.video.src = s.video.dataset.film;
+        s.video.load();
+      } else if (!near && s.attached){
+        s.attached = false; s.ready = false; s.primed = false; /* new src = cold decoder */
+        s.video.removeAttribute('src'); s.video.load();
       }
     });
   }
+  /* slop-allow: RAW_SCROLL_LISTENER -- the handler only writes scrub targets and
+     attach flags; the rAF lerp loop below owns all motion. Decoupling them is what
+     makes the film scrub smooth. This is not scroll-driven animation. */
+  addEventListener('scroll', readScroll, {passive: true});
+  addEventListener('resize', readScroll);
 
-  /* iOS will not paint a currentTime seek on a video that never played. */
-  function prime(a){
-    if(a.primed||!a.loaded) return;
-    var pr; try{ pr=a.v.play(); }catch(e){ return; }
-    if(pr&&pr.then) pr.then(function(){a.primed=true; try{a.v.pause();}catch(e){}})
-                      .catch(function(){a.primed=false;});
-    else { a.primed=true; try{a.v.pause();}catch(e){} }
+  /* Decode prime, PER VIDEO: a video element that has never played won't commit a seek
+     (iOS always; some desktop embeds too — measured here: currentTime writes snapped back
+     to 0 until first play()). Muted+playsinline play() is gesture-exempt in modern engines,
+     so prime on loadedmetadata; the gesture listeners below are the retry for engines that
+     refuse (iOS Low Power Mode). Poster-as-stage-background keeps black off the floor. */
+  function primeVideo(s){
+    if (s.primed || !s.video.src) return;
+    var v = s.video, pr;
+    try { pr = v.play(); } catch(e){ return; }
+    if (pr && pr.then) pr.then(function(){ s.primed = true; s.lastSeek = -1; try{ v.pause(); }catch(e){} })
+                         .catch(function(){ s.primed = false; });
+    else { s.primed = true; s.lastSeek = -1; try{ v.pause(); }catch(e){} }
   }
-  function primeAll(){ A.forEach(function(a){ if(a.loaded) prime(a); }); }
-  ['touchstart','touchend','pointerdown','click','scroll','keydown']
-    .forEach(function(ev){ addEventListener(ev,primeAll,{passive:true}); });
-
-  /* ---- per-act scroll -> currentTime ---- */
-  function readScroll(){
-    A.forEach(function(a){
-      var span=Math.max(1, a.el.offsetHeight - innerHeight),
-          p=(scrollY - a.el.offsetTop)/span;
-      a.target=Math.min(1,Math.max(0,p));
+  state.forEach(function(s){
+    s.video.addEventListener('loadedmetadata', function(){
+      s.ready = true;
+      primeVideo(s);
     });
-  }
+  });
+  ['touchstart','touchend','pointerdown','click','scroll','keydown'].forEach(function(ev){
+    addEventListener(ev, function(){ state.forEach(function(s){ if (s.attached) primeVideo(s); }); }, {passive: true});
+  });
 
-  /* ---- nearest-centre chapter: exactly one live, page-wide ---- */
-  function syncChapter(){
-    var c=scrollY+innerHeight/2, best=-1, bd=Infinity;
-    chaps.forEach(function(ch,i){
-      var r=ch.getBoundingClientRect(), m=r.top+scrollY+r.height/2, d=Math.abs(m-c);
-      if(d<bd){bd=d;best=i;}
-    });
-    chaps.forEach(function(ch,j){ ch.classList.toggle('is-live', j===best); });
-    var ai=-1, ad=Infinity;
-    A.forEach(function(a,i){
-      var m=a.el.offsetTop+a.el.offsetHeight/2, d=Math.abs(m-c);
-      if(d<ad){ad=d;ai=i;}
-    });
-    dots.forEach(function(d,j){ d.setAttribute('aria-current', String(j===ai)); });
-  }
-
+  var lastY = -1;
   (function frame(){
-    A.forEach(function(a){
-      a.current += (a.target-a.current)*(reduce?1:0.1);
-      if(Math.abs(a.target-a.current)<0.0004) a.current=a.target;
-      if(a.ready&&a.duration){
-        /* Only seek films that are actually on screen. */
-        var r=a.el.getBoundingClientRect();
-        if(r.bottom>-200 && r.top<innerHeight+200){
-          var t=a.current*(a.duration-0.05);
-          if(Math.abs(t-a.lastSeek)>0.008){ try{a.v.currentTime=t; a.lastSeek=t;}catch(e){} }
+    /* scroll detection lives in the frame loop itself, not only in the event:
+       if scroll events are ever suppressed (embedders, odd UAs), the film still scrubs */
+    if (scrollY !== lastY){ lastY = scrollY; readScroll(); }
+    state.forEach(function(s){
+      s.current += (s.target - s.current) * (reduce ? 1 : 0.1);
+      if (Math.abs(s.target - s.current) < 0.0004) s.current = s.target;
+      if (s.ready && s.attached && s.video.duration){
+        var t = s.current * (s.video.duration - 0.05);
+        if (Math.abs(t - s.lastSeek) > 0.008){
+          try { s.video.currentTime = t; s.lastSeek = t; } catch(e){}
         }
       }
     });
     requestAnimationFrame(frame);
   })();
 
-  addEventListener('scroll',function(){
-    readScroll(); syncChapter(); manage();
-    cue.classList.toggle('gone', scrollY>140);
-  },{passive:true});
-  addEventListener('resize',function(){ readScroll(); syncChapter(); manage(); });
-  readScroll(); syncChapter(); manage();
+  readScroll();
+  window.__ns = state;  /* debug handle; harmless in production */
+})();
 
-  /* =============== THE PROBLEM PICKER (client-side, never fails) =============== */
-  var PLAYS={
-    phone:{
-      h:"An agent that answers on the first ring — and won't make things up.",
-      f:"We put a voice agent on your line that answers every call around the clock, triages it, takes a proper message, and flags the urgent one to a human immediately. The part most people skip: a trust gate that stops it from confidently inventing a detail it was never given. It can run on your infrastructure, ours, or a cloud provider — we'll tell you which one your call volume actually justifies.",
-      b:["In production","Weeks, not quarters","Runs wherever it should"]
-    },
-    retype:{
-      h:"Hand the retyping to something that doesn't get bored.",
-      f:"We wire the two systems together — even when one of them has no real API and everybody swears it can't be done. Data moves on its own, a human approves anything that writes, and you get a log of every action. This is usually the fastest money we save anybody.",
-      b:["In production","Human approves writes","Full audit trail"]
-    },
-    archive:{
-      h:"Ask twenty years of documents a question in plain English.",
-      f:"We build a private knowledge base over your archive whose answers cite the source document, so you can check it. If keeping the data in-house matters, it runs entirely on hardware you control and never trains somebody else's model. If it doesn't matter, we'll use whatever's fastest and cheapest. And if the answer isn't in there, it says so instead of guessing.",
-      b:["In production","Answers cite sources","Your call where it runs"]
-    },
-    vendors:{
-      h:"We become the one throat to choke.",
-      f:"We get in the middle, read the actual traffic, and find out which side is really failing — then fix it or route around it. No finger-pointing, no \"that's not our layer.\" If it's technology and it's yours, it's our problem. That's the whole deal.",
-      b:["One crew, end to end","No vendor hand-offs"]
-    },
-    legacy:{
-      h:"The thing nobody will touch is the thing we do.",
-      f:"We don't start by demanding you replace it. We wrap it, integrate it, and make it talk to the modern world — and only then have an honest conversation about whether replacing it is worth it. Sometimes the right answer is to leave it alone and build around it. We'll tell you when that's the case.",
-      b:["30+ years of this","Honest build-vs-buy"]
-    },
-    cloud:{
-      h:"Right-size it, then stop paying for what you don't use.",
-      f:"We audit what you're actually paying for against what you actually use, then close the gap. Sometimes that means moving a workload onto hardware; sometimes it's a cheaper tier, a different provider, or switching off the thing nobody has opened in a year. We've built it local, cloud and hybrid, so we have no script to sell you — we'll tell you honestly which way your numbers point.",
-      b:["No lock-in","Honest build-vs-buy","You own everything"]
-    }
-  };
-  var ans=document.getElementById('answer'),
-      syms=[].slice.call(document.querySelectorAll('.sym'));
-  function esc(s){ return s.replace(/[&<>"]/g,function(c){
-    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
-  syms.forEach(function(btn){
-    btn.addEventListener('click',function(){
-      var p=PLAYS[btn.dataset.k];
-      syms.forEach(function(o){ o.setAttribute('aria-pressed', String(o===btn)); });
-      if(!p) return;
-      var subject=encodeURIComponent("My problem: "+btn.textContent.trim().replace(/^SYM-\d+\s*/,''));
-      ans.innerHTML =
-        '<p class="ak">What we\'d do</p>'+
-        '<h3>'+esc(p.h)+'</h3>'+
-        '<p class="fix">'+esc(p.f)+'</p>'+
-        '<div class="row">'+p.b.map(function(b,i){
-          return '<span class="badge'+(i===0?' on':'')+'">'+esc(b)+'</span>'; }).join('')+'</div>'+
-        '<div class="cta">'+
-          '<a class="btn btn-solid" href="tel:+13362969877">Tell Scrappy about this</a>'+
-          '<a class="btn" href="mailto:brian@scrappylabs.ai?subject='+subject+'">Email it instead</a>'+
-        '</div>';
+/* ---- paper reveals: enhance the already-visible; IntersectionObserver, not scroll ---- */
+(function(){
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e, i){
+      if (e.isIntersecting){
+        setTimeout(function(){ e.target.classList.add('in'); }, (i % 4) * 55);
+        io.unobserve(e.target);
+      }
     });
-  });
+  }, {threshold: 0.18});
+  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
 })();
 </script>
-<script defer src="/js/nightshift.js?v=20260727"></script>
 </body>
 </html>
