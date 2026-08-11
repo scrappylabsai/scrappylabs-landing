@@ -27,11 +27,20 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Manifest is valid and every entry resolves
+      # The content manifest was moved OUT of this public repo on purpose
+      # (707e612) — sl-content validates it locally at build time. This step
+      # therefore only runs if a manifest is present (e.g. it ever comes back);
+      # its absence is the expected state, not a failure. Without this guard the
+      # step crashed on every push since 707e612 and the tripwire below never ran.
+      - name: Manifest is valid and every entry resolves (if present)
         run: |
           python3 - <<'PY'
           import json, pathlib, sys
-          d = json.loads(pathlib.Path('content.json').read_text())
+          mf = pathlib.Path('content.json')
+          if not mf.exists():
+              print("content.json not in repo (expected since 707e612) — skipping; sl-content validates it at build time")
+              sys.exit(0)
+          d = json.loads(mf.read_text())
           problems = []
           slugs = set()
           for e in d['entries']:
