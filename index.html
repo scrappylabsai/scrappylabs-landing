@@ -207,6 +207,34 @@ h2{
 .role.open-req{background:var(--paper);border-style:dashed}
 .role.open-req .tab{background:var(--paper);border-style:dashed;border-bottom:none}
 
+/* contact card (opens on any phone-number click — no OS dialer) */
+.ccard{
+  border:1px solid var(--rule);border-radius:3px;background:var(--paper);color:var(--ink);
+  padding:1.6rem 1.8rem 1.4rem;max-width:22rem;width:calc(100% - 2.4rem);
+  overflow:visible;position:relative;
+  box-shadow:0 1px 2px rgba(51,45,33,.12),0 8px 22px rgba(51,45,33,.18);
+}
+.ccard::backdrop{background:rgba(51,45,33,.55)}
+.ccard .tab{
+  position:absolute;top:-13px;left:1.2rem;
+  background:var(--kraft);border:1px solid var(--rule);border-bottom:none;
+  border-radius:3px 3px 0 0;
+  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
+  letter-spacing:.05em;font-size:.95rem;color:var(--ink-soft);
+  padding:.15rem .7rem;
+}
+.ccard h3{font-family:var(--serif);font-weight:700;font-size:1.3rem;margin:.3rem 0 .8rem}
+.ccard p{margin:.45rem 0;font-size:1.02rem}
+.ccard a{color:var(--pine-deep);text-decoration:underline}
+.ccard .ccnote{font-size:.92rem;color:var(--ink-soft);margin-top:.8rem}
+.ccard .ccclose{
+  margin-top:1rem;font:inherit;background:var(--paper-dim);
+  border:1px solid var(--rule);border-radius:3px;padding:.45rem 1.1rem;
+  cursor:pointer;color:var(--ink);
+}
+.ccard .ccclose:hover{background:var(--kraft)}
+.ccard a:focus-visible,.ccard .ccclose:focus-visible{outline:2px solid var(--pine-deep);outline-offset:2px}
+
 /* interview block */
 .interview{
   background:var(--kraft);
@@ -681,6 +709,30 @@ footer .fine{margin-top:1.2rem;font-size:.85rem}
   <span class="dot" aria-hidden="true"></span>
   <span class="long">(336) 296-9877 ·&nbsp;</span><span>answering now</span>
 </a>
+
+<dialog class="ccard" id="contact-card" aria-labelledby="ccard-h">
+  <span class="tab" aria-hidden="true">Contact</span>
+  <h3 id="ccard-h">Reach the shop</h3>
+  <p><b>Phone:</b> <a href="tel:+13362969877">(336)&nbsp;296&#8209;9877</a></p>
+  <p><b>Email:</b> <a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a></p>
+  <p class="ccnote">The AI answers the phone, any hour. Email goes straight to Brian.</p>
+  <button class="ccclose" type="button">Close</button>
+</dialog>
+
+<script>
+(function(){
+  var card=document.getElementById('contact-card');
+  if(!card||!card.showModal)return;
+  document.addEventListener('click',function(e){
+    var a=e.target.closest?e.target.closest('a[href^="tel:"]'):null;
+    if(!a||card.contains(a))return;
+    e.preventDefault();
+    card.showModal();
+  });
+  card.addEventListener('click',function(e){if(e.target===card)card.close();});
+  card.querySelector('.ccclose').addEventListener('click',function(){card.close();});
+})();
+</script>
 
 <script>
 document.documentElement.classList.add('js');
