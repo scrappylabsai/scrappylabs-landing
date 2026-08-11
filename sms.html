@@ -5,23 +5,26 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SMS Terms &amp; Consent — ScrappyLabs</title>
 <meta name="description" content="ScrappyLabs (a d/b/a of Loser.com LLC) SMS text-messaging terms, consent, and opt-out information.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<!-- fonts self-hosted via /assets/fonts (Night Shift reskin 2026-08-10) -->
+<style>
+@font-face{font-family:'Public Sans';font-weight:400;font-style:normal;font-display:swap;src:url('/assets/fonts/PublicSans-400.woff2') format('woff2')}
+@font-face{font-family:'Public Sans';font-weight:600;font-style:normal;font-display:swap;src:url('/assets/fonts/PublicSans-600.woff2') format('woff2')}
+@font-face{font-family:'Fraunces';font-weight:600;font-style:normal;font-display:swap;src:url('/assets/fonts/Fraunces-600.woff2') format('woff2')}
+</style>
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
-  --bg: #0a0a0f;
-  --surface: #13131c;
-  --border: #2a2a3e;
-  --text: #f0f0f5;
-  --text-muted: #8a8aa0;
-  --accent: #ff6b35;
-  --accent-hover: #ff8555;
-  --cyan: #00d4ff;
-  --font: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --bg: #f6f1e3;
+  --surface: #efe8d5;
+  --border: #c9bd9c;
+  --text: #332d21;
+  --text-muted: #575038;
+  --accent: #14523a;
+  --accent-hover: #1c6a49;
+  --cyan: #1c6a49;
+  --font: 'Public Sans', system-ui, -apple-system, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, monospace;
 }
 
 html { scroll-behavior: smooth; }
@@ -56,7 +59,7 @@ header {
   height: 64px;
   display: flex;
   align-items: center;
-  background: rgba(10, 10, 15, 0.85);
+  background: rgba(246, 241, 227, 0.9);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
@@ -145,7 +148,7 @@ li {
   font-family: var(--mono);
   font-weight: 700;
   color: var(--text);
-  background: rgba(255, 107, 53, 0.15);
+  background: rgba(28, 106, 73, 0.12);
   padding: 0.1rem 0.45rem;
   border-radius: 4px;
 }
