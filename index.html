@@ -204,6 +204,8 @@ h2{
 .role .limit b{font-variant-caps:all-small-caps;font-family:var(--serif);letter-spacing:.04em;font-weight:600}
 .role .ref{margin-top:.9rem;font-size:.92rem;color:var(--ink-soft)}
 .role .ref b{color:var(--ink);font-weight:600}
+.role.open-req{background:var(--paper);border-style:dashed}
+.role.open-req .tab{background:var(--paper);border-style:dashed;border-bottom:none}
 
 /* interview block */
 .interview{
@@ -473,9 +475,11 @@ footer .fine{margin-top:1.2rem;font-size:.85rem}
 
   <section class="sheet" aria-labelledby="roles-h">
     <div class="ledger">Open roles · hire any or all</div>
-    <h2 id="roles-h">Four positions. Every one already working somewhere real.</h2>
+    <h2 id="roles-h">The four positions we fill most often. Every one already working somewhere real.</h2>
     <p class="lead">These aren't products with feature lists. They're jobs with duties,
-    a printed limit, and a reference you can check. Like any hire worth making.</p>
+    a printed limit, and a reference you can check. Like any hire worth making.
+    What the industry calls <em>AI agents</em>, we treat as employees: hired for one job,
+    held to its limits, supervised by a human.</p>
 
     <div class="roles">
       <article class="role rv">
@@ -524,6 +528,20 @@ footer .fine{margin-top:1.2rem;font-size:.85rem}
         <p class="ref"><b>Reference:</b> we built a painting contractor his whole new site,
         with a working estimator, before he agreed to anything. You're reading
         another one right now.</p>
+      </article>
+
+      <article class="role open-req rv">
+        <span class="tab">Role No. 05 · open</span>
+        <h3>The Open Requisition</h3>
+        <p>The four above are the ones we fill most often. They're not the only
+        ones we build. Dispatch, scheduling, estimating, the books — describe
+        the shift that eats your evenings and we'll write the job description
+        and build the hire: a custom agent, fitted to the systems you
+        already run.</p>
+        <p class="limit"><b>One limit:</b> every custom hire gets one, written down
+        before it clocks in. If we can't print the limit, we don't build the job.</p>
+        <p class="ref"><b>Reference:</b> every position on this page started here —
+        as a job nobody had built yet.</p>
       </article>
     </div>
   </section>
