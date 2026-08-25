@@ -25,3 +25,12 @@
 /index.html
   ! Permissions-Policy
   Permissions-Policy: camera=(), microphone=(self), geolocation=()
+
+# CV is a hand-out-only link (2026-08-24) — unlisted, not in the sitemap, and
+# explicitly de-indexed. Remove this block when Brian is ready to make it public.
+/cv
+  X-Robots-Tag: noindex, nofollow
+/cv.html
+  X-Robots-Tag: noindex, nofollow
+/resume
+  X-Robots-Tag: noindex, nofollow
