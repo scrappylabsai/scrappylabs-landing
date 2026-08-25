@@ -12,3 +12,7 @@
 /three-tier-memory.html /memory-invocation   301
 /demo                   /scrappy-voice       301
 /demo.html              /scrappy-voice       301
+
+# CV / resume — the page lives at /cv (2026-08-24).
+/resume                 /cv          301
+/resume.html            /cv          301

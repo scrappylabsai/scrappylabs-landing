@@ -1,0 +1,483 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>Brian C. Connelly — GPU Infrastructure &amp; AI Systems Engineer</title>
+<meta name="description" content="Brian C. Connelly — GPU infrastructure and AI systems engineer. Thirty years building infrastructure: founded the first ISP in Columbia SC, ran a licensed CLEC, architected enterprise GPU-accelerated VDI, now builds self-hosted production AI and live voice agents.">
+<link rel="canonical" href="https://scrappylabs.ai/cv">
+<meta name="robots" content="index,follow">
+<meta property="og:type" content="profile">
+<meta property="og:title" content="Brian C. Connelly — GPU Infrastructure &amp; AI Systems Engineer">
+<meta property="og:description" content="Thirty years building infrastructure. First ISP in Columbia SC, licensed CLEC, enterprise GPU-accelerated VDI, now self-hosted production AI and live voice agents.">
+<meta property="og:url" content="https://scrappylabs.ai/cv">
+<meta property="og:image" content="https://scrappylabs.ai/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f6f1e3'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%231c6a49'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700&family=Newsreader:opsz,wght@6..72,300;6..72,400;6..72,500&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+</head>
+<body>
+<style>
+:root{
+  --ground:#EEF0F2; --panel:#FFFFFF; --rail:#DCE0E4;
+  --ink:#171C21; --ink-2:#4A545E; --ink-3:#79848F;
+  --copper:#A85A32; --copper-soft:#C8845E;
+  --signal:#B07A16; --live:#1F6F73;
+  --line:#D4D9DE; --hairline:#C3CAD1;
+  --shadow:0 1px 2px rgba(23,28,33,.05), 0 8px 28px -18px rgba(23,28,33,.35);
+  --display:'Archivo','Helvetica Neue',Arial,sans-serif;
+  --body:'Newsreader',Georgia,'Times New Roman',serif;
+  --mono:'JetBrains Mono','SF Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#12161B; --panel:#181D23; --rail:#242B33;
+    --ink:#E6EAEE; --ink-2:#A5B0BA; --ink-3:#77828D;
+    --copper:#D98B5F; --copper-soft:#B26B41;
+    --signal:#D9A63C; --live:#4FA8A8;
+    --line:#262D35; --hairline:#333C46;
+    --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 32px -20px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#12161B; --panel:#181D23; --rail:#242B33;
+  --ink:#E6EAEE; --ink-2:#A5B0BA; --ink-3:#77828D;
+  --copper:#D98B5F; --copper-soft:#B26B41;
+  --signal:#D9A63C; --live:#4FA8A8;
+  --line:#262D35; --hairline:#333C46;
+  --shadow:0 1px 2px rgba(0,0,0,.4), 0 10px 32px -20px rgba(0,0,0,.8);
+}
+
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:var(--body); font-size:17px; line-height:1.62;
+  font-weight:400; margin:0; padding:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:820px; margin:0 auto; padding:0 24px 96px}
+
+/* ---------- masthead ---------- */
+.mast{padding:64px 0 0; display:flex; flex-direction:column; gap:20px}
+.eyebrow{
+  font-family:var(--mono); font-size:11px; font-weight:500;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--copper);
+}
+h1{
+  font-family:var(--display); font-weight:700; font-size:clamp(2.6rem,7vw,4rem);
+  line-height:.98; letter-spacing:-.025em; margin:0; text-wrap:balance;
+}
+.role{
+  font-family:var(--display); font-weight:500;
+  font-size:clamp(1.05rem,2.4vw,1.3rem); line-height:1.35;
+  color:var(--ink-2); margin:0; max-width:34ch; text-wrap:balance;
+}
+.role b{color:var(--ink); font-weight:600}
+.contact{
+  display:flex; flex-wrap:wrap; gap:6px 18px; align-items:baseline;
+  font-family:var(--mono); font-size:12.5px; color:var(--ink-2);
+  padding-top:4px;
+}
+.contact a{color:var(--ink-2); text-decoration:none; border-bottom:1px solid var(--hairline)}
+.contact a:hover{color:var(--copper); border-bottom-color:var(--copper)}
+.contact a:focus-visible{outline:2px solid var(--copper); outline-offset:3px; border-radius:2px}
+
+/* ---------- the line ---------- */
+.line-card{
+  position:relative; overflow:hidden; margin:44px 0 0;
+  background:var(--panel); border:1px solid var(--hairline);
+  border-radius:3px; box-shadow:var(--shadow);
+}
+#wave{position:absolute; inset:0; width:100%; height:100%; opacity:.5}
+.line-inner{position:relative; padding:30px 32px; display:flex; flex-direction:column; gap:12px}
+.status{
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--mono); font-size:10.5px; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase; color:var(--live);
+}
+.dot{width:7px; height:7px; border-radius:50%; background:var(--live); flex:none;
+  box-shadow:0 0 0 0 var(--live); animation:pulse 2.6s ease-out infinite}
+@keyframes pulse{
+  0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--live) 55%,transparent)}
+  70%{box-shadow:0 0 0 9px transparent} 100%{box-shadow:0 0 0 0 transparent}
+}
+.tel{
+  font-family:var(--display); font-weight:700; letter-spacing:-.03em;
+  font-size:clamp(1.9rem,5.6vw,2.9rem); line-height:1;
+  color:var(--ink); text-decoration:none; display:inline-block;
+  font-variant-numeric:tabular-nums;
+}
+.tel:hover{color:var(--copper)}
+.tel:focus-visible{outline:2px solid var(--copper); outline-offset:4px; border-radius:3px}
+.line-note{margin:0; color:var(--ink-2); font-size:15.5px; max-width:58ch}
+.line-note b{color:var(--ink); font-weight:500}
+
+/* ---------- prose ---------- */
+.summary{margin:40px 0 0; font-size:18.5px; line-height:1.65; color:var(--ink-2); max-width:64ch}
+.summary strong{color:var(--ink); font-weight:500}
+
+h2{
+  font-family:var(--mono); font-size:11px; font-weight:700;
+  letter-spacing:.18em; text-transform:uppercase; color:var(--ink-3);
+  margin:0; padding:0 0 12px; border-bottom:1px solid var(--line);
+}
+section{margin-top:56px}
+
+/* ---------- timeline ---------- */
+.job{display:grid; grid-template-columns:104px 1fr; gap:0 28px; padding:28px 0;
+  border-bottom:1px solid var(--line)}
+.job:last-child{border-bottom:none}
+.when{
+  font-family:var(--mono); font-size:12px; font-weight:500; color:var(--ink-3);
+  padding-top:6px; font-variant-numeric:tabular-nums; line-height:1.5;
+}
+.when .place{display:block; color:var(--ink-3); opacity:.8; margin-top:5px; font-size:11px}
+.job h3{
+  font-family:var(--display); font-size:1.16rem; font-weight:600; letter-spacing:-.012em;
+  margin:0 0 3px; color:var(--ink); line-height:1.3; text-wrap:balance;
+}
+.job h3 .co{color:var(--copper)}
+.tagline{margin:0 0 14px; color:var(--ink-2); font-size:16px; line-height:1.55; max-width:60ch}
+.tagline strong{color:var(--ink); font-weight:500}
+ul{margin:0; padding:0; list-style:none; display:flex; flex-direction:column; gap:10px}
+li{position:relative; padding-left:18px; color:var(--ink-2); font-size:15.5px; line-height:1.58;
+  max-width:62ch}
+li::before{content:""; position:absolute; left:0; top:.66em; width:6px; height:1px;
+  background:var(--copper-soft)}
+li strong{color:var(--ink); font-weight:500}
+li.key::before{width:6px; height:6px; top:.52em; border-radius:50%; background:var(--copper)}
+
+/* ---------- skills ---------- */
+.skills{display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:0}
+.skill{padding:20px 0; border-bottom:1px solid var(--line)}
+.skill:last-child{border-bottom:none}
+.skill dt{
+  font-family:var(--mono); font-size:10.5px; font-weight:700; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--copper); margin:0 0 7px;
+}
+.skill dd{margin:0; color:var(--ink-2); font-size:15px; line-height:1.55; max-width:52ch}
+@media(min-width:700px){
+  .skills{gap:0 44px}
+  .skill{border-bottom:1px solid var(--line)}
+}
+
+/* ---------- credentials ---------- */
+.creds{display:flex; flex-wrap:wrap; gap:10px; padding-top:20px}
+.cred{
+  font-family:var(--mono); font-size:11.5px; color:var(--ink-2);
+  border:1px solid var(--hairline); border-radius:2px; padding:7px 12px;
+  background:var(--panel);
+}
+.cred b{color:var(--ink); font-weight:500}
+
+footer{
+  margin-top:64px; padding-top:24px; border-top:1px solid var(--line);
+  font-family:var(--mono); font-size:12px; color:var(--ink-3);
+  display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between;
+}
+footer a{color:var(--copper); text-decoration:none}
+footer a:hover{text-decoration:underline}
+footer a:focus-visible{outline:2px solid var(--copper); outline-offset:3px}
+
+@media(max-width:640px){
+  body{font-size:16px}
+  .wrap{padding:0 18px 64px}
+  .mast{padding-top:44px}
+  .job{grid-template-columns:1fr; gap:0}
+  .when{padding:0 0 10px}
+  .when .place{display:inline; margin:0 0 0 10px}
+  .line-inner{padding:24px 20px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none !important; transition:none !important}
+  #wave{display:none}
+}
+</style>
+
+<div class="wrap">
+
+  <header class="mast">
+    <div class="eyebrow">Sylva, North Carolina · Remote</div>
+    <h1>Brian C.<br>Connelly</h1>
+    <p class="role">
+      <b>GPU infrastructure &amp; AI systems engineer.</b> Fifteen years running production GPU
+      platforms, now serving self-hosted inference and live voice agents. Former CLEC — I have
+      been the carrier, not just the API customer.
+    </p>
+    <div class="contact">
+      <a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a>
+      <a href="tel:+18284761388">828-476-1388</a>
+      <a href="https://www.linkedin.com/in/brian-connelly-3b6a451">LinkedIn</a>
+      <a href="https://github.com/scrappylabsai">GitHub</a>
+      <a href="https://loser.com">loser.com</a>
+    </div>
+  </header>
+
+  <div class="line-card">
+    <canvas id="wave" aria-hidden="true"></canvas>
+    <div class="line-inner">
+      <div class="status"><span class="dot"></span>Line is live</div>
+      <a class="tel" href="tel:+13362969877">+1 336-296-9877</a>
+      <p class="line-note">
+        Call it. You'll speak with a voice agent I designed, built, and run —
+        <b>local ASR and TTS on my own GPUs, my own telephony stack</b>, answering real calls
+        today. Every other claim on this page is checkable; this one answers.
+      </p>
+    </div>
+  </div>
+
+  <p class="summary">
+    Thirty years building infrastructure. I founded the first ISP in Columbia, South Carolina and
+    took it all the way to a licensed carrier; spent fourteen years architecting and running
+    enterprise GPU-accelerated VDI for a federal contractor; and now build production AI on that
+    same foundation. I deliver <strong>frontier-class model capability without frontier-class API
+    bills</strong> — long-context reasoning, voice agents that survive real callers, retrieval over
+    real corpora — self-hosted, at a marginal cost close to zero. I optimize the way an owner
+    does, not the way a tenant does.
+  </p>
+
+  <section>
+    <h2>Experience</h2>
+
+    <article class="job">
+      <div class="when">2023 — now<span class="place">Sylva, NC</span></div>
+      <div>
+        <h3><span class="co">ScrappyLabs</span> — Founder &amp; Principal Engineer</h3>
+        <p class="tagline">Independent AI practice. I design, build, and operate production AI
+          systems for clients in healthcare, legal services, and consumer products.</p>
+        <ul>
+          <li class="key">Built and operate a <strong>live phone receptionist for an immigration
+            law firm</strong> — inbound handling, intake capture, routing and escalation — on
+            dedicated infrastructure with health checks, watchdogs, off-box backup, and external
+            probes.</li>
+          <li>Own the stack end to end: <strong>ASR → LLM → TTS → telephony</strong>, with
+            barge-in and turn-taking tuned against real callers rather than demos.</li>
+          <li>Carrier-grade telephony: <strong>STIR/SHAKEN attestation, DID reputation management
+            and rotation, branded calling, carrier selection</strong> — a stack designed to keep
+            outbound numbers off "Spam Likely" lists.</li>
+          <li class="key">Serve <strong>frontier-class open-weight models at 1M-token
+            context</strong> on self-hosted infrastructure — the capability tier that until
+            recently meant a metered bill per call.</li>
+          <li>Engineer the <strong>context/throughput tradeoff deliberately</strong> — tuning
+            context length, KV budget, and batching per workload, so a job that doesn't need 1M
+            tokens runs several times faster and serves more concurrent users on the same
+            silicon.</li>
+          <li>Built the <strong>GPU arbitration layer</strong> that makes shared accelerators safe
+            in production: memory reservations, ordered service displacement and restore, health
+            gating, automatic recovery.</li>
+          <li>Replaced recurring metered inference spend with fixed-cost capacity, so usage growth
+            stops being a variable-cost problem. Heterogeneous multi-node cluster — Blackwell, Ada,
+            and GB10 class GPUs — served with <strong>vLLM</strong>.</li>
+          <li>Client systems: multi-layer retrieval over research literature, live commerce data,
+            support history and product catalog, with a fact-checking layer for health claims;
+            evaluation-driven development against fixture suites.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">2010 — 2024<span class="place">Remote</span></div>
+      <div>
+        <h3><span class="co">Fluor Government Group</span> — Senior Systems Administrator III</h3>
+        <p class="tagline">Lead Citrix and VMware architect for enterprise federal infrastructure
+          supporting global operations. <strong>The first employee FGG ever approved for full-time
+          remote work</strong> — the policy was changed for this role, then run that way for
+          fourteen years.</p>
+        <ul>
+          <li class="key"><strong>Architected and built the enterprise GPU-accelerated VDI
+            environment from the ground up</strong> — infrastructure design, image strategy, and
+            deployment methodology for a global workforce.</li>
+          <li class="key"><strong>14+ years running NVIDIA CUDA / vGPU in production</strong> — GPU
+            passthrough, vGPU profiles, graphics optimization for demanding engineering workloads.
+            The same silicon discipline now applied to inference.</li>
+          <li class="key"><strong>Scaled concurrency from ~1–2K to 5K sessions in roughly one month
+            during COVID.</strong> The platform I had built became the company's business-continuity
+            plan overnight; I took it to 2.5–5× concurrent capacity in about thirty days with no
+            interruption to delivery.</li>
+          <li><strong>Architected the secure remote-work model the organization ran on</strong> —
+            demonstrated that a properly locked-down VDI endpoint was a stronger security posture
+            than a managed laptop, which let engineering staff work from home on sensitive work
+            that had previously required them on-site.</li>
+          <li><strong>Designed the platform so administration never required access to customer
+            data</strong> — separation of duties, demonstrated to the security organization and
+            operated that way for years. Least privilege applied to the administrator, before the
+            industry called it zero trust.</li>
+          <li>Owned one long-running federal program environment for <strong>8+ years</strong>,
+            taken over mid-contract.</li>
+          <li>Data-center scale: multi-datacenter VMware vSphere estate, <strong>20,000+ entitled
+            users</strong>, desktops delivered worldwide over satellite and private networks.</li>
+          <li>Citrix PVS, ADC/NetScaler, Virtual Apps &amp; Desktops, StoreFront, Director.
+            <strong>Enterprise escalation manager for all Citrix issues.</strong></li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">2006 — 2010<span class="place">Oklahoma</span></div>
+      <div>
+        <h3><span class="co">Dell</span> — Network OS Analyst, High-Complexity Alternate OS</h3>
+        <ul>
+          <li>Third-level escalation for high-complexity <strong>VMware ESX, Citrix PVS, and Red
+            Hat</strong>.</li>
+          <li>ESX + EMC integration escalation support; VMware DSA certification training.</li>
+          <li>Delivered cross-departmental training on Linux and VMware troubleshooting.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">2001 — 2006<span class="place">Charleston, SC</span></div>
+      <div>
+        <h3><span class="co">Connelly Management</span> — CIO / CTO</h3>
+        <p class="tagline">Technology executive for a healthcare group operating long-term care
+          facilities, pharmacies, and hospice services.</p>
+        <ul>
+          <li>Rebuilt a <strong>49-year-old organization's</strong> IT into unified, manageable
+            systems.</li>
+          <li><strong>Eliminated data loss and unscheduled downtime</strong> through systematic
+            fault analysis.</li>
+          <li class="key"><strong>Pioneered an FDA-approved robotic drug fulfillment system</strong>
+            for long-term care.</li>
+          <li>Enterprise WAN/LAN with thin-client architecture; consolidated vendors and moved to
+            open standards, cutting licensing cost.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">1998 — 2000<span class="place">Columbia, SC</span></div>
+      <div>
+        <h3><span class="co">Enterprise Communication &amp; Messaging Solutions</span> — CEO &amp; Founder</h3>
+        <ul>
+          <li>Built applications for <strong>Microsoft, Pfizer, Deloitte &amp; Touche, and
+            Texaco</strong>.</li>
+          <li>Developed the <strong>MS TechNet knowledge-management system for Microsoft</strong>.</li>
+          <li>Merged with ITFactory.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">1990s<span class="place">Columbia, SC</span></div>
+      <div>
+        <h3><span class="co">Competitive Local Exchange Carrier</span> — Owner &amp; Founder</h3>
+        <p class="tagline">A licensed CLEC, run concurrently with the ISP. I owned the service and
+          the network underneath it.</p>
+        <ul>
+          <li class="key">Interconnection with the incumbent carrier, switching, numbering, and
+            carrier regulatory compliance. Went from buying access to <strong>being the
+            network</strong>.</li>
+          <li>Vertically integrated: SuperNet sold the service, the CLEC carried it.</li>
+          <li><strong>Testified before the state commission</strong> to obtain carrier
+            authority.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="job">
+      <div class="when">1993 — 1999<span class="place">Columbia, SC</span></div>
+      <div>
+        <h3><span class="co">South Carolina SuperNet</span> — CEO &amp; Founder</h3>
+        <p class="tagline">Founded the <strong>first Internet Service Provider in Columbia,
+          SC</strong> — and one of the first independent, non-telco ISPs in the state — in 1993,
+          <strong>before Netscape existed</strong>.</p>
+        <ul>
+          <li class="key">Grew to <strong>$2M+ annual revenue within two years</strong>, selling
+            internet access to a market that largely did not yet know what it was.</li>
+          <li>Built the complete ISP stack by hand: billing, LAN/WAN, firewalls, web and intranet
+            applications on Linux/BSD.</li>
+          <li><strong>Ported RADIUS to Windows NT</strong>, added database support, integrated real
+            billing — the AAA and provisioning backbone of the dial-up era.</li>
+          <li>Led the company through <strong>merger and IPO</strong>.</li>
+        </ul>
+      </div>
+    </article>
+  </section>
+
+  <section>
+    <h2>Technical</h2>
+    <dl class="skills">
+      <div class="skill"><dt>Inference &amp; serving</dt><dd>vLLM · quantization (FP8/AWQ/GGUF) ·
+        KV-cache budgeting · multi-GPU memory arbitration · model routing and failover ·
+        local-first with cloud failover</dd></div>
+      <div class="skill"><dt>Voice</dt><dd>Streaming ASR · local neural TTS · turn-taking ·
+        barge-in · latency budgeting · voice cloning</dd></div>
+      <div class="skill"><dt>Telephony &amp; carrier</dt><dd>Former CLEC operator — interconnection,
+        switching, numbering, regulatory · SIP · STIR/SHAKEN · DID reputation and rotation ·
+        branded calling · IVR</dd></div>
+      <div class="skill"><dt>AI systems</dt><dd>RAG · vector search · agent orchestration · MCP
+        servers · evaluation harnesses · LLM-as-judge</dd></div>
+      <div class="skill"><dt>Virtualization</dt><dd>VMware vSphere/ESXi · Citrix Virtual Apps &amp;
+        Desktops · PVS · ADC/NetScaler · VDI at scale · GPU virtualization / vGPU ·
+        separation-of-duties administration</dd></div>
+      <div class="skill"><dt>Platform &amp; hardware</dt><dd>Linux (30 yrs) · systemd · Docker ·
+        Python · PowerShell · Active Directory · NVIDIA Blackwell / Ada / GB10 · CUDA · Cisco UCS ·
+        Dell EMC SAN</dd></div>
+    </dl>
+  </section>
+
+  <section>
+    <h2>Credentials</h2>
+    <div class="creds">
+      <span class="cred"><b>VMware Certified Professional</b> / Architect</span>
+      <span class="cred"><b>MCSE</b></span>
+      <span class="cred"><b>Citrix Certified Administrator</b></span>
+      <span class="cred"><b>RHCT</b> — Red Hat Certified Technician</span>
+      <span class="cred"><b>B.S.</b> University of South Carolina</span>
+    </div>
+  </section>
+
+  <footer>
+    <span>I build in the open — public, dated, checkable.</span>
+    <span><a href="https://loser.com">loser.com</a></span>
+  </footer>
+</div>
+
+<script>
+(function(){
+  var c=document.getElementById('wave');
+  if(!c||window.matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+  var x=c.getContext('2d'),t=0,raf;
+  function size(){
+    var d=window.devicePixelRatio||1,r=c.getBoundingClientRect();
+    c.width=r.width*d; c.height=r.height*d; x.setTransform(d,0,0,d,0,0);
+  }
+  function stroke(){return getComputedStyle(document.documentElement)
+    .getPropertyValue('--copper-soft').trim()||'#C8845E';}
+  function draw(){
+    var r=c.getBoundingClientRect(),w=r.width,h=r.height;
+    x.clearRect(0,0,w,h);
+    var col=stroke();
+    for(var k=0;k<3;k++){
+      x.beginPath();
+      x.globalAlpha=0.16-k*0.045;
+      x.lineWidth=1.1;
+      x.strokeStyle=col;
+      for(var i=0;i<=w;i+=3){
+        var p=i/w;
+        var env=Math.sin(p*Math.PI); // fade at both ends
+        var y=h/2
+          + Math.sin(p*11 - t*0.9 + k*1.7)*14*env
+          + Math.sin(p*23 + t*0.55 - k)*7*env
+          + Math.sin(p*47 - t*1.5)*2.5*env;
+        i?x.lineTo(i,y):x.moveTo(i,y);
+      }
+      x.stroke();
+    }
+    x.globalAlpha=1;
+    t+=0.016;
+    raf=requestAnimationFrame(draw);
+  }
+  size(); draw();
+  var to; window.addEventListener('resize',function(){clearTimeout(to);to=setTimeout(size,120)});
+  document.addEventListener('visibilitychange',function(){
+    if(document.hidden){cancelAnimationFrame(raf)}else{raf=requestAnimationFrame(draw)}
+  });
+})();
+</script>
+</body>
+</html>
