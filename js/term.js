@@ -149,11 +149,19 @@
     try {
       const r = await fetchT('/scrappy/api/health', { cache: 'no-store' }, 6000);
       const j = await r.json();
-      health = { open: !!j.open, at: Date.now() };
+      health = { open: !!j.open, voice: !!(j.open && j.backend), at: Date.now() };
     } catch {
-      health = { open: false, at: Date.now() };
+      health = { open: false, voice: false, at: Date.now() };
     }
     return health.open;
+  }
+  // The voice leg idles off on its own. While it is down, the voice
+  // links hide themselves and `voice` says so, instead of sending people to a
+  // dead mic. Comes back by itself when the backend does.
+  async function checkVoice() {
+    await repOpen();
+    for (const n of files.querySelectorAll('[data-voice]')) n.hidden = !health.voice;
+    return health.voice;
   }
   async function ask(b, q) {
     q = q.trim().slice(0, 500);
@@ -214,6 +222,11 @@
   def(['ask', 'scrappy'], 'ask scrappy, our AI rep (or just type a question)',
     (b, args) => ask(b, args.join(' ')));
   def(['voice', 'talk'], 'talk to scrappy out loud', async (b) => {
+    if (!(await checkVoice())) {
+      line(b, "the voice line is down right now. type your question here instead, and scrappy answers in text.", 'err');
+      reachHuman(b);
+      return;
+    }
     line(b, ['opening the voice line → ', el('a', { href: '/scrappy/', text: '/scrappy/' })]);
     await sleep(reduce ? 0 : 500);
     location.href = '/scrappy/';
@@ -517,5 +530,6 @@ __/ =| o |=-~~\  /~~\  /~~\  /~~\ ____Y___________|__|__________________________
   \_/      \O=====O=====O=====O_/      \_/               \_/   \_/    \_/   \_/      `;
 
   newPrompt();
+  checkVoice();
   enqueue(boot);
 })();

@@ -1,133 +1,70 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0a07">
 <title>The Lab — Experiments, Publications &amp; Field Notes | ScrappyLabs</title>
 <meta name="description" content="Notes, experiments, and the occasional word of crazy from the ScrappyLabs workshop. Built in the open — half documentation, half thinking out loud.">
 <meta property="og:title" content="The Lab — ScrappyLabs">
 <meta property="og:description" content="Notes, experiments, and the occasional word of crazy from the workshop. Built in the open.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://scrappylabs.ai/lab">
-<meta name="color-scheme" content="dark">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="canonical" href="https://scrappylabs.ai/lab">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230c0a07'/%3E%3Cpath d='M7 10l6 6-6 6' stroke='%23ffb547' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3Crect x='16' y='20' width='10' height='3' fill='%23ffb547'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/jbmono-nl-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/page.css">
 <style>
-*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-:root{
-  --bg:#0a0a0f; --surface:#13131c; --surface-2:#1a1a28; --border:#2a2a3e; --border-hover:#3a3a52;
-  --text:#f0f0f5; --text-muted:#8a8aa0; --text-dim:#5a5a72;
-  --accent:#ff6b35; --accent-hover:#ff8555; --accent-glow:rgba(255,107,53,0.15);
-  --cyan:#00d4ff; --green:#2ed573;
-  --font:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
-  --mono:'JetBrains Mono','Fira Code',monospace;
-}
-html{scroll-behavior:smooth;}
-body{background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.6;
-  overflow-x:hidden; -webkit-font-smoothing:antialiased; min-height:100vh;}
-a{color:var(--accent); text-decoration:none; transition:color .2s;}
-a:hover{color:var(--accent-hover);}
-body::before{content:''; position:fixed; inset:0; z-index:9999; pointer-events:none;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");}
-
-/* header — matches the secondary-page chrome on the rest of the site */
-header{position:fixed; top:0; left:0; right:0; z-index:100; height:64px; padding:0 clamp(1rem,4vw,2rem);
-  display:flex; align-items:center; justify-content:space-between;
-  background:rgba(10,10,15,.85); backdrop-filter:blur(20px); border-bottom:1px solid var(--border);}
-.logo{font-size:1.25rem; font-weight:900; letter-spacing:-.5px;
-  background:linear-gradient(135deg,var(--accent),var(--cyan)); -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent; background-clip:text;}
-.logo span{font-weight:500; opacity:.7; -webkit-text-fill-color:initial; color:var(--text-muted);}
-.head-nav{display:flex; gap:clamp(1rem,3vw,2rem); align-items:center;}
-.head-nav a{color:var(--text-muted); font-size:.8rem; font-weight:600; letter-spacing:.5px; text-transform:uppercase;}
-.head-nav a:hover{color:var(--text);}
-.head-cta{background:var(--accent); color:var(--bg)!important; padding:.5rem 1.1rem; border-radius:8px;
-  font-weight:700; font-size:.78rem;}
-.head-cta:hover{background:var(--accent-hover); box-shadow:0 4px 20px var(--accent-glow);}
-
-/* layout */
-.wrap{max-width:860px; margin:0 auto; padding:120px clamp(1.2rem,5vw,2rem) 100px;}
-
-/* intro */
-.eyebrow{font-family:var(--mono); font-size:.78rem; letter-spacing:.28em; text-transform:uppercase;
-  color:var(--accent); display:flex; align-items:center; gap:.7rem;}
-.eyebrow::before{content:''; width:26px; height:1px; background:var(--accent);}
-.intro h1{font-size:clamp(2.6rem,8vw,4.4rem); font-weight:900; letter-spacing:-.03em; line-height:1;
-  margin:1.1rem 0 0; text-wrap:balance;}
-.intro h1 .glow{background:linear-gradient(135deg,var(--accent),var(--cyan));
-  -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;}
-.intro .lede{color:var(--text-muted); font-size:clamp(1.05rem,2.4vw,1.25rem); max-width:60ch;
-  margin:1.5rem 0 0; line-height:1.7;}
-.intro .lede b{color:var(--text); font-weight:600;}
-
-/* divider label */
-.divider{display:flex; align-items:center; gap:1rem; margin:clamp(3rem,7vw,4.5rem) 0 2rem;
-  font-family:var(--mono); font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; color:var(--text-dim);}
-.divider::after{content:''; flex:1; height:1px; background:var(--border);}
-
-/* post cards */
-.posts{display:flex; flex-direction:column; gap:1.1rem;}
-.post{display:block; background:var(--surface); border:1px solid var(--border); border-radius:14px;
-  padding:1.5rem 1.6rem; transition:border-color .22s ease, transform .22s ease, box-shadow .22s ease;}
-.post:hover{border-color:var(--border-hover); transform:translateY(-2px);
-  box-shadow:0 16px 44px -26px rgba(0,0,0,.7);}
-.post .meta{display:flex; flex-wrap:wrap; gap:.6rem 1rem; align-items:center; font-family:var(--mono);
-  font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--text-dim);}
-.post .kind{color:var(--cyan);}
-.post h2{font-size:1.5rem; font-weight:800; letter-spacing:-.01em; margin:.55rem 0 .5rem; color:var(--text);
-  text-wrap:balance;}
-.post:hover h2{color:var(--accent-hover);}
-.post p{color:var(--text-muted); font-size:1rem; line-height:1.65; margin:0 0 1rem;}
-.post .read{font-family:var(--mono); font-size:.8rem; font-weight:700; letter-spacing:.04em; color:var(--accent);}
-.post:hover .read{color:var(--accent-hover);}
-.tags{display:flex; flex-wrap:wrap; gap:.5rem; margin-top:.2rem;}
-.tag{font-family:var(--mono); font-size:.68rem; letter-spacing:.03em; padding:.28rem .6rem; border-radius:999px;
-  border:1px solid var(--border); color:var(--text-muted); background:var(--surface-2);}
-
-/* footer */
-footer{border-top:1px solid var(--border); padding:2rem clamp(1.2rem,5vw,2rem);
-  color:var(--text-dim); font-size:.85rem; text-align:center;}
-footer a{color:var(--text-muted);} footer a:hover{color:var(--text);}
-footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; color:var(--text-dim); margin-top:.5rem;}
+.doc h1 .hi{color:var(--amber-hi)}
 </style>
 </head>
 <body>
+<a class="skip" href="#main">Skip to content</a>
 
-<header>
-  <a href="/" class="logo" aria-label="ScrappyLabs home">ScrappyLabs<span>.ai</span></a>
-  <nav class="head-nav">
-    <a href="/">Home</a>
-    <a href="mailto:brian@scrappylabs.ai" class="head-cta">Meet With Brian</a>
-  </nav>
+<header class="bar">
+  <p class="prompt"><a href="/">guest@scrappylabs</a>:~/lab$ <span class="cmd">ls -l</span></p>
+  <nav aria-label="Site"><a href="/">home</a><a href="/#blog">blog</a><a href="/#demos">demos</a><a href="/#contact">contact</a></nav>
 </header>
 
-<main class="wrap">
-  <section class="intro">
-    <div class="eyebrow">ScrappyLabs · The Lab</div>
-    <h1>Words of <span class="glow">crazy</span>,<br>from the workshop.</h1>
-    <p class="lede">Our corner for thinking out loud. Half of what lands here is documentation, half is us working an idea in public, and some of it is a hunch that had no business working — until it did. We <b>build in the open</b>; this is where we say what we found. New entries as they happen.</p>
-  </section>
+<main id="main" class="doc">
+    <p class="kicker">ScrappyLabs · The Lab</p>
+    <h1>Words of <span class="hi">crazy</span>,<br>from the workshop.</h1>
+    <p class="standfirst">Our corner for thinking out loud. Half of what lands here is documentation, half is us working an idea in public, and some of it is a hunch that had no business working — until it did. We <b>build in the open</b>; this is where we say what we found. New entries as they happen.</p>
 
-  <div class="divider">Latest</div>
+  <p class="label">Latest</p>
 
   <!-- SL:CONTENT:START -->
   <style>
-    .sl-filter{display:flex;flex-wrap:wrap;gap:.5rem;margin:0 0 1.6rem}
-    .sl-chip{font:inherit;font-size:.78rem;letter-spacing:.06em;text-transform:uppercase;
-      background:transparent;color:var(--muted,#98a2b6);border:1px solid var(--line2,rgba(255,255,255,.16));
-      border-radius:999px;padding:.42rem .85rem;cursor:pointer;transition:.15s}
-    .sl-chip:hover{color:var(--ink,#e6ebf4);border-color:var(--amber,#ff6b35)}
-    .sl-chip[aria-pressed="true"]{background:var(--amber,#ff6b35);color:#180a03;
-      border-color:var(--amber,#ff6b35);font-weight:700}
-    .sl-chip:focus-visible{outline:3px solid var(--amber-ink,#ffb27a);outline-offset:2px}
-    .sl-media{display:flex;gap:6px;margin:.9rem 0 0;flex-wrap:wrap}
-    .sl-media img{width:78px;height:78px;object-fit:cover;border-radius:6px;
-      border:1px solid var(--line,rgba(255,255,255,.09))}
+    .sl-filter{display:flex;flex-wrap:wrap;gap:.5em .6em;margin:0 0 1.2em}
+    .sl-chip{font:inherit;color:var(--amber);background:var(--panel);border:1px solid var(--edge);
+      border-radius:3px;padding:.22em .7em;cursor:pointer;min-height:44px}
+    .sl-chip::before{content:"[";color:var(--dim)} .sl-chip::after{content:"]";color:var(--dim)}
+    .sl-chip:hover,.sl-chip[aria-pressed="true"]{background:var(--amber);color:var(--bg);border-color:var(--amber)}
+    .sl-chip:hover::before,.sl-chip:hover::after,.sl-chip[aria-pressed="true"]::before,
+    .sl-chip[aria-pressed="true"]::after{color:var(--bg)}
+    .sl-chip:focus-visible{outline:2px solid var(--amber-hi);outline-offset:3px}
+    @media (pointer:fine){.sl-chip{min-height:0}}
+    .sl-count{color:var(--dim);font-size:.85em;margin:0 0 1em}
+    .posts{border-top:1px dashed var(--rule);margin:0 0 1.5em}
+    .post{display:block;padding:.85em 0;border-bottom:1px dashed var(--rule);text-decoration:none;color:var(--fg)}
     .post[hidden]{display:none}
-    .sl-count{font-size:.78rem;color:var(--muted,#98a2b6);margin:0 0 1.2rem}
+    .post:focus-visible{outline:2px solid var(--amber-hi);outline-offset:3px}
+    .post .meta{display:flex;flex-wrap:wrap;gap:.2em 1.6ch;color:var(--dim);font-size:.85em}
+    .post .meta .kind,.post .meta .t{color:var(--green);text-transform:lowercase}
+    .doc .post h2{font-size:1.05rem;margin:.25em 0 .3em;color:var(--amber);text-decoration:underline;
+      text-decoration-thickness:1px;text-underline-offset:3px}
+    .doc .post h2::before{content:none}
+    .post:hover h2{color:var(--amber-hi)}
+    .doc .post p{color:var(--dim);margin:0;font-size:.92em}
+    .post .tags{display:flex;gap:1.4ch;flex-wrap:wrap;margin-top:.45em;font-size:.8em;color:var(--dim)}
+    .post .tags .tag{font-weight:400;text-transform:none;letter-spacing:0;font-size:1em}
+    .post .tags .tag::before{content:"#";color:var(--dim)} .post .tags .tag::after{content:none}
+    .post .read,.post .go{display:block;color:var(--amber);font-size:.85em;margin-top:.45em}
+    .sl-media{display:flex;gap:6px;margin:.6em 0 0;flex-wrap:wrap}
+    .sl-media img{width:64px;height:64px;object-fit:cover;border:1px solid var(--rule)}
   </style>
-  <div class="sl-filter"><button class="sl-chip" data-filter="field-note">Field Notes</button><button class="sl-chip" data-filter="explainer">Visual Explainer</button><button class="sl-chip" data-filter="publication">Publication</button><button class="sl-chip" data-filter="test">Test</button><button class="sl-chip" data-filter="gallery">Sample Art</button><button class="sl-chip" data-filter="build">Build</button><button class="sl-chip" data-filter="release">Open Source</button></div>
+  <div class="sl-filter"><button class="sl-chip" data-filter="field-note">Field Notes</button><button class="sl-chip" data-filter="explainer">Visual Explainer</button><button class="sl-chip" data-filter="publication">Publication</button><button class="sl-chip" data-filter="test">Test</button><button class="sl-chip" data-filter="gallery">Sample Art</button><button class="sl-chip" data-filter="release">Open Source</button></div>
   <p class="sl-count"></p>
 
   <div class="posts">
@@ -141,13 +78,13 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
       <div class="read" style="margin-top:1rem">Read it &rarr;</div>
     </a>
 
-    <a class="post" data-type="explainer" href="https://stuff.scrappylabs.ai/public/moya/fara-wrangled-20260729.html" target="_blank" rel="noopener">
+    <a class="post" data-type="explainer" href="/fara-wrangled">
       <div class="meta"><span class="kind">Visual Explainer</span><span>29 Jul 2026</span><span>· 6 min read</span></div>
       <h2>Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU</h2>
       <p>Microsoft's open browser-driving model, running on one GPU in our rack. How the observe-think-act loop works, the two ways to hand it a browser, what it's honestly good at — and the guardrails that keep it wrangled.</p>
       
       <div class="tags"><span class="tag">agents</span><span class="tag">computer use</span><span class="tag">local ai</span><span class="tag">open models</span></div>
-      <div class="read" style="margin-top:1rem">Open &nearr;</div>
+      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
     </a>
 
     <a class="post" data-type="release" href="/scrappy-voice">
@@ -177,22 +114,22 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
       <div class="read" style="margin-top:1rem">Read it &rarr;</div>
     </a>
 
-    <a class="post" data-type="gallery" href="https://stuff.scrappylabs.ai/public/moya/mage-flow-gallery.html" target="_blank" rel="noopener">
+    <a class="post" data-type="gallery" href="/mage-flow-gallery">
       <div class="meta"><span class="kind">Sample Art</span><span>23 Jul 2026</span></div>
       <h2>Mage-Flow — The Full Sample Set</h2>
       <p>Every frame we generated while evaluating Mage-Flow: embroidered patches, cyanotype blueprints, risograph prints, a neon-noir alley, stained glass, and a three-step edit chain. One seed, first output kept, nothing cherry-picked.</p>
       <div class="sl-media" aria-hidden="true"><img src="mf-patch.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-riso.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-blueprint.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-noir.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-stainedglass.webp" alt="" loading="lazy" width="120" height="120"><img src="mf-diorama.webp" alt="" loading="lazy" width="120" height="120"></div>
       <div class="tags"><span class="tag">sample art</span><span class="tag">image models</span><span class="tag">generated</span></div>
-      <div class="read" style="margin-top:1rem">Open &nearr;</div>
+      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
     </a>
 
-    <a class="post" data-type="explainer" href="https://stuff.scrappylabs.ai/public/moya/watch-skill-guide-20260722.html" target="_blank" rel="noopener">
+    <a class="post" data-type="explainer" href="/watch-guide">
       <div class="meta"><span class="kind">Visual Explainer</span><span>22 Jul 2026</span><span>· 5 min read</span></div>
       <h2>Giving an AI Eyes on Video</h2>
       <p>How we let an AI actually watch a video instead of guessing from the title — scene-aware frame extraction, deduplicated shots, transcript from captions or local speech-to-text. The how-to, and what it costs to run.</p>
       
       <div class="tags"><span class="tag">video</span><span class="tag">multimodal</span><span class="tag">open source</span></div>
-      <div class="read" style="margin-top:1rem">Open &nearr;</div>
+      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
     </a>
 
     <a class="post" data-type="release" href="https://github.com/scrappylabsai/audhd" target="_blank" rel="noopener">
@@ -221,24 +158,6 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
       <div class="tags"><span class="tag">voice agents</span><span class="tag">latency</span><span class="tag">architecture</span></div>
       <div class="read" style="margin-top:1rem">Read it &rarr;</div>
     </a>
-
-    <a class="post" data-type="field-note" href="/scrappy-tools">
-      <div class="meta"><span class="kind">Field Notes</span><span>20 Mar 2026</span><span>· 5 min read</span></div>
-      <h2>Scrappy Tools — Teaching Small Models to Use CLI Tools</h2>
-      <p>Small local models can drive real command-line tools if you teach them properly. What worked, what didn't, and why tool-use is the capability that makes a small model useful instead of merely fast.</p>
-      
-      <div class="tags"><span class="tag">small models</span><span class="tag">tool use</span><span class="tag">local inference</span></div>
-      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
-    </a>
-
-    <a class="post" data-type="build" href="/qb-agent">
-      <div class="meta"><span class="kind">Build</span><span>10 Feb 2026</span><span>· 3 min read</span></div>
-      <h2>Agentic Accounting</h2>
-      <p>Bookkeeping by conversation instead of by form. Invoices, expenses, reports and purchase orders handled in plain English, wired straight into the accounting system you already run — with a human approving anything that writes.</p>
-      
-      <div class="tags"><span class="tag">agents</span><span class="tag">quickbooks</span><span class="tag">automation</span></div>
-      <div class="read" style="margin-top:1rem">Read it &rarr;</div>
-    </a>
   </div>
   <script>
   (function(){
@@ -265,21 +184,23 @@ footer .note{font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; co
   </script>
   <!-- SL:CONTENT:END -->
 
-
-  <div class="divider" style="margin-top:clamp(2.6rem,6vw,3.6rem)">Dispatches</div>
-  <ul style="list-style:none; padding:0; margin:0; display:flex; flex-direction:column; gap:1rem;">
-    <li style="color:var(--text-muted); font-size:1rem; line-height:1.65;">
-      <span style="font-family:var(--mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--cyan);">/watch v1.3.0</span> &nbsp;
+  <p class="label">Dispatches</p>
+  <ul>
+    <li>
+      <code>/watch v1.3.0</code> &nbsp;
       Rebuilt our video-understanding pipeline with scene-aware frame selection &mdash; one ffmpeg pass, no ML. It matched a trending 950&#9733; open-source tool on frame quality while keeping the instant, timestamped, zero-cost transcripts it doesn't have. <a href="/two-years">More in the essay &rarr;</a>
     </li>
   </ul>
 </main>
 
-<footer>
-  <div>&copy; 2026 ScrappyLabs. Building since '93. &nbsp;|&nbsp; <a href="/">Home</a> &nbsp;|&nbsp; <a href="mailto:brian@scrappylabs.ai">Contact</a></div>
-  <div><a href="/privacy">Privacy</a> &nbsp;|&nbsp; <a href="/tos">Terms</a> &nbsp;|&nbsp; <a href="/sms">SMS Terms &amp; Consent</a></div>
-  <div class="note">built in the open · asheville, nc</div>
+<footer class="legal">
+  <p>© 2026 Loser.com LLC. ScrappyLabs is a d/b/a of Loser.com LLC. · Building since '93 ·
+    <a href="/privacy">privacy</a> · <a href="/tos">terms</a> · <a href="/sms">sms terms</a> · <a href="/feed.xml">rss</a></p>
 </footer>
-
+<nav class="tmux" aria-label="Contact">
+  <span class="tw">[scrappylabs] 1:lab*</span>
+  <span class="tc"><a href="tel:+13362969877">call (336) 296-9877</a> <a href="mailto:brian@scrappylabs.ai"><span class="m-short">mail</span><span class="m-long">brian@scrappylabs.ai</span></a></span>
+  <a href="/">cd ~</a>
+</nav>
 </body>
 </html>

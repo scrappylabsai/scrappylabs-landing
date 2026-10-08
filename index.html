@@ -131,8 +131,8 @@
         <dd><a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a><br>
           <span class="dim">Straight to Brian.</span></dd>
         <dt>chat</dt>
-        <dd>Type a question at the prompt and Scrappy, our AI rep, answers here.
-          <a href="/scrappy/">Talk to it out loud</a> if you prefer voice.</dd>
+        <dd>Type a question at the prompt and Scrappy, our AI rep, answers here.<span data-voice>
+          <a href="/scrappy/">Talk to it out loud</a> if you prefer voice.</span></dd>
         <dt>where</dt>
         <dd>Asheville, North Carolina. We work with clients anywhere.</dd>
       </dl>
@@ -153,14 +153,13 @@
       <p class="dim">Field notes, teardowns and long reads, newest first.</p>
       <!-- SL:TERM:BLOG:START -->
       <ol class="ls">
-        <li><span class="n" aria-hidden="true">[1]</span><time datetime="2026-07-29">2026-07-29</time><span class="k">explainer</span><a href="https://stuff.scrappylabs.ai/public/moya/fara-wrangled-20260729.html" target="_blank" rel="noopener">Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">Microsoft&#x27;s open browser-driving model, running on one GPU in our rack. How the observe-think-act loop works, the two ways to hand it a browser, what…</span></li>
+        <li><span class="n" aria-hidden="true">[1]</span><time datetime="2026-07-29">2026-07-29</time><span class="k">explainer</span><a href="/fara-wrangled">Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU</a><span class="sum">Microsoft&#x27;s open browser-driving model, running on one GPU in our rack. How the observe-think-act loop works, the two ways to hand it a browser, what…</span></li>
         <li><span class="n" aria-hidden="true">[2]</span><time datetime="2026-07-27">2026-07-27</time><span class="k">publication</span><a href="/memory-invocation">The Retrieval Was Fine. The Agent Never Looked.</a><span class="sum">We built a four-tier memory system for our coding agents, then instrumented it to find what was still failing. It wasn&#x27;t the retriever — every…</span></li>
-        <li><span class="n" aria-hidden="true">[3]</span><time datetime="2026-07-25">2026-07-25</time><span class="k">long-read</span><a href="https://stuff.scrappylabs.ai/public/k3-review/fear-segment.html" target="_blank" rel="noopener">Anatomy of an AI Fear Segment<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">A good argument about open-weight economics, and the exact moment it turns into something else. Four tells that a technical explainer has stopped…</span></li>
-        <li><span class="n" aria-hidden="true">[4]</span><time datetime="2026-07-22">2026-07-22</time><span class="k">explainer</span><a href="https://stuff.scrappylabs.ai/public/moya/watch-skill-guide-20260722.html" target="_blank" rel="noopener">Giving an AI Eyes on Video<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">How we let an AI actually watch a video instead of guessing from the title — scene-aware frame extraction, deduplicated shots, transcript from…</span></li>
+        <li><span class="n" aria-hidden="true">[3]</span><time datetime="2026-07-25">2026-07-25</time><span class="k">long-read</span><a href="/fear-segment">Anatomy of an AI Fear Segment</a><span class="sum">A good argument about open-weight economics, and the exact moment it turns into something else. Four tells that a technical explainer has stopped…</span></li>
+        <li><span class="n" aria-hidden="true">[4]</span><time datetime="2026-07-22">2026-07-22</time><span class="k">explainer</span><a href="/watch-guide">Giving an AI Eyes on Video</a><span class="sum">How we let an AI actually watch a video instead of guessing from the title — scene-aware frame extraction, deduplicated shots, transcript from…</span></li>
         <li><span class="n" aria-hidden="true">[5]</span><time datetime="2026-07-10">2026-07-10</time><span class="k">field-note</span><a href="/babysitter">We Gave the Robots a Babysitter</a><span class="sum">An autonomous agent with a terminal will happily run rm -rf if a poisoned web page tells it to. So before any of ours runs a command, a world model…</span></li>
         <li><span class="n" aria-hidden="true">[6]</span><time datetime="2026-07-10">2026-07-10</time><span class="k">field-note</span><a href="/specvoice">SPECVOICE — Speculative Execution at the Dialog Layer</a><span class="sum">Borrowing a trick from CPU design and applying it to conversation: start computing the likely answer before the caller has finished asking. What…</span></li>
         <li><span class="n" aria-hidden="true">[7]</span><time datetime="2026-07-08">2026-07-08</time><span class="k">long-read</span><a href="/two-years">Two Years to the Taste of the Stew</a><span class="sum">The honest arc — from fighting Windows to a fleet of local models that finally feel real. The MCP tool-use moment, a memory layer a frontier model…</span></li>
-        <li><span class="n" aria-hidden="true">[8]</span><time datetime="2026-03-20">2026-03-20</time><span class="k">field-note</span><a href="/scrappy-tools">Scrappy Tools — Teaching Small Models to Use CLI Tools</a><span class="sum">Small local models can drive real command-line tools if you teach them properly. What worked, what didn&#x27;t, and why tool-use is the capability that…</span></li>
       </ol>
       <!-- SL:TERM:BLOG:END -->
       <p class="dim">More: <a href="/log">the log</a> · <a href="/lab">the lab</a> · <a href="/feed.xml">rss</a></p>
@@ -170,14 +169,13 @@
       <h2 class="echo"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$ ls </span>demos<span aria-hidden="true">/</span></h2>
       <p class="dim">Things you can poke at. Live first, then experiments.</p>
       <ol class="ls live">
-        <li><span class="n" aria-hidden="true">[*]</span><span class="k">live</span><a href="#ask" data-cmd="ask">Scrappy, our AI rep</a><span class="sum">Ask it anything right here at the prompt, or <a href="/scrappy/">by voice</a>.</span></li>
+        <li><span class="n" aria-hidden="true">[*]</span><span class="k">live</span><a href="#ask" data-cmd="ask">Scrappy, our AI rep</a><span class="sum">Ask it anything right here at the prompt<span data-voice>, or <a href="/scrappy/">by voice</a></span>.</span></li>
         <li><span class="n" aria-hidden="true">[*]</span><span class="k">live</span><a href="tel:+13362969877">The phone desk: (336) 296-9877</a><span class="sum">Call it. It's the same kind of AI receptionist we build for clients.</span></li>
       </ol>
       <!-- SL:TERM:DEMOS:START -->
       <ol class="ls">
         <li><span class="n" aria-hidden="true">[1]</span><time datetime="2026-07-23">2026-07-23</time><span class="k">test</span><a href="/mage-flow">Mage-Flow, First Light</a><span class="sum">Microsoft shipped a 4B image model that does generation and instruction editing under an MIT licence — the licence being the part that usually kills…</span></li>
-        <li><span class="n" aria-hidden="true">[2]</span><time datetime="2026-07-23">2026-07-23</time><span class="k">gallery</span><a href="https://stuff.scrappylabs.ai/public/moya/mage-flow-gallery.html" target="_blank" rel="noopener">Mage-Flow — The Full Sample Set<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">Every frame we generated while evaluating Mage-Flow: embroidered patches, cyanotype blueprints, risograph prints, a neon-noir alley, stained glass…</span></li>
-        <li><span class="n" aria-hidden="true">[3]</span><time datetime="2026-02-10">2026-02-10</time><span class="k">build</span><a href="/qb-agent">Agentic Accounting</a><span class="sum">Bookkeeping by conversation instead of by form. Invoices, expenses, reports and purchase orders handled in plain English, wired straight into the…</span></li>
+        <li><span class="n" aria-hidden="true">[2]</span><time datetime="2026-07-23">2026-07-23</time><span class="k">gallery</span><a href="/mage-flow-gallery">Mage-Flow — The Full Sample Set</a><span class="sum">Every frame we generated while evaluating Mage-Flow: embroidered patches, cyanotype blueprints, risograph prints, a neon-noir alley, stained glass…</span></li>
       </ol>
       <!-- SL:TERM:DEMOS:END -->
     </section>
@@ -207,7 +205,7 @@
 </main>
 
 <footer class="legal">
-    <p>© 2026 ScrappyLabs, a d/b/a of Loser.com LLC ·
+    <p>© 2026 Loser.com LLC. ScrappyLabs is a d/b/a of Loser.com LLC. ·
       <a href="/privacy">privacy</a> · <a href="/tos">terms</a> · <a href="/sms">sms terms</a> ·
       <a href="/feed.xml">rss</a></p>
 </footer>

@@ -4,94 +4,71 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0a07">
 <title>Scrappy: a voice in 37 megabytes — ScrappyLabs</title>
 <meta name="description" content="We gave our AI a voice in one day: a 9M-parameter CPU-only TTS model, distilled from a cloud narrator, published open with the trainer upstream doesn't ship.">
-<meta name="theme-color" content="#06070b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Scrappy: a voice in 37 megabytes — ScrappyLabs">
 <meta property="og:description" content="A same-day build: distill a voice into a 9M-param CPU model, race the GPUs, gate the data, ship it open — weights, samples, and the missing trainer.">
 <meta property="og:url" content="https://scrappylabs.ai/scrappy-voice">
-<link rel="stylesheet" href="styles.css">
+<link rel="canonical" href="https://scrappylabs.ai/scrappy-voice">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230c0a07'/%3E%3Cpath d='M7 10l6 6-6 6' stroke='%23ffb547' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3Crect x='16' y='20' width='10' height='3' fill='%23ffb547'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/jbmono-nl-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/page.css">
 <style>
-  .sv-wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
-  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber-ink);margin:0 0 12px}
-  h1{font-family:var(--disp);font-size:clamp(25px,4.2vw,46px);line-height:1.16;margin:0 0 16px;color:var(--ink)}
-  .lede{font-size:clamp(16px,2vw,19px);line-height:1.6;color:var(--body);max-width:62ch;margin:0 0 10px}
-  .lede b{color:var(--ink)}
-  section{margin:0 0 52px}
-  h2{font-family:var(--disp);font-size:clamp(19px,2.6vw,27px);margin:0 0 8px;color:var(--ink)}
-  h3{font-family:var(--disp);font-size:15px;margin:0 0 9px;color:var(--ink)}
-  .sub{color:var(--muted);max-width:64ch;margin:0 0 22px;line-height:1.6}
-  p{color:var(--body);line-height:1.65;max-width:64ch;margin:0 0 14px}
-  p b{color:var(--ink)}
-  .prose a{color:var(--amber-ink);text-decoration:underline;text-underline-offset:3px}
-  .prose a:hover{color:var(--amber)}
-  .prose a:focus-visible{outline:3px solid var(--amber-ink);outline-offset:2px;border-radius:3px}
-  .sv-hero{background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:30px 26px;margin:0 0 44px}
-  .player{display:flex;flex-direction:column;gap:6px;background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:14px 16px;margin:10px 0 0}
-  .player b{font-family:var(--disp);font-size:14px;color:var(--ink)}
-  .player span{font-size:13px;color:var(--muted)}
-  .player audio{width:100%;margin-top:6px}
-  .players{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin:0 0 26px}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
-  .stat b{display:block;font-family:var(--disp);font-size:26px;color:var(--amber);line-height:1.1}
-  .stat b small{font-size:14px;color:var(--amber-ink)}
-  .stat span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-top:7px}
-  .bar-row{display:grid;grid-template-columns:minmax(150px,220px) 1fr 90px;gap:14px;align-items:center;margin-bottom:11px}
-  .bar-lab{font-size:13.5px;color:var(--body)}
-  .bar-track{background:var(--bg2);border-radius:4px;height:16px;overflow:hidden;border:1px solid var(--line)}
-  .bar{display:block;height:100%;background:linear-gradient(90deg,var(--amber),var(--amber-hi));border-radius:0 4px 4px 0}
-  .bar-val{font-family:var(--mono);font-size:12.5px;color:var(--ink);text-align:right}
-  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:11px;padding:18px 20px;margin:24px 0 0}
-  .note p{margin:0 0 9px;font-size:14.5px}
-  .note p:last-child{margin:0}
-  code{font-family:var(--mono);font-size:12.5px;color:var(--amber-ink);background:var(--bg2);padding:1px 5px;border-radius:4px}
-  pre{background:var(--bg2);border:1px solid var(--line);border-radius:11px;padding:16px 18px;overflow-x:auto;margin:0 0 14px}
-  pre code{background:none;padding:0;color:var(--body);font-size:13px;line-height:1.6}
-  pre code .c{color:var(--muted)}
-  .cta{background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:28px 24px;text-align:center}
-  .cta p{margin:0 auto}
-  .cta .btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:16px}
-  .cta a{display:inline-block;background:var(--amber);color:#180a03;font-weight:700;
-    padding:12px 24px;border-radius:9px;text-decoration:none;font-family:var(--mono);letter-spacing:.04em}
-  .cta a.ghost{background:none;color:var(--amber-ink);border:1px solid var(--line2)}
-  .cta a:hover{background:var(--amber-hi)}
-  .cta a.ghost:hover{background:var(--bg2);color:var(--amber)}
-  .cta a:focus-visible{outline:3px solid var(--amber-ink);outline-offset:3px}
-  .backlink{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:inline-block;margin:26px 0 20px;text-decoration:none}
-  .backlink:hover{color:var(--amber-ink)}
-  .backlink:focus-visible{outline:3px solid var(--amber-ink);outline-offset:2px}
+  /* page-scoped layout only */
+  .player .player-h small{display:block}
+  .players{margin:1.2em 0}
+  .players .player{margin:0}
+  .rows.stats .row{grid-template-columns:9ch 1fr}
+  .rows.stats .n{color:var(--amber);font-weight:700;white-space:nowrap}
+  .rows.stats .n small{display:inline;color:var(--amber-hi);font-size:.75em;font-weight:400}
+  /* the race: label · track · value (was .bar-*, renamed — .bar is the page header) */
+  .race-row{display:grid;grid-template-columns:minmax(14ch,26ch) 1fr 12ch;gap:.3em 2ch;align-items:center;margin:0 0 .7em}
+  .race-track{display:block;height:1em;background:var(--panel);border:1px solid var(--edge)}
+  .race-fill{display:block;height:100%;background:var(--amber)}
+  .race-val{text-align:right;color:var(--amber-hi)}
+  @media (max-width:560px){
+    .race-row{grid-template-columns:1fr auto}
+    .race-track{grid-column:1 / -1;grid-row:2}
+  }
+  .box.note{border-left:3px solid var(--amber)}
+  .box > h2:first-child,.box > h3:first-child{margin-top:0}
+  pre .c{color:var(--dim)}
+  .btns{display:flex;flex-wrap:wrap;gap:.8em 1.2em;margin:1.2em 0}
 </style>
 </head>
 <body>
-<div class="sv-wrap prose">
-  <a class="backlink" href="/">&larr; scrappylabs.ai</a>
-  <a class="backlink" href="/lab" style="margin-left:1rem">The Lab &rarr;</a>
+<a class="skip" href="#main">Skip to content</a>
 
-  <div class="sv-hero">
-    <p class="kicker">Build log · 28 July 2026</p>
-    <h1>We gave our AI a voice in one day. Here's the recipe — and the voice.</h1>
-    <p class="lede">This morning a <b>37-megabyte</b> text-to-speech model crossed our radar:
-    <b>Inflect-Micro-v2</b>, nine million parameters, faster than real-time on a plain CPU. It ships
-    with one fixed voice, no trainer, and a note that says custom voices are "research use."
-    By tonight it speaks with ours. Meet <b>Scrappy</b>.</p>
-    <div class="player">
-      <b>Scrappy's first words</b>
-      <span>Generated by the finished model on a desktop CPU — no GPU, no cloud</span>
-      <audio controls preload="none" src="scrappy-hello.wav"></audio>
-    </div>
+<header class="bar">
+  <p class="prompt"><a href="/">guest@scrappylabs</a>:<a href="/#github">~/github</a>$ <span class="cmd">less scrappy-voice.md</span></p>
+  <nav aria-label="Site"><a href="/">home</a><a href="/#blog">blog</a><a href="/#demos">demos</a><a href="/#contact">contact</a></nav>
+</header>
+
+<main id="main" class="doc">
+<article>
+  <p class="kicker">Build log · 28 July 2026</p>
+  <h1>We gave our AI a voice in one day. Here's the recipe — and the voice.</h1>
+  <p class="standfirst">This morning a <b>37-megabyte</b> text-to-speech model crossed our radar:
+  <b>Inflect-Micro-v2</b>, nine million parameters, faster than real-time on a plain CPU. It ships
+  with one fixed voice, no trainer, and a note that says custom voices are "research use."
+  By tonight it speaks with ours. Meet <b>Scrappy</b>.</p>
+  <div class="player">
+    <p class="player-h"><b>Scrappy's first words</b>
+    <small>Generated by the finished model on a desktop CPU — no GPU, no cloud</small></p>
+    <audio controls preload="none" src="scrappy-hello.wav"></audio>
   </div>
 
   <section>
     <h2>The numbers first</h2>
-    <p class="sub">Measured on our own hardware, because model cards that only brag are ads.</p>
-    <div class="stats">
-      <div class="stat"><b>37<small>MB</small></b><span>Whole model</span></div>
-      <div class="stat"><b>9.36<small>M</small></b><span>Parameters</span></div>
-      <div class="stat"><b>10&ndash;14<small>×</small></b><span>Faster than real-time, CPU</span></div>
-      <div class="stat"><b>3<small>h</small>09<small>m</small></b><span>Full training run</span></div>
-      <div class="stat"><b>1<small> day</small></b><span>Idea to published</span></div>
+    <p class="dim">Measured on our own hardware, because model cards that only brag are ads.</p>
+    <div class="rows stats">
+      <div class="row"><b class="n">37<small>MB</small></b><span>Whole model</span></div>
+      <div class="row"><b class="n">9.36<small>M</small></b><span>Parameters</span></div>
+      <div class="row"><b class="n">10&ndash;14<small>×</small></b><span>Faster than real-time, CPU</span></div>
+      <div class="row"><b class="n">3<small>h</small>09<small>m</small></b><span>Full training run</span></div>
+      <div class="row"><b class="n">1<small> day</small></b><span>Idea to published</span></div>
     </div>
   </section>
 
@@ -114,7 +91,7 @@
     <h2>The step everyone skips is the one that saved us</h2>
     <p>Before training, every clip went through a gate: speech recognition transcribes it back, and
     if the audio doesn't say what the script says, it dies. Boring, right?</p>
-    <div class="note">
+    <div class="box note">
       <h3>The gate caught audio that lies beautifully</h3>
       <p>Several clips came back from the cloud API containing a <b>spoken watermark</b> — audio
       announcing the vendor's product name instead of our sentence. Clean waveform, right duration,
@@ -127,9 +104,9 @@
 
   <section>
     <h2>The race: laptop GPU vs. rented iron</h2>
-    <p class="sub">Same corpus, same config, same 50,000 steps — two different machines, timed.</p>
-    <div class="bar-row"><span class="bar-lab">Rented RTX PRO 6000 · $2.19/hr</span><span class="bar-track"><span class="bar" style="width:100%"></span></span><span class="bar-val">4.4 steps/s</span></div>
-    <div class="bar-row"><span class="bar-lab">24GB laptop GPU · "free"</span><span class="bar-track"><span class="bar" style="width:48%"></span></span><span class="bar-val">2.1 steps/s</span></div>
+    <p class="dim">Same corpus, same config, same 50,000 steps — two different machines, timed.</p>
+    <div class="race-row"><span class="race-lab">Rented RTX PRO 6000 · $2.19/hr</span><span class="race-track"><span class="race-fill" style="width:100%"></span></span><span class="race-val">4.4 steps/s</span></div>
+    <div class="race-row"><span class="race-lab">24GB laptop GPU · "free"</span><span class="race-track"><span class="race-fill" style="width:48%"></span></span><span class="race-val">2.1 steps/s</span></div>
     <p>The rental started four hours behind and finished two hours ahead, for roughly the cost of a
     sandwich. The laptop spent the afternoon at 98% GPU with the fans screaming. Verdict: laptops are
     for pilots; rent the training runs. Your hardware — and your lap — will thank you.</p>
@@ -141,28 +118,28 @@
     What a 9M model can't fully hold is the teacher's <b>timing</b>: the dramatic pause, the
     phrase-level planning. The organ responsible for timing in this architecture is the size of a
     walnut. Scrappy reads a little flatter than his teacher, and we're telling you that up front.</p>
-    <h3 style="margin-top:22px">Before and after, in their own words</h3>
-    <div class="players">
+    <h3>Before and after, in their own words</h3>
+    <div class="grid players">
       <div class="player">
-        <b>The voice it ships with</b>
-        <span>Stock Inflect-Micro-v2, out of the box: &ldquo;I'm not Scrappy&hellip; yet.&rdquo;</span>
+        <p class="player-h"><b>The voice it ships with</b>
+        <small>Stock Inflect-Micro-v2, out of the box: &ldquo;I'm not Scrappy&hellip; yet.&rdquo;</small></p>
         <audio controls preload="none" src="scrappy-stock.wav"></audio>
       </div>
       <div class="player">
-        <b>One day later</b>
-        <span>Same 37MB architecture, our weights: &ldquo;Hello World. I'm Scrappy.&rdquo;</span>
+        <p class="player-h"><b>One day later</b>
+        <small>Same 37MB architecture, our weights: &ldquo;Hello World. I'm Scrappy.&rdquo;</small></p>
         <audio controls preload="none" src="scrappy-hello.wav"></audio>
       </div>
     </div>
-    <div class="players" style="margin-top:12px">
+    <div class="grid players">
       <div class="player">
-        <b>Quieter register</b>
-        <span>Softer material, same model</span>
+        <p class="player-h"><b>Quieter register</b>
+        <small>Softer material, same model</small></p>
         <audio controls preload="none" src="scrappy-ice.wav"></audio>
       </div>
       <div class="player">
-        <b>Prosody &amp; pacing</b>
-        <span>Ordered steps, comma pauses, a full stop ending</span>
+        <p class="player-h"><b>Prosody &amp; pacing</b>
+        <small>Ordered steps, comma pauses, a full stop ending</small></p>
         <audio controls preload="none" src="scrappy-steps.wav"></audio>
       </div>
     </div>
@@ -170,9 +147,9 @@
 
   <section>
     <h2>Run him yourself</h2>
-    <p class="sub">Everything is Apache-2.0 — weights, samples, and the fine-tuning stack the
+    <p class="dim">Everything is Apache-2.0 — weights, samples, and the fine-tuning stack the
     original release doesn't ship. CPU is all you need.</p>
-<pre><code><span class="c"># get it (weights included — ~40MB)</span>
+<pre tabindex="0"><code><span class="c"># get it (weights included — ~40MB)</span>
 git clone https://github.com/scrappylabsai/scrappy-voice-1
 cd scrappy-voice-1
 python3 -m venv .venv &amp;&amp; source .venv/bin/activate
@@ -182,7 +159,7 @@ pip install -r requirements.txt
 python inference.py --model-dir . --device cpu \
   --text "Hello World. I'm Scrappy." --output hello.wav</code></pre>
     <p>Or from Python:</p>
-<pre><code>from inference import InflectTTS
+<pre tabindex="0"><code>from inference import InflectTTS
 
 tts = InflectTTS(model_dir=".", device="cpu")
 tts.save("Write numbers as words for best results.", "out.wav", seed=7)</code></pre>
@@ -201,44 +178,44 @@ tts.save("Write numbers as words for best results.", "out.wav", seed=7)</code></
     voice is one embedding row, which means four voices cost one model, and the space
     <i>between</i> any two of them is a real place you can stand.</p>
 
-    <div class="players">
+    <div class="grid players">
       <div class="player">
-        <b>Scrappy</b>
-        <span>Warm, expressive narrator &mdash; the original</span>
+        <p class="player-h"><b>Scrappy</b>
+        <small>Warm, expressive narrator &mdash; the original</small></p>
         <audio controls preload="none" src="family-scrappy.wav"></audio>
       </div>
       <div class="player">
-        <b>Clara</b>
-        <span>Clear professional narrator, broadcast polish</span>
+        <p class="player-h"><b>Clara</b>
+        <small>Clear professional narrator, broadcast polish</small></p>
         <audio controls preload="none" src="family-clara.wav"></audio>
       </div>
       <div class="player">
-        <b>Silas</b>
-        <span>Deep and gravelly &mdash; movie-trailer gravitas</span>
+        <p class="player-h"><b>Silas</b>
+        <small>Deep and gravelly &mdash; movie-trailer gravitas</small></p>
         <audio controls preload="none" src="family-silas.wav"></audio>
       </div>
       <div class="player">
-        <b>Pip</b>
-        <span>Bright, quick, podcast-host energy</span>
+        <p class="player-h"><b>Pip</b>
+        <small>Bright, quick, podcast-host energy</small></p>
         <audio controls preload="none" src="family-pip.wav"></audio>
       </div>
     </div>
 
-    <p style="margin-top:18px">All four clips above came out of <b>the same 41MB file</b>, on a CPU.
+    <p>All four clips above came out of <b>the same 41MB file</b>, on a CPU.
     The pleasant surprise: pooling four voices' data made the shared model <i>better</i> than the
     single-voice runs, not worse &mdash; the four voices landed at roughly the quality of our best
     solo run instead of paying for the company.</p>
 
-    <div class="btns" style="margin-top:20px">
-      <a href="https://voices.scrappylabs.ai">Try all four &mdash; and blend them</a>
-      <a class="ghost" href="https://huggingface.co/scrappylabsai/scrappy-voice-family-1">Family weights</a>
+    <div class="btns">
+      <a class="btn" href="https://voices.scrappylabs.ai">Try all four &mdash; and blend them</a>
+      <a class="btn" href="https://huggingface.co/scrappylabsai/scrappy-voice-family-1">Family weights</a>
     </div>
-    <p style="margin:14px auto 0;font-size:13px;color:var(--muted)">The demo runs on our own
+    <p class="dim">The demo runs on our own
     hardware. Drag the blend slider and you are interpolating between two speaker embeddings live
     &mdash; near the ends it sounds like a person, and the deep middle gets strange, because only
     the four anchors were ever trained. Everything between them is the model improvising.</p>
 
-    <p style="margin-top:16px">Solo models, one voice each:
+    <p>Solo models, one voice each:
       <a href="https://huggingface.co/scrappylabsai/clara-voice-1">Clara</a> &middot;
       <a href="https://huggingface.co/scrappylabsai/silas-voice-1">Silas</a> &middot;
       <a href="https://huggingface.co/scrappylabsai/pip-voice-1">Pip</a> &middot;
@@ -246,28 +223,41 @@ tts.save("Write numbers as words for best results.", "out.wav", seed=7)</code></
     </p>
   </section>
 
-  <section class="cta">
+  <section class="box">
     <h2>This is a Tuesday for us</h2>
     <p>A model landed in the morning. By midnight the licence was read, the missing trainer was
     rebuilt, the data was gated, the GPUs were raced, and the result was published open — with the
     failure modes documented. We do this daily to stay honest about what's actually possible.</p>
     <div class="btns">
-      <a href="https://voices.scrappylabs.ai">Try the whole family live</a>
-      <a class="ghost" href="https://huggingface.co/scrappylabsai/scrappy-voice-1">Weights on HuggingFace</a>
-      <a class="ghost" href="https://github.com/scrappylabsai/scrappy-voice-1">GitHub mirror</a>
-      <a class="ghost" href="/#contact">Talk to us</a>
+      <a class="btn" href="https://voices.scrappylabs.ai">Try the whole family live</a>
+      <a class="btn" href="https://huggingface.co/scrappylabsai/scrappy-voice-1">Weights on HuggingFace</a>
+      <a class="btn" href="https://github.com/scrappylabsai/scrappy-voice-1">GitHub mirror</a>
+      <a class="btn" href="/#contact">Talk to us</a>
     </div>
-    <p style="margin:14px auto 0;font-size:13px;color:var(--muted)">The live demo was built by the
+    <p class="dim">The live demo was built by the
     Hugging Face open-source team on free ZeroGPU infrastructure — the ecosystem giving back to the
     give-back, one day after release.</p>
   </section>
 
-  <p class="sub" style="font-size:12.5px;margin:34px 0 44px">
+  <div class="endnote">
+    <p>
     Base model: <b>owensong/Inflect-Micro-v2</b> (Apache-2.0) — credit where due: an unusually honest
     release. Training audio synthesized throughout: Scrappy from a commercial cloud narrator voice, and
     Clara, Silas and Pip from written descriptions via a voice-design model on our own hardware
     (synthetic personas; no real person's voice was cloned). Figures measured on our own runs.
-  </p>
-</div>
+    </p>
+  </div>
+</article>
+</main>
+
+<footer class="legal">
+  <p>© 2026 Loser.com LLC. ScrappyLabs is a d/b/a of Loser.com LLC. · Building since '93 ·
+    <a href="/privacy">privacy</a> · <a href="/tos">terms</a> · <a href="/sms">sms terms</a> · <a href="/feed.xml">rss</a></p>
+</footer>
+<nav class="tmux" aria-label="Contact">
+  <span class="tw">[scrappylabs] 1:scrappy-voice*</span>
+  <span class="tc"><a href="tel:+13362969877">call (336) 296-9877</a> <a href="mailto:brian@scrappylabs.ai"><span class="m-short">mail</span><span class="m-long">brian@scrappylabs.ai</span></a></span>
+  <a href="/">cd ~</a>
+</nav>
 </body>
 </html>

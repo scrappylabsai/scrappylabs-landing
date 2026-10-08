@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0a07">
+<title>Mage-Flow on our own GPU — sample set</title>
+<meta property="og:url" content="https://scrappylabs.ai/mage-flow-gallery">
+<meta name="description" content="Every frame we generated while evaluating Mage-Flow: embroidered patches, cyanotype blueprints, risograph prints, a neon-noir alley, stained glass, and a three-step edit chain. One seed, first output kept, nothing cherry-picked.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mage-Flow — The Full Sample Set">
+<meta property="og:description" content="Every frame we generated while evaluating Mage-Flow: embroidered patches, cyanotype blueprints, risograph prints, a neon-noir alley, stained glass, and a three-step edit chain. One seed, first output kept, nothing cherry-picked.">
+<meta property="og:image" content="https://scrappylabs.ai/og-terminal.png">
+<link rel="canonical" href="https://scrappylabs.ai/mage-flow-gallery">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230c0a07'/%3E%3Cpath d='M7 10l6 6-6 6' stroke='%23ffb547' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3Crect x='16' y='20' width='10' height='3' fill='%23ffb547'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/jbmono-nl-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/page.css">
+<style>
+  /* two tracks on a desktop measure; wide frames take the full row */
+  .grid.cards{grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr))}
+  .grid .wide{grid-column:1 / -1}
+  .grid figure > a{display:block}
+  .doc figcaption .blurb{margin:.3em 0 .6em;color:var(--fg)}
+  .doc figcaption .spec{margin-left:1.2ch}
+  .doc figcaption details{margin:0}
+  .doc figcaption .prompt{font-style:italic;margin:0 0 .4em}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar">
+  <p class="prompt"><a href="/">guest@scrappylabs</a>:<a href="/#demos">~/demos</a>$ <span class="cmd">less mage-flow-gallery.md</span></p>
+  <nav aria-label="Site"><a href="/">home</a><a href="/#blog">blog</a><a href="/#demos">demos</a><a href="/#contact">contact</a></nav>
+</header>
+
+<main id="main" class="doc">
+<article>
+  <p class="kicker">Our own GPU · RTX PRO 6000 · 23 Jul 2026</p>
+  <h1>Mage-Flow, first light</h1>
+  <p class="standfirst">Seven frames from <b>microsoft/Mage-Flow</b> — a 4B MIT-licensed model that does
+    text-to-image <b>and</b> instruction editing. All generated locally on our own GPU at 20 steps,
+    one seed, no cherry-picking and no retries: <b>this is the first thing it produced for each prompt.</b></p>
+  <div class="rows">
+    <div class="row"><span class="dim">Params</span><span><b>4</b>B</span></div>
+    <div class="row"><span class="dim">Turbo, 1024²</span><span><b>0.51</b>s</span></div>
+    <div class="row"><span class="dim">Quality, 1024²</span><span><b>4.5</b>s</span></div>
+    <div class="row"><span class="dim">Peak VRAM</span><span><b>17</b>GB</span></div>
+    <div class="row"><span class="dim">License</span><span><b>MIT</b></span></div>
+  </div>
+
+  <div class="grid cards">
+    <figure>
+      <a href="/assets/mage-flow-gallery/neon-sign.png"><img src="/assets/mage-flow-gallery/neon-sign.webp" alt="Legible hand-bent neon — the thing most 4B models smear." loading="lazy" width="1024" height="1024"></a>
+      <figcaption>
+        <b>Text rendering</b> <span class="spec">1024×1024 · 4.1s</span>
+        <p class="blurb">Legible hand-bent neon — the thing most 4B models smear.</p>
+        <details><summary>prompt</summary><p class="prompt">A hand-bent neon sign reading SCRAPPYLABS glowing electric cyan above a cluttered electronics workbench at night, oscilloscope glow, solder smoke catching the light, shallow depth of field, photographed on 35mm film</p></details>
+      </figcaption>
+    </figure>
+    <figure class="wide">
+      <a href="/assets/mage-flow-gallery/ridge-wide.png"><img src="/assets/mage-flow-gallery/ridge-wide.webp" alt="1536×640 generated natively, not cropped from a square." loading="lazy" width="1536" height="640"></a>
+      <figcaption>
+        <b>Native wide</b> <span class="spec">1536×640 · 2.89s</span>
+        <p class="blurb">1536×640 generated natively, not cropped from a square.</p>
+        <details><summary>prompt</summary><p class="prompt">Ultra-wide cinematic shot of a small battered four-legged robot standing alone on a windswept ridge at blue hour, storm light breaking behind distant mountains, anamorphic lens flare, muted teal and amber grade</p></details>
+      </figcaption>
+    </figure>
+    <figure class="wide">
+      <a href="/assets/mage-flow-gallery/ridge-wide-EDIT.png"><img src="/assets/mage-flow-gallery/ridge-wide-EDIT.webp" alt="Same model family, one sentence, composition preserved." loading="lazy" width="1536" height="640"></a>
+      <figcaption>
+        <b>Instruction edit</b> <span class="spec">1536×640 · 6.12s</span>
+        <p class="blurb">Same model family, one sentence, composition preserved.</p>
+        <details><summary>prompt</summary><p class="prompt">Make it deep winter: heavy snow falling, the ridge buried in drifts, cold blue moonlight</p><a href="/assets/mage-flow-gallery/ridge-wide.png">see the original ↗</a></details>
+      </figcaption>
+    </figure>
+    <figure>
+      <a href="/assets/mage-flow-gallery/poster.png"><img src="/assets/mage-flow-gallery/poster.webp" alt="Two-color letterpress with real typographic structure." loading="lazy" width="896" height="1216"></a>
+      <figcaption>
+        <b>Layout + type</b> <span class="spec">896×1216 · 3.32s</span>
+        <p class="blurb">Two-color letterpress with real typographic structure.</p>
+        <details><summary>prompt</summary><p class="prompt">A vintage letterpress poster on textured cream paper, bold condensed type reading HF DAILY across the top and 23 JULY 2026 beneath it, two-color rust and deep teal ink, visible paper grain and slight ink misregistration</p></details>
+      </figcaption>
+    </figure>
+    <figure>
+      <a href="/assets/mage-flow-gallery/engineer.png"><img src="/assets/mage-flow-gallery/engineer.webp" alt="832×1216. Skin texture held at f1.4 without plastic sheen." loading="lazy" width="832" height="1216"></a>
+      <figcaption>
+        <b>Portrait</b> <span class="spec">832×1216 · 3.02s</span>
+        <p class="blurb">832×1216. Skin texture held at f1.4 without plastic sheen.</p>
+        <details><summary>prompt</summary><p class="prompt">Portrait of a weathered woman engineer in her fifties in a server room, silver hair, safety glasses pushed up, warm rim light from equipment LEDs behind her, shot on 85mm at f1.4, natural skin texture, quiet confidence</p></details>
+      </figcaption>
+    </figure>
+    <figure>
+      <a href="/assets/mage-flow-gallery/gpu-product.png"><img src="/assets/mage-flow-gallery/gpu-product.webp" alt="Hard key, controlled specular, commercial grade." loading="lazy" width="1024" height="1024"></a>
+      <figcaption>
+        <b>Product light</b> <span class="spec">1024×1024 · 3.25s</span>
+        <p class="blurb">Hard key, controlled specular, commercial grade.</p>
+        <details><summary>prompt</summary><p class="prompt">Studio product photograph of a graphics card floating against deep black, single hard key light raking across the heatsink fins, cyan edge rim, dust motes, macro detail, commercial advertising lighting</p></details>
+      </figcaption>
+    </figure>
+    <figure>
+      <a href="/assets/mage-flow-gallery/kitchen.png"><img src="/assets/mage-flow-gallery/kitchen.webp" alt="Multiple objects, a caused mess, and a readable expression." loading="lazy" width="1216" height="832"></a>
+      <figcaption>
+        <b>Scene comprehension</b> <span class="spec">1216×832 · 3.03s</span>
+        <p class="blurb">Multiple objects, a caused mess, and a readable expression.</p>
+        <details><summary>prompt</summary><p class="prompt">A tiny robot dog wearing an apron has catastrophically failed at making pancakes in a sunlit kitchen, batter everywhere, one pancake stuck to the ceiling, the robot looks directly at camera with visible shame, warm morning light</p></details>
+      </figcaption>
+    </figure>
+  </div>
+
+  <div class="endnote">
+    <p>Generated on our own RTX PRO 6000 Blackwell (sm_120, torch 2.13.0+cu130, sdpa attention) via our local Mage-Flow service. RL-aligned variant, 20 steps, cfg 5.0, seed 42;
+    the edit uses the Mage-Flow-Edit checkpoint on the wide frame above it. Total GPU time for the whole
+    set: <b>25.7s</b>. Click any frame for the full-resolution PNG. Nothing here touched a paid API.</p>
+  </div>
+</article>
+</main>
+
+<footer class="legal">
+  <p>© 2026 Loser.com LLC. ScrappyLabs is a d/b/a of Loser.com LLC. · Building since '93 ·
+    <a href="/privacy">privacy</a> · <a href="/tos">terms</a> · <a href="/sms">sms terms</a> · <a href="/feed.xml">rss</a></p>
+</footer>
+<nav class="tmux" aria-label="Contact">
+  <span class="tw">[scrappylabs] 1:mage-flow-gallery*</span>
+  <span class="tc"><a href="tel:+13362969877">call (336) 296-9877</a> <a href="mailto:brian@scrappylabs.ai"><span class="m-short">mail</span><span class="m-long">brian@scrappylabs.ai</span></a></span>
+  <a href="/">cd ~</a>
+</nav>
+</body>
+</html>

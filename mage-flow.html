@@ -3,83 +3,61 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0a07">
 <title>Mage-Flow, first light — ScrappyLabs</title>
 <meta name="description" content="We put Microsoft's 4B MIT-licensed Mage-Flow image model on our own GPU and measured it. It beat its own published numbers at half the advertised memory. Here is everything it made.">
-<meta name="theme-color" content="#06070b">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mage-Flow, first light — ScrappyLabs">
 <meta property="og:description" content="A 4B MIT-licensed image model, measured on our own hardware. Faster than its spec sheet, at half the memory.">
-<meta property="og:url" content="https://scrappylabs.ai/mage-flow.html">
+<meta property="og:url" content="https://scrappylabs.ai/mage-flow">
 <meta property="og:image" content="https://scrappylabs.ai/mf-hero-wrangler.webp">
 <meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="styles.css">
+<link rel="canonical" href="https://scrappylabs.ai/mage-flow">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230c0a07'/%3E%3Cpath d='M7 10l6 6-6 6' stroke='%23ffb547' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3Crect x='16' y='20' width='10' height='3' fill='%23ffb547'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/jbmono-nl-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/page.css">
 <style>
-  .mf-wrap{max-width:var(--wrap);margin:0 auto;padding:0 20px}
-  .mf-hero{position:relative;margin:0 0 44px;border-radius:14px;overflow:hidden;border:1px solid var(--line2)}
-  .mf-hero img{width:100%;height:auto;display:block}
-  .mf-hero-txt{padding:26px 22px 24px;background:linear-gradient(180deg,rgba(6,7,11,.4),var(--panel))}
-  .kicker{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--amber-ink);margin:0 0 12px}
-  h1{font-family:var(--disp);font-size:clamp(25px,4.2vw,46px);line-height:1.16;margin:0 0 16px;color:var(--ink)}
-  .lede{font-size:clamp(16px,2vw,19px);line-height:1.6;color:var(--body);max-width:62ch;margin:0}
-  .lede b{color:var(--ink)}
-  section{margin:0 0 52px}
-  h2{font-family:var(--disp);font-size:clamp(19px,2.6vw,27px);margin:0 0 8px;color:var(--ink)}
-  .sub{color:var(--muted);max-width:64ch;margin:0 0 22px;line-height:1.6}
-  p{color:var(--body);line-height:1.65;max-width:64ch}
-  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:12px;margin:0 0 26px}
-  .stat{background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:15px 16px}
-  .stat b{display:block;font-family:var(--disp);font-size:26px;color:var(--amber);line-height:1.1}
-  .stat b small{font-size:14px;color:var(--amber-ink)}
-  .stat span{display:block;font-family:var(--mono);font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);margin-top:7px}
-  .bar-row{display:grid;grid-template-columns:minmax(120px,180px) 1fr 62px;gap:14px;align-items:center;margin-bottom:11px}
-  .bar-lab{font-size:13.5px;color:var(--body)}
-  .bar-track{background:var(--bg2);border-radius:4px;height:16px;overflow:hidden;border:1px solid var(--line)}
-  .bar{display:block;height:100%;background:linear-gradient(90deg,var(--amber),var(--amber-hi));border-radius:0 4px 4px 0}
-  .bar-val{font-family:var(--mono);font-size:12.5px;color:var(--ink);text-align:right}
-  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;grid-auto-flow:dense}
-  .shot{margin:0;background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
-  .shot.feature{grid-column:span 2}
-  @media(max-width:620px){.shot.feature{grid-column:span 1}}
-  .shot img{width:100%;height:auto;display:block}
-  .shot figcaption{padding:12px 14px 14px;display:flex;flex-direction:column;gap:5px}
-  .shot figcaption b{font-family:var(--disp);font-size:14px;color:var(--ink)}
-  .shot figcaption span{font-size:13px;color:var(--body);line-height:1.5}
-  .shot figcaption em{font-family:var(--mono);font-size:10.5px;color:var(--muted);font-style:normal;letter-spacing:.06em}
-  .chain{display:grid;grid-template-columns:1fr;gap:14px}
-  .note{background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--amber);border-radius:11px;padding:18px 20px;margin:24px 0 0}
-  .note h3{font-family:var(--disp);font-size:15px;margin:0 0 9px;color:var(--ink)}
-  .note p{margin:0 0 9px;font-size:14.5px}
-  .note p:last-child{margin:0}
-  .note code{font-family:var(--mono);font-size:12.5px;color:var(--amber-ink);background:var(--bg2);padding:1px 5px;border-radius:4px}
-  .cta{background:var(--panel);border:1px solid var(--line2);border-radius:14px;padding:28px 24px;text-align:center}
-  .cta a{display:inline-block;margin-top:14px;background:var(--amber);color:#180a03;font-weight:700;
-    padding:12px 24px;border-radius:9px;text-decoration:none;font-family:var(--mono);letter-spacing:.04em}
-  .cta a:hover{background:var(--amber-hi)}
-  .cta a:focus-visible{outline:3px solid var(--amber-ink);outline-offset:3px}
-  .backlink{font-family:var(--mono);font-size:12.5px;color:var(--muted);display:inline-block;margin:26px 0 20px;text-decoration:none}
-  .backlink:hover{color:var(--amber-ink)}
+  /* stat sheet: value column + label */
+  .rows.stats .row{grid-template-columns:9ch 1fr}
+  .rows.stats .row b{color:var(--amber)}
+  /* timing meters (not .bar: that is the page header) */
+  .meter{display:grid;grid-template-columns:minmax(10ch,18ch) 1fr 6ch;gap:.4em 1.6ch;align-items:center;margin:0 0 .5em}
+  .meter-track{display:block;height:.9em;border:1px solid var(--edge);background:var(--panel)}
+  .meter-fill{display:block;height:100%;background:var(--amber)}
+  .meter-val{text-align:right;color:var(--fg);font-variant-numeric:tabular-nums}
+  .meters{margin:0 0 1.2em}
+  /* gallery: wide frames take two tracks where there is room */
+  .grid{grid-auto-flow:dense}
+  @media (min-width:560px){.grid .wide{grid-column:span 2}}
+  .doc figcaption span,.doc figcaption small{display:block}
+  .doc figcaption small{font-size:.92em}
+  .box > h3:first-child,.box > h2:first-child{margin-top:0}
 </style>
 </head>
 <body>
-<div class="mf-wrap">
-  <a class="backlink" href="/">&larr; scrappylabs.ai</a>
-  <a class="backlink" href="/lab" style="margin-left:1rem">The Lab &rarr;</a>
+<a class="skip" href="#main">Skip to content</a>
 
-  <div class="mf-hero">
+<header class="bar">
+  <p class="prompt"><a href="/">guest@scrappylabs</a>:<a href="/#demos">~/demos</a>$ <span class="cmd">less mage-flow.md</span></p>
+  <nav aria-label="Site"><a href="/">home</a><a href="/#blog">blog</a><a href="/#demos">demos</a><a href="/#contact">contact</a></nav>
+</header>
+
+<main id="main" class="doc">
+<article>
+  <figure>
     <img src="mf-hero-wrangler.webp" alt="A person holding a coiled rope stands in a dim workshop surrounded by a herd of small mismatched robots" width="1536" height="640">
-    <div class="mf-hero-txt">
-      <p class="kicker">Field note · 23 July 2026</p>
-      <h1>We ran a new image model on our own hardware. It beat its own spec sheet.</h1>
-      <p class="lede">Microsoft released <b>Mage-Flow</b> — a 4-billion-parameter model that does text-to-image
-      <b>and</b> instruction editing, under an <b>MIT licence</b>. We had it measured, wired into our pipeline,
-      and making production art the same evening. Every image on this page came out of it.
-      <b>Including the one above.</b></p>
-    </div>
-  </div>
+  </figure>
+  <p class="kicker">Field note · 23 July 2026</p>
+  <h1>We ran a new image model on our own hardware. It beat its own spec sheet.</h1>
+  <p class="standfirst">Microsoft released <b>Mage-Flow</b> — a 4-billion-parameter model that does text-to-image
+  <b>and</b> instruction editing, under an <b>MIT licence</b>. We had it measured, wired into our pipeline,
+  and making production art the same evening. Every image on this page came out of it.
+  <b>Including the one above.</b></p>
 
   <section>
     <h2>Why this one mattered</h2>
-    <p class="sub">Most open image models arrive with a licence that quietly rules out commercial work.
+    <p class="dim">Most open image models arrive with a licence that quietly rules out commercial work.
     This one didn't.</p>
     <p>A lot of the best open weights ship non-commercial. That's fine for a demo and useless for a client
     deliverable, so we read the licence before we read the benchmarks. Mage-Flow is MIT — genuinely usable
@@ -90,19 +68,21 @@
 
   <section>
     <h2>What we measured</h2>
-    <p class="sub">On one RTX PRO 6000 Blackwell workstation. Median of warm runs at 1024×1024, our prompts,
+    <p class="dim">On one RTX PRO 6000 Blackwell workstation. Median of warm runs at 1024×1024, our prompts,
     our hardware — not numbers copied off a model card.</p>
-    <div class="stats">
-      <div class="stat"><b>0.51<small>s</small></b><span>Per image, fast mode</span></div>
-      <div class="stat"><b>11.6<small>GB</small></b><span>Peak memory</span></div>
-      <div class="stat"><b>4.5<small>s</small></b><span>Per image, quality</span></div>
-      <div class="stat"><b>18</b><span>Images on this page</span></div>
-      <div class="stat"><b>MIT</b><span>Licence</span></div>
+    <div class="rows stats">
+      <div class="row"><span><b>0.51</b>s</span><span class="dim">Per image, fast mode</span></div>
+      <div class="row"><span><b>11.6</b>GB</span><span class="dim">Peak memory</span></div>
+      <div class="row"><span><b>4.5</b>s</span><span class="dim">Per image, quality</span></div>
+      <div class="row"><span><b>18</b></span><span class="dim">Images on this page</span></div>
+      <div class="row"><span><b>MIT</b></span><span class="dim">Licence</span></div>
     </div>
-    <div class="bar-row"><span class="bar-lab">Turbo, 4 steps</span><span class="bar-track"><span class="bar" style="width:7.3%"></span></span><span class="bar-val">0.51s</span></div>
-<div class="bar-row"><span class="bar-lab">Quality, 20 steps</span><span class="bar-track"><span class="bar" style="width:64.7%"></span></span><span class="bar-val">4.53s</span></div>
-<div class="bar-row"><span class="bar-lab">Edit, 20 steps</span><span class="bar-track"><span class="bar" style="width:87.5%"></span></span><span class="bar-val">6.12s</span></div>
-    <div class="note">
+    <div class="meters">
+      <div class="meter"><span>Turbo, 4 steps</span><span class="meter-track"><span class="meter-fill" style="width:7.3%"></span></span><span class="meter-val">0.51s</span></div>
+      <div class="meter"><span>Quality, 20 steps</span><span class="meter-track"><span class="meter-fill" style="width:64.7%"></span></span><span class="meter-val">4.53s</span></div>
+      <div class="meter"><span>Edit, 20 steps</span><span class="meter-track"><span class="meter-fill" style="width:87.5%"></span></span><span class="meter-val">6.12s</span></div>
+    </div>
+    <div class="box">
       <h3>It beat its own published figures</h3>
       <p>The model card quotes <b>0.59s</b> per image and roughly <b>18–20GB</b> of memory on a datacentre
       A100. We measured <b>0.508s</b> at <b>11.6GB</b>. That gap matters commercially: at 11.6GB this runs on
@@ -114,67 +94,67 @@
 
   <section>
     <h2>Text is the part everyone gets wrong</h2>
-    <p class="sub">Small image models usually smear lettering into convincing nonsense. This is the test we
+    <p class="dim">Small image models usually smear lettering into convincing nonsense. This is the test we
     actually cared about — and none of these were retried.</p>
     <div class="grid">
-<figure class="shot">
+<figure>
   <img src="mf-patch.webp" alt="Satin-stitch lettering on fabric weave — “SCRAPPY LABS / KEEP IT WRANGLED”, curved on both arcs, first try." loading="lazy" width="1024" height="1024">
-  <figcaption><b>Embroidered</b><span>Satin-stitch lettering on fabric weave — “SCRAPPY LABS / KEEP IT WRANGLED”, curved on both arcs, first try.</span><em>1024×1024 · 4.06s</em></figcaption>
+  <figcaption><b>Embroidered</b><span>Satin-stitch lettering on fabric weave — “SCRAPPY LABS / KEEP IT WRANGLED”, curved on both arcs, first try.</span><small>1024×1024 · 4.06s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-riso.webp" alt="Two-ink print with deliberate misregistration and halftone grain." loading="lazy" width="896" height="1216">
-  <figcaption><b>Risograph</b><span>Two-ink print with deliberate misregistration and halftone grain.</span><em>896×1216 · 3.33s</em></figcaption>
+  <figcaption><b>Risograph</b><span>Two-ink print with deliberate misregistration and halftone grain.</span><small>896×1216 · 3.33s</small></figcaption>
 </figure>
-<figure class="shot feature">
+<figure class="wide">
   <img src="mf-blueprint.webp" alt="Cyanotype orthographic views with dimension arrows and a legible title block." loading="lazy" width="1216" height="832">
-  <figcaption><b>Draughting</b><span>Cyanotype orthographic views with dimension arrows and a legible title block.</span><em>1216×832 · 3.01s</em></figcaption>
+  <figcaption><b>Draughting</b><span>Cyanotype orthographic views with dimension arrows and a legible title block.</span><small>1216×832 · 3.01s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-wrangled-poster.webp" alt="The company line, set as a two-colour screenprint. Nothing retouched." loading="lazy" width="896" height="1216">
-  <figcaption><b>Screenprint</b><span>The company line, set as a two-colour screenprint. Nothing retouched.</span><em>896×1216 · 3.32s</em></figcaption>
+  <figcaption><b>Screenprint</b><span>The company line, set as a two-colour screenprint. Nothing retouched.</span><small>896×1216 · 3.32s</small></figcaption>
 </figure>
-<figure class="shot feature">
+<figure class="wide">
   <img src="mf-noir.webp" alt="Wet asphalt doubling the neon; sodium and magenta holding separately." loading="lazy" width="1536" height="640">
-  <figcaption><b>Neon-noir</b><span>Wet asphalt doubling the neon; sodium and magenta holding separately.</span><em>1536×640 · 2.91s</em></figcaption>
+  <figcaption><b>Neon-noir</b><span>Wet asphalt doubling the neon; sodium and magenta holding separately.</span><small>1536×640 · 2.91s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-diorama.webp" alt="Tilt-shift clay diorama — soft materials, practical lights, a sleeping unit under the bench." loading="lazy" width="1024" height="1024">
-  <figcaption><b>Miniature</b><span>Tilt-shift clay diorama — soft materials, practical lights, a sleeping unit under the bench.</span><em>1024×1024 · 3.24s</em></figcaption>
+  <figcaption><b>Miniature</b><span>Tilt-shift clay diorama — soft materials, practical lights, a sleeping unit under the bench.</span><small>1024×1024 · 3.24s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-clay.webp" alt="Thumbprints and seams left in, which is the whole point of the look." loading="lazy" width="1024" height="1024">
-  <figcaption><b>Stop-motion</b><span>Thumbprints and seams left in, which is the whole point of the look.</span><em>1024×1024 · 3.29s</em></figcaption>
+  <figcaption><b>Stop-motion</b><span>Thumbprints and seams left in, which is the whole point of the look.</span><small>1024×1024 · 3.29s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-stainedglass.webp" alt="Lead came, cobalt and ruby panes, light coming through rather than at." loading="lazy" width="896" height="1216">
-  <figcaption><b>Stained glass</b><span>Lead came, cobalt and ruby panes, light coming through rather than at.</span><em>896×1216 · 3.41s</em></figcaption>
+  <figcaption><b>Stained glass</b><span>Lead came, cobalt and ruby panes, light coming through rather than at.</span><small>896×1216 · 3.41s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-woodcut.webp" alt="Carved line weight and ink bleed on handmade paper." loading="lazy" width="1024" height="1024">
-  <figcaption><b>Woodcut</b><span>Carved line weight and ink bleed on handmade paper.</span><em>1024×1024 · 3.34s</em></figcaption>
+  <figcaption><b>Woodcut</b><span>Carved line weight and ink bleed on handmade paper.</span><small>1024×1024 · 3.34s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-card.webp" alt="Foil border, name banner, stat boxes — a composed layout, not just a picture." loading="lazy" width="896" height="1216">
-  <figcaption><b>Print layout</b><span>Foil border, name banner, stat boxes — a composed layout, not just a picture.</span><em>896×1216 · 3.33s</em></figcaption>
+  <figcaption><b>Print layout</b><span>Foil border, name banner, stat boxes — a composed layout, not just a picture.</span><small>896×1216 · 3.33s</small></figcaption>
 </figure>
-<figure class="shot feature">
+<figure class="wide">
   <img src="mf-circuit.webp" alt="A circuit board shot like an aerial landscape." loading="lazy" width="1216" height="832">
-  <figcaption><b>Macro</b><span>A circuit board shot like an aerial landscape.</span><em>1216×832 · 3.09s</em></figcaption>
+  <figcaption><b>Macro</b><span>A circuit board shot like an aerial landscape.</span><small>1216×832 · 3.09s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-mascot.webp" alt="Studio key light, real fur against machined parts." loading="lazy" width="1024" height="1024">
-  <figcaption><b>Portrait</b><span>Studio key light, real fur against machined parts.</span><em>1024×1024 · 3.18s</em></figcaption>
+  <figcaption><b>Portrait</b><span>Studio key light, real fur against machined parts.</span><small>1024×1024 · 3.18s</small></figcaption>
 </figure>
-<figure class="shot">
+<figure>
   <img src="mf-lasso-mark.webp" alt="Clean enough to actually use as a mark." loading="lazy" width="1024" height="1024">
-  <figcaption><b>Emblem</b><span>Clean enough to actually use as a mark.</span><em>1024×1024 · 3.23s</em></figcaption>
+  <figcaption><b>Emblem</b><span>Clean enough to actually use as a mark.</span><small>1024×1024 · 3.23s</small></figcaption>
 </figure>
-<figure class="shot feature">
+<figure class="wide">
   <img src="mf-workbench.webp" alt="Arranged with negative space, which most models refuse to leave alone." loading="lazy" width="1216" height="832">
-  <figcaption><b>Flat-lay</b><span>Arranged with negative space, which most models refuse to leave alone.</span><em>1216×832 · 3.02s</em></figcaption>
+  <figcaption><b>Flat-lay</b><span>Arranged with negative space, which most models refuse to leave alone.</span><small>1216×832 · 3.02s</small></figcaption>
 </figure>
     </div>
-    <div class="note">
+    <div class="box">
       <h3>How reliable is it? Not perfectly — and that matters more than the win</h3>
       <p>Every image above is a first output. But we went back and generated that embroidered patch
       <b>five more times</b>, and the model misspelled the word “SCRAPPY” in <b>all five</b> — dropping a
@@ -191,32 +171,30 @@
 
   <section>
     <h2>Editing, three instructions deep</h2>
-    <p class="sub">Each step edits the <em>previous</em> result, not the original. Errors compound in a chain
+    <p class="dim">Each step edits the <em>previous</em> result, not the original. Errors compound in a chain
     like this, which is exactly why it's worth showing.</p>
-    <div class="chain">
-<figure class="shot feature">
+<figure>
   <img src="mf-hero-wrangler.webp" alt="The original frame." loading="lazy" width="1536" height="640">
-  <figcaption><b>Source</b><span>The original frame.</span><em>1536×640 · 3.87s</em></figcaption>
+  <figcaption><b>Source</b><span>The original frame.</span><small>1536×640 · 3.87s</small></figcaption>
 </figure>
-<figure class="shot feature">
+<figure>
   <img src="mf-chain1.webp" alt="Light direction and colour temperature change; every robot stays put." loading="lazy" width="1536" height="640">
-  <figcaption><b>“Make it golden hour”</b><span>Light direction and colour temperature change; every robot stays put.</span><em>1536×640 · 6.33s</em></figcaption>
+  <figcaption><b>“Make it golden hour”</b><span>Light direction and colour temperature change; every robot stays put.</span><small>1536×640 · 6.33s</small></figcaption>
 </figure>
-<figure class="shot feature">
+<figure>
   <img src="mf-chain2.webp" alt="Applied to the previous result, not the original." loading="lazy" width="1536" height="640">
-  <figcaption><b>“Add heavy falling snow”</b><span>Applied to the previous result, not the original.</span><em>1536×640 · 6.44s</em></figcaption>
+  <figcaption><b>“Add heavy falling snow”</b><span>Applied to the previous result, not the original.</span><small>1536×640 · 6.44s</small></figcaption>
 </figure>
-<figure class="shot feature">
+<figure>
   <img src="mf-chain3.webp" alt="Third edit in the chain. The composition has survived all three." loading="lazy" width="1536" height="640">
-  <figcaption><b>“Make it a watercolour”</b><span>Third edit in the chain. The composition has survived all three.</span><em>1536×640 · 6.31s</em></figcaption>
+  <figcaption><b>“Make it a watercolour”</b><span>Third edit in the chain. The composition has survived all three.</span><small>1536×640 · 6.31s</small></figcaption>
 </figure>
-    </div>
   </section>
 
   <section>
     <h2>What tripped us up</h2>
-    <p class="sub">Published because it cost us an hour and will cost you one too.</p>
-    <div class="note">
+    <p class="dim">Published because it cost us an hour and will cost you one too.</p>
+    <div class="box">
       <h3>The attention backend fails loudly on one variant and silently on another</h3>
       <p>There's no prebuilt FlashAttention wheel for current-generation Blackwell workstation GPUs on
       CUDA 13. Mage-Flow ships a scaled-dot-product fallback, but it is <b>not</b> selected automatically
@@ -231,19 +209,30 @@
     </div>
   </section>
 
-  <section class="cta">
+  <section class="box">
     <h2>This is what “we keep it wrangled” means</h2>
-    <p style="margin:0 auto">A model landed on a Tuesday. By that evening it was measured on our own metal,
+    <p>A model landed on a Tuesday. By that evening it was measured on our own metal,
     the licence was checked, the failure mode was found and documented, and it was wired into the pipeline
     behind a stable interface. That's the job. Bring your own AI — we'll make it behave.</p>
-    <a href="/#contact">Talk to us</a>
+    <p><a class="btn" href="/#contact">Talk to us</a></p>
   </section>
 
-  <p class="sub" style="font-size:12.5px;margin:34px 0 44px">
-    Every image generated locally on our own GPU at 20 steps unless noted, one seed, first output kept —
+  <div class="endnote">
+    <p>Every image generated locally on our own GPU at 20 steps unless noted, one seed, first output kept —
     no cherry-picking and no retries. Prompt adherence is good, not perfect: one frame ignored part of its
-    instruction. Model: <b>microsoft/Mage-Flow</b> (MIT). Nothing on this page touched a paid API.
-  </p>
-</div>
+    instruction. Model: <b>microsoft/Mage-Flow</b> (MIT). Nothing on this page touched a paid API.</p>
+  </div>
+</article>
+</main>
+
+<footer class="legal">
+  <p>© 2026 Loser.com LLC. ScrappyLabs is a d/b/a of Loser.com LLC. · Building since '93 ·
+    <a href="/privacy">privacy</a> · <a href="/tos">terms</a> · <a href="/sms">sms terms</a> · <a href="/feed.xml">rss</a></p>
+</footer>
+<nav class="tmux" aria-label="Contact">
+  <span class="tw">[scrappylabs] 1:mage-flow*</span>
+  <span class="tc"><a href="tel:+13362969877">call (336) 296-9877</a> <a href="mailto:brian@scrappylabs.ai"><span class="m-short">mail</span><span class="m-long">brian@scrappylabs.ai</span></a></span>
+  <a href="/">cd ~</a>
+</nav>
 </body>
 </html>

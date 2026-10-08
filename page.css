@@ -1,0 +1,201 @@
+/* ============================================================
+   scrappylabs.ai — document pages (posts, demos, legal, lab, log)
+   Same screen as the terminal homepage (term.css): amber phosphor on
+   warm black, one font. A page here reads like `less file.md` in that
+   terminal. Tokens MUST match term.css :root.
+   ============================================================ */
+@font-face{font-family:'JBM';src:url('/assets/fonts/jbmono-nl-regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'JBM';src:url('/assets/fonts/jbmono-nl-bold.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root{
+  --bg:#0c0a07;
+  --panel:#17120b;
+  --fg:#efe0bf;        /* body text     15.1:1 on --bg (measured) */
+  --amber:#ffb547;     /* links/heads   11.3:1 */
+  --amber-hi:#ffd894;  /* hover         14.6:1 */
+  --dim:#b3a07a;       /* secondary      7.7:1 */
+  --green:#9fd88f;     /* ok            12.0:1 */
+  --red:#ff9a85;       /* bad            9.6:1 */
+  --rule:#3a2f1f;      /* decorative only (1.5:1) — never text */
+  --edge:#8a7654;      /* interactive borders 4.5:1 */
+  --mono:'JBM',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+  --fs:clamp(14.5px, .82rem + .22vw, 16.5px);
+  --gut:16px;
+  --measure:76ch;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;
+  background:radial-gradient(120% 90% at 50% 0%, #19130b 0%, var(--bg) 60%) fixed, var(--bg);
+  color:var(--fg);font:400 var(--fs)/1.7 var(--mono);
+  padding-bottom:3rem; /* tmux bar */
+}
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0,0,0,.14) 0 1px, transparent 1px 3px),
+    radial-gradient(140% 100% at 50% 50%, transparent 60%, rgba(0,0,0,.45) 100%);
+}
+::selection{background:var(--amber);color:var(--bg)}
+a{color:var(--amber);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--amber-hi)}
+a[href^="tel:"]{white-space:nowrap}
+:focus-visible{outline:2px solid var(--amber-hi);outline-offset:3px;border-radius:2px}
+pre,code,kbd,samp{font-family:var(--mono)}
+b,strong{font-weight:700;color:var(--fg)}
+em,i{font-style:italic;color:var(--fg)}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:var(--gut);top:-100px;z-index:60;background:var(--amber);color:var(--bg);padding:.4em .8em;text-decoration:none}
+.skip:focus{top:8px}
+.dim{color:var(--dim)}
+.ok{color:var(--green)}
+.bad{color:var(--red)}
+
+/* ── top bar: the prompt that "opened" this page ──────────────── */
+.bar{
+  max-width:calc(var(--measure) + 2 * var(--gut));margin:0 auto;
+  padding:clamp(16px,3vw,28px) var(--gut) .4rem;
+  display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:.4rem 2ch;
+}
+.bar .prompt{margin:0;word-break:break-word}
+.bar .prompt a{color:var(--amber);text-decoration:none}
+.bar .prompt a:hover{text-decoration:underline}
+.bar .prompt .cmd{color:var(--fg)}
+.bar nav{display:flex;gap:1.6ch;flex-wrap:wrap}
+.bar nav a{color:var(--dim);text-decoration:none}
+.bar nav a::before{content:"["}
+.bar nav a::after{content:"]"}
+.bar nav a:hover{color:var(--amber-hi)}
+
+/* ── the document ─────────────────────────────────────────────── */
+.doc{max-width:calc(var(--measure) + 2 * var(--gut));margin:0 auto;padding:1rem var(--gut) 2rem}
+.doc > * + *{margin-top:0}
+.doc p{margin:0 0 1em;text-wrap:pretty}
+.doc h1,.doc h2,.doc h3,.doc h4{font-family:var(--mono);color:var(--amber);line-height:1.3;text-wrap:balance}
+.doc h1{font-size:clamp(1.55rem, 1.1rem + 1.8vw, 2.15rem);font-weight:700;margin:.4em 0 .5em;
+  text-shadow:0 0 10px rgba(255,181,71,.25)}
+.doc h1::before{content:"# ";color:var(--dim);font-weight:400}
+.doc h2{font-size:1.25rem;font-weight:700;margin:2.2em 0 .6em}
+.doc h2::before{content:"## ";color:var(--dim);font-weight:400}
+.doc h3{font-size:1.05rem;font-weight:700;margin:1.8em 0 .5em;color:var(--fg)}
+.doc h3::before{content:"### ";color:var(--dim);font-weight:400}
+.doc h4{font-size:1rem;font-weight:700;margin:1.4em 0 .4em;color:var(--fg)}
+.doc .label{font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;color:var(--green);margin:2.6em 0 0}
+.doc .label + h2,.doc .label + h3{margin-top:.2em}
+
+.kicker{color:var(--dim);font-size:.82rem;letter-spacing:.06em;margin:0 0 .4em}
+.kicker::before{content:"// ";color:var(--rule)}
+.standfirst{font-size:1.08em;color:var(--fg);margin:0 0 1em}
+.byline{color:var(--dim);font-size:.85rem;border-top:1px dashed var(--rule);border-bottom:1px dashed var(--rule);
+  padding:.5em 0;margin:1.2em 0 1.8em;display:flex;flex-wrap:wrap;gap:.2em 1.6ch}
+
+.doc ul,.doc ol{margin:0 0 1em;padding-left:2.6ch}
+.doc li{margin:.25em 0}
+.doc ul > li::marker{content:"- ";color:var(--amber)}
+.doc ol > li::marker{color:var(--amber)}
+.doc dl{margin:0 0 1em}
+.doc dt{color:var(--amber)}
+.doc dd{margin:0 0 .6em 2.6ch}
+
+.doc code{color:var(--amber-hi);background:var(--panel);border:1px solid var(--rule);border-radius:3px;padding:.05em .35em;font-size:.92em;word-break:break-word}
+.doc pre{background:var(--panel);border:1px solid var(--rule);border-left:3px solid var(--amber);padding:.9em 1.1em;overflow-x:auto;margin:0 0 1.2em;line-height:1.5;font-size:.9em}
+.doc pre code{background:none;border:0;padding:0;color:var(--fg);font-size:1em;word-break:normal}
+.doc kbd{color:var(--amber);border:1px solid var(--edge);border-radius:3px;padding:0 .3em}
+.doc hr{border:0;border-top:1px dashed var(--rule);margin:2.2em 0}
+
+/* pull quote / blockquote: a `>` gutter */
+.pull,.doc blockquote{margin:1.6em 0;padding:.2em 0 .2em 2.4ch;border-left:2px solid var(--amber);color:var(--fg);font-size:1.08em;position:relative}
+.pull::before,.doc blockquote::before{content:">";position:absolute;left:.7ch;top:.2em;color:var(--amber)}
+.doc blockquote p:last-child{margin-bottom:0}
+
+/* panel: callouts, scorecards, codas, notes */
+.box{border:1px solid var(--rule);background:color-mix(in srgb, var(--panel) 80%, transparent);padding:1em 1.2em;margin:1.6em 0;border-radius:2px}
+.box > :last-child{margin-bottom:0}
+.box-h{display:block;color:var(--dim);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin:0 0 .8em}
+.box-h::before{content:"┌─ ";color:var(--rule)}
+.box.warn{border-color:var(--edge)}
+
+/* status tags: [ OK ] [FAIL] style */
+.tag{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+.tag::before{content:"[ ";color:var(--dim);font-weight:400}
+.tag::after{content:" ]";color:var(--dim);font-weight:400}
+.tag.ok{color:var(--green)} .tag.bad{color:var(--red)} .tag.warn{color:var(--amber)}
+
+/* rows: label / value lines (verdict lists, stats) */
+.rows{border:1px solid var(--rule);margin:0 0 1em}
+.rows .row{display:grid;grid-template-columns:1fr auto;gap:.4em 2ch;align-items:baseline;padding:.55em .9em;border-top:1px dashed var(--rule)}
+.rows .row:first-child{border-top:0}
+.rows .row small{display:block;color:var(--dim);font-size:.85em}
+
+/* tables */
+.tbl{overflow-x:auto;margin:0 0 1.2em}
+.doc table{border-collapse:collapse;width:100%;font-size:.92em}
+.doc th,.doc td{border:1px solid var(--rule);padding:.45em .7em;text-align:left;vertical-align:top}
+.doc th{color:var(--amber);font-weight:700;background:var(--panel)}
+.doc td.num,.doc th.num{text-align:right;font-variant-numeric:tabular-nums}
+
+/* media */
+.doc img,.doc video{max-width:100%;height:auto;display:block;border:1px solid var(--rule)}
+.doc figure{margin:1.6em 0}
+.doc figcaption{color:var(--dim);font-size:.85rem;margin-top:.5em}
+.doc figcaption::before{content:"fig. ";color:var(--rule)}
+.doc audio{width:100%;display:block;color-scheme:dark;margin:.4em 0 .2em}
+.player{border:1px solid var(--rule);padding:.7em .9em;margin:0 0 1em;background:var(--panel)}
+.player .player-h{margin:0;color:var(--fg)}
+.player .player-h small{color:var(--dim)}
+.grid{display:grid;gap:1rem;grid-template-columns:repeat(auto-fill, minmax(min(100%, 220px), 1fr));margin:1.2em 0}
+.grid figure{margin:0}
+.doc svg{max-width:100%;height:auto}
+
+details{border:1px solid var(--rule);padding:.5em .9em;margin:0 0 1em}
+details > summary{cursor:pointer;color:var(--amber)}
+details[open] > summary{margin-bottom:.6em}
+
+/* buttons / CTAs: chip style, same as the homepage */
+.btn{display:inline-block;padding:.22em .8em;color:var(--amber);text-decoration:none;border:1px solid var(--edge);border-radius:3px;background:var(--panel);min-height:44px;line-height:calc(44px - .44em - 2px)}
+.btn::before{content:"[";color:var(--dim)} .btn::after{content:"]";color:var(--dim)}
+.btn:hover{background:var(--amber);color:var(--bg);border-color:var(--amber)}
+.btn:hover::before,.btn:hover::after{color:var(--bg)}
+@media (pointer:fine){.btn{min-height:0;line-height:1.6}}
+
+.endnote{margin-top:2.6em;padding-top:1em;border-top:1px dashed var(--rule);color:var(--dim)}
+.endnote p{color:var(--dim)}
+
+/* lists of posts (lab, log): the same `ls` rows as the homepage */
+.ls{list-style:none;margin:0 0 1em;padding:0}
+.ls li{display:grid;grid-template-columns:10.5ch 11ch 1fr;column-gap:1.2ch;padding:.35em 0;border-bottom:1px dashed var(--rule)}
+.ls li::marker{content:none}
+.ls time{color:var(--dim)}
+.ls .k{color:var(--green)}
+.ls .sum{grid-column:3;color:var(--dim);font-size:.9em;line-height:1.5}
+@media (max-width:700px){
+  .ls li{grid-template-columns:1fr auto}
+  .ls a,.ls .sum{grid-column:1 / -1}
+}
+
+/* ── footer + tmux bar (same as the homepage) ─────────────────── */
+.legal{max-width:calc(var(--measure) + 2 * var(--gut));margin:0 auto;padding:1.4rem var(--gut) 1.6rem;color:var(--dim)}
+.legal p{font-size:.86em;margin:0}
+.legal a{color:var(--dim)}
+.legal a:hover{color:var(--amber-hi)}
+.tmux{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  display:flex;gap:1.5ch;align-items:center;justify-content:space-between;
+  padding:.3em var(--gut) calc(.3em + env(safe-area-inset-bottom));
+  background:var(--amber);color:var(--bg);font-size:.86em;white-space:nowrap
+}
+.tmux a{color:var(--bg);text-decoration:none;font-weight:700}
+.tmux a:hover{text-decoration:underline}
+.tmux .tc{display:flex;gap:2ch;overflow:hidden}
+.tmux .tw{overflow:hidden;text-overflow:ellipsis}
+.tmux .m-long{display:none}
+@media (min-width:900px){.tmux .m-long{display:inline}.tmux .m-short{display:none}}
+@media (max-width:520px){.tmux .tw{display:none}}
+
+@media print{
+  body{background:#fff;color:#000;padding:0}
+  body::after,.tmux,.bar nav{display:none}
+  .doc h1,.doc h2,.doc h3,a{color:#000}
+}

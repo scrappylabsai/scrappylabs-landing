@@ -1,9 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0a07">
 <title>Two Years to the Taste of the Stew — ScrappyLabs</title>
 <meta name="description" content="How one workshop went from fighting Windows to running a fleet of local models that finally feel real — with a memory layer a frontier model graded A-. A build-in-the-open field log from ScrappyLabs.">
 <meta property="og:type" content="article">
@@ -14,184 +15,113 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Two Years to the Taste of the Stew — ScrappyLabs">
 <meta name="twitter:description" content="From Windows friction to local models that feel real, a memory layer graded A- by a frontier model, and a take on the buggy-whip crowd.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='84'>%F0%9F%94%A7</text></svg>">
+<link rel="canonical" href="https://scrappylabs.ai/two-years">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230c0a07'/%3E%3Cpath d='M7 10l6 6-6 6' stroke='%23ffb547' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3Crect x='16' y='20' width='10' height='3' fill='%23ffb547'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/jbmono-nl-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/page.css">
 <style>
-  html,body{margin:0; padding:0; background:#0a0a0f;}
-  .site-header{position:sticky; top:0; z-index:100; height:60px; padding:0 clamp(1rem,4vw,2rem);
-    display:flex; align-items:center; justify-content:space-between;
-    background:rgba(10,10,15,.9); backdrop-filter:blur(18px); -webkit-backdrop-filter:blur(18px);
-    border-bottom:1px solid #2a2a3e; font-family:'Inter',system-ui,sans-serif;}
-  .site-header .logo{font-size:1.15rem; font-weight:900; letter-spacing:-.5px; text-decoration:none;
-    background:linear-gradient(135deg,#ff6b35,#00d4ff); -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent; background-clip:text;}
-  .site-header a.cta{background:#ff6b35; color:#0a0a0f; padding:.45rem 1rem; border-radius:8px;
-    font-weight:700; font-size:.78rem; text-decoration:none; letter-spacing:.3px;}
-  .site-header a.cta:hover{background:#ff8555;}
-  .site-footer{border-top:1px solid #2a2a3e; padding:2rem clamp(1rem,5vw,2rem); text-align:center;
-    color:#5a5a72; font-size:.85rem; font-family:'Inter',system-ui,sans-serif; background:#0a0a0f;}
-  .site-footer a{color:#8a8aa0; text-decoration:none;} .site-footer a:hover{color:#f0f0f5;}
+  /* page-scoped layout only: the report card */
+  .grade{margin:0 0 1em}
+  .grade .big{font-size:1.9em;font-weight:700;color:var(--green);line-height:1}
+  .grades .row{grid-template-columns:15ch 7ch 1fr;align-items:start}
+  .grades .row .tag{justify-self:start}
+  @media (max-width:520px){
+    .grades .row{grid-template-columns:1fr auto}
+    .grades .row small{grid-column:1 / -1}
+  }
 </style>
 </head>
 <body>
-<header class="site-header">
-  <a href="/" class="logo" aria-label="ScrappyLabs home">ScrappyLabs</a>
-  <a href="mailto:brian@scrappylabs.ai" class="cta">Meet With Brian</a>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar">
+  <p class="prompt"><a href="/">guest@scrappylabs</a>:<a href="/#blog">~/blog</a>$ <span class="cmd">less two-years.md</span></p>
+  <nav aria-label="Site"><a href="/">home</a><a href="/#blog">blog</a><a href="/#demos">demos</a><a href="/#contact">contact</a></nav>
 </header>
-<style>
-  .art{
-    --bg:#0a0a0f; --surface:#13131c; --surface-2:#1a1a28; --border:#2a2a3e; --border-hover:#3a3a52;
-    --text:#f0f0f5; --text-muted:#9a9ab0; --text-dim:#5a5a72;
-    --accent:#ff6b35; --accent-hover:#ff8555; --accent-glow:rgba(255,107,53,.15);
-    --cyan:#00d4ff; --green:#2ed573;
-    --font:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
-    --mono:'JetBrains Mono','Fira Code',ui-monospace,monospace;
-    background:var(--bg); color:var(--text); font-family:var(--font); line-height:1.72;
-    -webkit-font-smoothing:antialiased;
-  }
-  .art *{box-sizing:border-box;}
-  .art ::selection{background:var(--accent); color:#140800;}
-  .col{max-width:720px; margin:0 auto; padding:clamp(28px,6vw,72px) clamp(18px,5vw,28px) 96px;}
 
-  .kicker{font-family:var(--mono); font-size:.76rem; letter-spacing:.26em; text-transform:uppercase;
-    color:var(--accent); display:flex; align-items:center; gap:.7rem;}
-  .kicker::before{content:''; width:26px; height:1px; background:var(--accent);}
-  h1.title{font-size:clamp(2.3rem,6.4vw,3.8rem); font-weight:900; letter-spacing:-.03em; line-height:1.02;
-    margin:1.1rem 0 0; text-wrap:balance;}
-  h1.title .g{background:linear-gradient(135deg,var(--accent),var(--cyan)); -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent; background-clip:text;}
-  .standfirst{font-size:clamp(1.12rem,2.5vw,1.35rem); color:var(--text-muted); margin:1.4rem 0 0;
-    line-height:1.6; text-wrap:pretty;}
-  .byline{font-family:var(--mono); font-size:.78rem; letter-spacing:.06em; color:var(--text-dim);
-    margin:1.6rem 0 0; display:flex; flex-wrap:wrap; gap:.4rem 1rem; border-top:1px solid var(--border);
-    border-bottom:1px solid var(--border); padding:.9rem 0;}
-
-  .art h2{font-size:clamp(1.5rem,3.4vw,2rem); font-weight:800; letter-spacing:-.02em; line-height:1.15;
-    margin:3.2rem 0 .3rem; text-wrap:balance;}
-  .era{font-family:var(--mono); font-size:.72rem; letter-spacing:.22em; text-transform:uppercase; color:var(--cyan);}
-  .art p{margin:1.1rem 0; color:#dfe0ea;}
-  .art p.lead-in{margin-top:.6rem;}
-  .art strong{color:var(--text); font-weight:700;}
-  .art em{color:var(--text); font-style:italic;}
-  .art a{color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(255,107,53,.3);}
-  .art a:hover{color:var(--accent-hover); border-color:var(--accent-hover);}
-
-  .pull{font-size:clamp(1.4rem,3.4vw,1.9rem); font-weight:800; line-height:1.25; letter-spacing:-.02em;
-    color:var(--text); border-left:3px solid var(--accent); padding:.2rem 0 .2rem 1.3rem; margin:2.2rem 0;
-    text-wrap:balance;}
-
-  .scorecard{background:var(--surface); border:1px solid var(--border); border-radius:16px;
-    padding:1.5rem 1.5rem 1.3rem; margin:2rem 0;}
-  .scorecard .sc-h{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
-    color:var(--text-dim); margin-bottom:1rem;}
-  .sc-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--border);
-    border:1px solid var(--border); border-radius:10px; overflow:hidden;}
-  .sc{background:var(--surface); padding:1rem .9rem;}
-  .sc .n{font-family:var(--mono); font-weight:700; font-size:clamp(1.5rem,4vw,2rem); color:var(--green);
-    line-height:1; letter-spacing:-.02em; font-variant-numeric:tabular-nums;}
-  .sc .n.orange{color:var(--accent);}
-  .sc .l{font-family:var(--mono); font-size:.68rem; letter-spacing:.04em; text-transform:uppercase;
-    color:var(--text-dim); margin-top:.5rem; line-height:1.35;}
-  .sc-foot{font-size:.86rem; color:var(--text-muted); margin:.9rem 0 0; line-height:1.5;}
-  @media(max-width:520px){.sc-grid{grid-template-columns:1fr}}
-
-  .coda{background:linear-gradient(180deg,var(--surface),transparent); border:1px solid var(--border);
-    border-radius:16px; padding:1.6rem 1.6rem .4rem; margin:2.6rem 0 0;}
-  .coda .tag{font-family:var(--mono); font-size:.72rem; letter-spacing:.14em; text-transform:uppercase;
-    color:var(--accent);}
-
-  .endnote{margin-top:3rem; padding-top:1.4rem; border-top:1px solid var(--border); color:var(--text-muted);
-    font-size:.95rem;}
-  .endnote a{font-weight:600;}
-  .art hr.dots{border:none; height:1px; background:repeating-linear-gradient(90deg,var(--border) 0 6px,transparent 6px 12px);
-    margin:2.6rem 0;}
-  .report-grade{font-size:1.1rem; color:var(--text-muted); margin:.2rem 0 1.1rem; display:flex; align-items:baseline; gap:.7rem; flex-wrap:wrap;}
-  .report-grade .big{font-family:var(--mono); font-weight:700; font-size:clamp(2rem,5vw,2.6rem); color:var(--green); letter-spacing:-.02em; line-height:1;}
-  .report-grade .q{font-style:italic; color:var(--text-dim); font-size:.95rem;}
-  .grade-rows{display:flex; flex-direction:column; gap:1px; background:var(--border); border:1px solid var(--border); border-radius:10px; overflow:hidden;}
-  .gr{display:grid; grid-template-columns:132px 46px 1fr; gap:.85rem; align-items:start; background:var(--surface); padding:.75rem .9rem;}
-  .gr .c{font-weight:700; font-size:.88rem; color:var(--text);}
-  .gr .g{font-family:var(--mono); font-weight:700; font-size:.88rem; text-align:center; border-radius:6px; padding:.12rem 0; height:fit-content;}
-  .gr .g.gA{color:var(--green); background:rgba(46,213,115,.1);}
-  .gr .g.gB{color:var(--accent); background:rgba(255,107,53,.12);}
-  .gr .e{font-size:.85rem; color:var(--text-muted); line-height:1.45;}
-  @media(max-width:520px){.gr{grid-template-columns:1fr auto;} .gr .e{grid-column:1/-1;}}
-</style>
-
-<article class="art">
-<div class="col">
-
-  <div class="kicker">ScrappyLabs · The Log · Field Notes</div>
-  <h1 class="title">Two years to the <span class="g">taste of the stew</span>.</h1>
+<main id="main" class="doc">
+<article>
+  <p class="kicker">ScrappyLabs · The Log · Field Notes</p>
+  <h1>Two years to the taste of the stew.</h1>
   <p class="standfirst">A build-in-the-open account of how one workshop got from fighting its own operating system to running a fleet of local models that finally feel real — with a memory layer a frontier model just graded <strong>A&minus;</strong>, and an opinion about the buggy-whip crowd.</p>
-  <div class="byline"><span>Brian · ScrappyLabs</span><span>·</span><span>Asheville, NC</span><span>·</span><span>~9 min read</span></div>
+  <p class="byline"><span>Brian · ScrappyLabs</span><span>·</span><span>Asheville, NC</span><span>·</span><span>~9 min read</span></p>
 
-  <p class="lead-in">Nobody hands you the shape of a thing. You have to build the wrong version a few times until your hands know it. Two years ago I was gluing AI into my work by copy-pasting out of a browser tab. Today a rack of GPUs in a spare room answers a business phone line, edits video, and rewrites its own memory from academic papers the week they drop. Here's the honest path between those two points — the friction, the turns, and the moment the whole game changed.</p>
+  <p>Nobody hands you the shape of a thing. You have to build the wrong version a few times until your hands know it. Two years ago I was gluing AI into my work by copy-pasting out of a browser tab. Today a rack of GPUs in a spare room answers a business phone line, edits video, and rewrites its own memory from academic papers the week they drop. Here's the honest path between those two points — the friction, the turns, and the moment the whole game changed.</p>
 
-  <h2><span class="era">Era One</span><br>The Windows tax</h2>
+  <p class="label">Era One</p>
+  <h2>The Windows tax</h2>
   <p>I started where most people start: on Windows, trying to force a developer's workflow onto an operating system that fights you the whole way. WSL helped — until it didn't. <strong>WSL isn't Linux.</strong> It's Linux wearing a visitor's badge, and every real project eventually hit the seam: a filesystem boundary, a networking quirk, a permissions wall, a "works in the terminal, breaks in the tool" afternoon you never get back.</p>
   <p>For a long time I treated that friction as the cost of doing business. It wasn't. It was a decision I hadn't made yet.</p>
 
-  <h2><span class="era">Era Two</span><br>Coming home to Linux</h2>
+  <p class="label">Era Two</p>
+  <h2>Coming home to Linux</h2>
   <p>So we made it. Screw the compromise — we re-embraced the thing I'd loved in the first place and went Linux, all the way down. The workflow problem didn't get <em>better</em>; it <em>disappeared</em>. Overnight the machine stopped being an obstacle and started being a platform.</p>
   <p>From there it compounded. Docker, then Kubernetes, then K3s for the lean edges — the boring, load-bearing plumbing that turns a pile of computers into one system you can actually deploy onto. That's the spine the rest of this is built on. Unglamorous, and worth every hour.</p>
   <p class="pull">The lesson wasn't "Linux good." It was: stop paying a tax you can walk away from.</p>
 
-  <h2><span class="era">Era Three</span><br>Copy-paste, then the MCP moment</h2>
+  <p class="label">Era Three</p>
+  <h2>Copy-paste, then the MCP moment</h2>
   <p>Early AI work was a clipboard. Ask the chatbot, copy the answer, paste it where it needed to go, do the work yourself. Useful, but it was a smart person trapped behind glass — all advice, no hands.</p>
   <p>Then MCP showed up, and the temperature of the whole room changed. Suddenly it was all about <strong>tool use</strong>. The model could read the file, run the command, hit the API, check the result, and try again — not describe the work, <em>do</em> the work. That's the line between a chatbot and a coworker, and once you've crossed it you can't go back to the clipboard.</p>
 
-  <h2><span class="era">Era Four</span><br>The memory-layer race — and running our own</h2>
+  <p class="label">Era Four</p>
+  <h2>The memory-layer race — and running our own</h2>
   <p>Once the model had hands, the obvious next wall was memory. An agent with no memory is a brilliant amnesiac: it solves the same problem beautifully, every single day, having learned nothing. So everyone started building memory layers, us included — Obsidian, markdown files, a place for the system to write down what it learned and read it back tomorrow.</p>
   <p>Most people stopped there. We didn't, for one reason: <strong>if you read the papers as they drop, you can rebuild your own memory layer to match — or beat — what the labs just published.</strong> When <em>AutoMem</em> and <em>AgenticSTS</em> hit arXiv, we had their ideas running on our fleet inside a day: memory management treated as a measurable, improvable skill, with per-layer ablation and a frozen, graded eval set.</p>
   <p>Which means we don't grade our own homework. We handed the whole layer to a frontier model — Claude's Fable&nbsp;5 — and told it to assess us cold, with evidence: live index stats, the health scores, the ops timers, real retrieval probes. Here's the card it gave back.</p>
 
-  <div class="scorecard">
-    <div class="sc-h">Fleet Memory + RAG — Report Card · graded live by Claude (Fable&nbsp;5) · 2026-07-04</div>
-    <div class="report-grade">Overall <span class="big">A&minus;</span> <span class="q">"Earned, not inflated."</span></div>
-    <div class="grade-rows">
-      <div class="gr"><span class="c">Ops discipline</span><span class="g gA">A+</span><span class="e">"Almost nobody evals their memory. This layer beats most funded teams." Frontier-drain latency 0.4h against a 168h target.</span></div>
-      <div class="gr"><span class="c">Architecture</span><span class="g gA">A</span><span class="e">Four tiers, two-pass lifecycle retrieval, gated writes, offline replica. Archive contamination ~70% → 0%.</span></div>
-      <div class="gr"><span class="c">Freshness</span><span class="g gA">A</span><span class="e">Five-minute transcript indexing. A doc written that evening was the #1 hit the same night.</span></div>
-      <div class="gr"><span class="c">Memory→weights</span><span class="g gA">A</span><span class="e">Canon baked into model weights, in production — a June-2026 paper running three weeks after it hit arXiv. "Ahead of the field."</span></div>
-      <div class="gr"><span class="c">Retrieval</span><span class="g gB">B+</span><span class="e">Right doc #1 on every probe — but bi-encoder only, no reranker yet. One generation behind best practice. (We're fixing it.)</span></div>
-      <div class="gr"><span class="c">Evaluation</span><span class="g gB">B+</span><span class="e">Harness is excellent; the bench is saturated near the ceiling — time for harder queries.</span></div>
+  <div class="box">
+    <span class="box-h">Fleet Memory + RAG — Report Card · graded live by Claude (Fable&nbsp;5) · 2026-07-04</span>
+    <p class="grade">Overall <span class="big">A&minus;</span> <em class="dim">"Earned, not inflated."</em></p>
+    <div class="rows grades">
+      <div class="row"><b>Ops discipline</b><span class="tag ok">A+</span><small>"Almost nobody evals their memory. This layer beats most funded teams." Frontier-drain latency 0.4h against a 168h target.</small></div>
+      <div class="row"><b>Architecture</b><span class="tag ok">A</span><small>Four tiers, two-pass lifecycle retrieval, gated writes, offline replica. Archive contamination ~70% → 0%.</small></div>
+      <div class="row"><b>Freshness</b><span class="tag ok">A</span><small>Five-minute transcript indexing. A doc written that evening was the #1 hit the same night.</small></div>
+      <div class="row"><b>Memory→weights</b><span class="tag ok">A</span><small>Canon baked into model weights, in production — a June-2026 paper running three weeks after it hit arXiv. "Ahead of the field."</small></div>
+      <div class="row"><b>Retrieval</b><span class="tag warn">B+</span><small>Right doc #1 on every probe — but bi-encoder only, no reranker yet. One generation behind best practice. (We're fixing it.)</small></div>
+      <div class="row"><b>Evaluation</b><span class="tag warn">B+</span><small>Harness is excellent; the bench is saturated near the ceiling — time for harder queries.</small></div>
     </div>
-    <p class="sc-foot"><strong>The line I keep, in its words</strong> — measured against Letta-, Mem0-, and Zep-class systems: <em>"architecture at parity, ops/eval layer above most, retrieval the one component behind."</em> We're publishing the B+ right alongside the A+. That's what building in the open means.</p>
+    <p class="dim"><strong>The line I keep, in its words</strong> — measured against Letta-, Mem0-, and Zep-class systems: <em>"architecture at parity, ops/eval layer above most, retrieval the one component behind."</em> We're publishing the B+ right alongside the A+. That's what building in the open means.</p>
   </div>
 
   <p>I'll take an A- I didn't write myself. And notice <em>what</em> scored highest — not the model, the <strong>operations</strong>. Almost nobody grades their memory at all; ours gets graded every Monday and pages us when the number slips. It's also <strong>consistent across every agent and every harness</strong> — the big-lab models and our local ones all read and write the same memory, so the experience of the AI stays continuous no matter which brain is driving. That cross-agent continuity is the exact thing the commercial "memory" features are only now reaching for. And when we audited how it's actually used, the finding was sharp: <strong>retrieval is basically solved</strong> — the fact you need is almost always the top result — so the real frontier is <strong>invocation</strong>: getting the agent to look before it leaps.</p>
   <p class="pull">We didn't need a bigger model. We needed a memory — and the nerve to have it graded.</p>
 
-  <h2><span class="era">Era Five</span><br>The month local models got real</h2>
+  <p class="label">Era Five</p>
+  <h2>The month local models got real</h2>
   <p>For most of this journey, local models were a toy. A wonderful, instructive toy — you learned the shape of the thing, the <em>taste of the stew</em> — but you wouldn't put them on a customer's phone line. They were how you learned; they weren't the meal.</p>
   <p>That changed in the last couple of months, and it changed <em>fast</em>. Nine-billion-parameter models with multi-token prediction stacked on. Speculative decoding — DFlash, the DeepSeek "DSpark" work — pushing a single small GPU past <strong>~120 tokens/second</strong>. Thank you, DeepSeek. Thank you, Zhipu and z.ai. The open-weights world did in a season what looked like years of runway.</p>
   <p>The result: local inference on a laptop now feels the way ChatGPT felt six months ago. Genuinely. And it's running on hardware you own, on data that never leaves the building — which, when you answer real calls for real people, isn't a nice-to-have. It's the whole point.</p>
 
-  <div class="coda">
-    <div class="tag">An opinion, since it's my blog</div>
-    <h2 style="margin-top:.6rem"><span class="era">Era Six</span><br>The computer isn't the computer anymore</h2>
+  <div class="box">
+    <span class="box-h">An opinion, since it's my blog</span>
+    <p class="label">Era Six</p>
+    <h2>The computer isn't the computer anymore</h2>
     <p>"AI integration" used to be a slide. Now it's literal. The machine on your desk is not the machine you had two years ago, and the one in your pocket isn't either.</p>
     <p>Which is why the loudest anti-AI argument — the water and energy panic — needs to grow up a little. Recirculation, heat capture, carbon footprint: real, worth engineering, I'm all for it. But the person posting "AI wastes water" from a phone that ships with a three-billion-parameter model baked into the silicon — Android or Apple, doesn't matter — is already using the thing they're mad about. You didn't opt out. There's a model in your pocket running whether you like it or not.</p>
     <p class="pull">Nobody needs a buggy whip when there aren't any buggies.</p>
     <p>That's what this reads like from inside the workshop. The people insisting it's all waste and hype are the buggy-whip makers watching the first cars sputter past — not wrong that the cars are loud and leak oil, just wrong about which way the road goes. The world is changing every second. Better to have your hands on it.</p>
   </div>
 
-  <hr class="dots">
+  <hr>
 
   <p>So that's the arc: quit fighting the OS, build a real platform, give the model hands, give it a memory worth grading, and wait for local hardware to catch up to the ambition — which it finally has. None of it was a master plan. It was a lot of wrong versions, written down, until our hands knew the shape.</p>
 
   <div class="endnote">
     <p>We build in the open. If you want the receipts: the <a href="https://stuff.scrappylabs.ai/public/blog/fleet-log.html">Fleet Log</a> is a month of this read back from the fleet's own memory, and there's more in <a href="https://scrappylabs.ai/log">The Log</a> — including how we rebuilt our video-understanding pipeline (<em>/watch</em>) to beat a trending open-source tool at frame selection while keeping instant, timestamped transcripts. More as it happens.</p>
-    <p style="color:var(--text-dim); font-size:.85rem; margin-top:1.2rem;">ScrappyLabs · built in the open · Asheville, NC · brian@scrappylabs.ai</p>
+    <p class="dim">ScrappyLabs · built in the open · Asheville, NC · brian@scrappylabs.ai</p>
   </div>
-
-</div>
 </article>
-<footer class="site-footer">
-  &copy; 2026 ScrappyLabs. Building since '93. &nbsp;|&nbsp; <a href="/lab">The Log</a> &nbsp;|&nbsp; <a href="/">Home</a> &nbsp;|&nbsp; <a href="mailto:brian@scrappylabs.ai">Contact</a>
+</main>
+
+<footer class="legal">
+  <p>© 2026 Loser.com LLC. ScrappyLabs is a d/b/a of Loser.com LLC. · Building since '93 ·
+    <a href="/privacy">privacy</a> · <a href="/tos">terms</a> · <a href="/sms">sms terms</a> · <a href="/feed.xml">rss</a></p>
 </footer>
+<nav class="tmux" aria-label="Contact">
+  <span class="tw">[scrappylabs] 1:two-years*</span>
+  <span class="tc"><a href="tel:+13362969877">call (336) 296-9877</a> <a href="mailto:brian@scrappylabs.ai"><span class="m-short">mail</span><span class="m-long">brian@scrappylabs.ai</span></a></span>
+  <a href="/">cd ~</a>
+</nav>
 </body>
 </html>

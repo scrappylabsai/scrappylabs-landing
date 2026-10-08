@@ -25,3 +25,10 @@
 /services               /            200
 /about                  /            200
 /github                 https://github.com/scrappylabsai  302
+
+# Retired 2026-10-08 (older than ~3 months; Brian: "only recent shares needed").
+# Files archived in ~/scrappylabs-private/; manifest entries kept with public:false.
+/scrappy-tools          /            301
+/scrappy-tools.html     /            301
+/qb-agent               /            301
+/qb-agent.html          /            301

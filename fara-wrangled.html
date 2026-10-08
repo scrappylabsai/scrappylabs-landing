@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0a07">
+<title>Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU</title>
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="ScrappyLabs">
+<meta property="og:title" content="Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU">
+<meta property="og:url" content="https://scrappylabs.ai/fara-wrangled">
+<meta name="description" content="Microsoft&#x27;s open browser-driving model, running on one GPU in our rack. How the observe-think-act loop works, the two ways to hand it a browser, what it&#x27;s honestly good at — and the guardrails that keep it wrangled.">
+<meta property="og:description" content="Microsoft&#x27;s open browser-driving model, running on one GPU in our rack. How the observe-think-act loop works, the two ways to hand it a browser, what it&#x27;s honestly good at — and the guardrails that keep it wrangled.">
+<meta property="og:image" content="https://scrappylabs.ai/og-terminal.png">
+<link rel="canonical" href="https://scrappylabs.ai/fara-wrangled">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230c0a07'/%3E%3Cpath d='M7 10l6 6-6 6' stroke='%23ffb547' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3Crect x='16' y='20' width='10' height='3' fill='%23ffb547'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/jbmono-nl-regular.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/page.css">
+<style>
+/* fara-wrangled: page-specific layout only */
+.doc h1 .accent{color:var(--fg);font-weight:400}
+.kpis .row{grid-template-columns:10ch 1fr}
+.kpis .v{font-weight:700;font-variant-numeric:tabular-nums}
+.kpis .v.hot{color:var(--amber)}
+.kpis .v small{display:inline;color:var(--dim);font-size:.85em;font-weight:400}
+/* diagrams: inline SVG in a zoomable frame */
+.dgwrap{border:1px solid var(--rule);background:var(--bg);margin:0 0 1.2em}
+.dgwrap .zoom{display:flex;justify-content:flex-end;gap:.6ch;padding:.4em .4em 0}
+.dgwrap .zoom button{font:inherit;font-size:.9em;color:var(--amber);background:var(--panel);border:1px solid var(--edge);border-radius:3px;min-width:32px;min-height:32px;cursor:pointer}
+.dgwrap .zoom button:hover{color:var(--bg);background:var(--amber);border-color:var(--amber)}
+.dgscroll{overflow:auto;padding:.6em .8em 1em}
+.doc .dgscroll svg{display:block;margin:0 auto;max-width:none;width:calc(100% * var(--z, 1));min-width:calc(640px * var(--z, 1));transition:width .2s ease,min-width .2s ease}
+.dgwrap.is-zoomed .dgscroll{max-height:80vh;cursor:grab}
+.dgwrap.is-panning .dgscroll{cursor:grabbing;user-select:none}
+/* anatomy of one step: stacked panels joined by arrows */
+.steps .box{margin:0}
+.steps .box-h + h4{margin-top:0}
+.step-arrow{width:1ch;margin:.5em auto;color:var(--amber);line-height:1;transform:rotate(90deg)}
+.doc pre b{color:var(--amber);font-weight:400}
+.doc pre .c{color:var(--dim)}
+.doc pre .g{color:var(--amber)}
+.doc pre .b{color:var(--green)}
+.box .tag + h3{margin-top:.5em}
+.cmd-label{color:var(--dim);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;margin:.9em 0 .3em}
+.doc td small{display:block;color:var(--dim);font-size:.88em;margin-top:.2em}
+.endnote p{margin:0 0 .4em}
+@media (prefers-reduced-motion:reduce){.doc .dgscroll svg{transition:none}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="bar">
+  <p class="prompt"><a href="/">guest@scrappylabs</a>:<a href="/#blog">~/blog</a>$ <span class="cmd">less fara-wrangled.md</span></p>
+  <nav aria-label="Site"><a href="/">home</a><a href="/#blog">blog</a><a href="/#demos">demos</a><a href="/#contact">contact</a></nav>
+</header>
+
+<main id="main" class="doc">
+<article>
+  <h1>Fara1.5, wrangled <span class="accent">— a computer-use agent on our own GPU</span></h1>
+  <p class="byline"><span>microsoft's open computer-use agent</span><span>·</span><span>Fara1.5-9B-FP8</span><span>·</span><span>run entirely on our own hardware</span><span>·</span><span>2026-07-28</span><span>·</span><span>MIT license</span><span>·</span><span>$0 cloud</span></p>
+
+  <p class="standfirst">
+    Fara is a <strong>vision-only browser agent</strong>: it looks at a screenshot of the page — no DOM, no
+    accessibility tree — thinks in text, and answers with one concrete action (<em>click these pixels, type this,
+    scroll, visit this URL</em>). Our harness executes that action in a real browser, takes a fresh screenshot, and
+    loops until the model says <code>terminate</code> with a final answer. The model runs on <strong>one GPU in our rack</strong>;
+    the browser can run anywhere — including <strong>attached to your own logged-in session</strong>.
+  </p>
+
+  <div class="rows kpis">
+    <div class="row"><span class="v hot">53s</span><span>HN task, end-to-end ✓</span></div>
+    <div class="row"><span class="v">~3s<small>/step</small></span><span>warm action latency</span></div>
+    <div class="row"><span class="v">16.8<small>GB</small></span><span>pinned VRAM slice</span></div>
+    <div class="row"><span class="v ok">$0</span><span>cloud / quota spend</span></div>
+    <div class="row"><span class="v">9B<small> FP8</small></span><span>86.6 webvoyager tier</span></div>
+    <div class="row"><span class="v">80s</span><span>cold start → first answer</span></div>
+  </div>
+
+  <p class="label">01</p>
+  <h2>Where each piece runs</h2>
+  <p class="dim">The model server and the browser are decoupled — an OpenAI-compatible HTTP seam connects them. Screenshots go up, actions come back.</p>
+  <div class="dgwrap">
+    <div class="zoom">
+      <button type="button" data-zoom="1.2" title="Zoom in">+</button>
+      <button type="button" data-zoom="0.8" title="Zoom out">−</button>
+      <button type="button" data-zoom="reset" title="Reset zoom">↺</button>
+    </div>
+    <div class="dgscroll">
+      <svg viewBox="0 0 800 516" xmlns="http://www.w3.org/2000/svg" font-size="12.5" text-anchor="middle">
+        <defs>
+          <marker id="fw-ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3a07a"/></marker>
+        </defs>
+        <!-- subgraphs -->
+        <rect x="16" y="16" width="330" height="256" fill="#17120b" stroke="#8a7654" stroke-dasharray="5 4"/>
+        <text x="32" y="40" text-anchor="start" fill="#b3a07a" font-size="11.5" letter-spacing="1">THE ORCHESTRATOR — any box</text>
+        <rect x="514" y="16" width="270" height="140" fill="#17120b" stroke="#8a7654" stroke-dasharray="5 4"/>
+        <text x="530" y="40" text-anchor="start" fill="#b3a07a" font-size="11.5" letter-spacing="1">THE GPU BOX — one card</text>
+        <rect x="16" y="330" width="768" height="170" fill="#17120b" stroke="#8a7654" stroke-dasharray="5 4"/>
+        <text x="32" y="354" text-anchor="start" fill="#b3a07a" font-size="11.5" letter-spacing="1">THE BROWSER — pick one</text>
+        <!-- nodes -->
+        <rect x="40" y="60" width="282" height="60" fill="#0c0a07" stroke="#8a7654" stroke-width="1.5"/>
+        <text x="181" y="86" fill="#efe0bf" font-size="14" font-weight="700">fara-cli harness</text>
+        <text x="181" y="106" fill="#b3a07a">microsoft/fara + our patches</text>
+        <rect x="40" y="190" width="282" height="60" fill="#0c0a07" stroke="#8a7654" stroke-width="1.5"/>
+        <text x="181" y="216" fill="#efe0bf" font-size="14" font-weight="700">Playwright controller</text>
+        <text x="181" y="236" fill="#b3a07a">executes actions, takes screenshots</text>
+        <rect x="534" y="60" width="236" height="60" fill="#0c0a07" stroke="#ffb547" stroke-width="2"/>
+        <text x="652" y="86" fill="#efe0bf" font-size="14" font-weight="700">vLLM server</text>
+        <text x="652" y="106" fill="#b3a07a">Fara1.5-9B-FP8 · ~17GB slice</text>
+        <rect x="40" y="390" width="320" height="60" fill="#0c0a07" stroke="#8a7654" stroke-width="1.5"/>
+        <text x="200" y="416" fill="#efe0bf" font-size="14" font-weight="700">Sandbox chromium</text>
+        <text x="200" y="436" fill="#b3a07a">fresh profile, no auth</text>
+        <rect x="440" y="390" width="320" height="60" fill="#0c0a07" stroke="#ffb547" stroke-width="2"/>
+        <text x="600" y="416" fill="#efe0bf" font-size="14" font-weight="700">Your own logged-in browser</text>
+        <text x="600" y="436" fill="#b3a07a">CDP attach :9222</text>
+        <!-- edges -->
+        <g stroke="#b3a07a" stroke-width="1.5" fill="none" marker-end="url(#fw-ah1)">
+          <line x1="181" y1="120" x2="181" y2="188"/>
+          <line x1="322" y1="80" x2="532" y2="80"/>
+          <line x1="534" y1="102" x2="324" y2="102"/>
+          <line x1="250" y1="250" x2="250" y2="388"/>
+          <path d="M322 236H600V388" stroke-dasharray="6 4"/>
+        </g>
+        <g paint-order="stroke" stroke="#0c0a07" stroke-width="5" stroke-linejoin="round" fill="#efe0bf">
+          <text x="430" y="72">screenshot + history</text>
+          <text x="430" y="121">next action</text>
+          <text x="260" y="315" text-anchor="start">drives</text>
+          <text x="470" y="228">--cdp_url</text>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <p class="label">02</p>
+  <h2>The observe → think → act loop</h2>
+  <div class="dgwrap">
+    <div class="zoom">
+      <button type="button" data-zoom="1.2" title="Zoom in">+</button>
+      <button type="button" data-zoom="0.8" title="Zoom out">−</button>
+      <button type="button" data-zoom="reset" title="Reset zoom">↺</button>
+    </div>
+    <div class="dgscroll">
+      <svg viewBox="0 0 780 676" xmlns="http://www.w3.org/2000/svg" font-size="13" text-anchor="middle">
+        <defs>
+          <marker id="fw-ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#b3a07a"/></marker>
+        </defs>
+        <!-- lifelines -->
+        <g stroke="#8a7654" stroke-width="1" stroke-dasharray="3 4">
+          <line x1="70" y1="54" x2="70" y2="664"/>
+          <line x1="310" y1="54" x2="310" y2="664"/>
+          <line x1="530" y1="54" x2="530" y2="664"/>
+          <line x1="680" y1="54" x2="680" y2="664"/>
+        </g>
+        <!-- participants -->
+        <g fill="#17120b" stroke="#8a7654" stroke-width="1.5">
+          <rect x="6" y="14" width="128" height="40"/>
+          <rect x="246" y="14" width="128" height="40"/>
+          <rect x="466" y="14" width="128" height="40"/>
+          <rect x="616" y="14" width="128" height="40"/>
+        </g>
+        <g fill="#efe0bf" font-size="14" font-weight="700">
+          <text x="70" y="39">You</text>
+          <text x="310" y="39">Harness</text>
+          <text x="530" y="39">Browser</text>
+          <text x="680" y="39">Fara 9B (GPU)</text>
+        </g>
+        <!-- messages: solid = call, dashed = reply -->
+        <g stroke="#b3a07a" stroke-width="1.5" fill="none" marker-end="url(#fw-ah2)">
+          <line x1="70" y1="102" x2="308" y2="102"/>
+          <line x1="310" y1="150" x2="528" y2="150"/>
+          <line x1="530" y1="198" x2="312" y2="198" stroke-dasharray="6 4"/>
+          <line x1="310" y1="246" x2="678" y2="246"/>
+          <line x1="680" y1="348" x2="312" y2="348" stroke-dasharray="6 4"/>
+          <line x1="310" y1="405" x2="528" y2="405"/>
+          <line x1="680" y1="507" x2="312" y2="507" stroke-dasharray="6 4"/>
+          <line x1="310" y1="564" x2="72" y2="564" stroke-dasharray="6 4"/>
+        </g>
+        <!-- notes -->
+        <g fill="#17120b" stroke="#ffb547" stroke-width="1.5">
+          <rect x="545" y="264" width="230" height="46"/>
+          <rect x="290" y="423" width="260" height="46"/>
+          <rect x="545" y="582" width="230" height="64"/>
+        </g>
+        <g paint-order="stroke" stroke="#0c0a07" stroke-width="5" stroke-linejoin="round" fill="#efe0bf">
+          <text x="190" y="92">task — "find X on this site"</text>
+          <text x="420" y="140">screenshot (1440x900 PNG)</text>
+          <text x="420" y="188">pixels</text>
+          <text x="495" y="236">goal + last 3 screenshots + action history</text>
+        </g>
+        <text fill="#efe0bf"><tspan x="660" y="283">thinks in text, then</tspan><tspan x="660" y="300">emits ONE action</tspan></text>
+        <g paint-order="stroke" stroke="#0c0a07" stroke-width="5" stroke-linejoin="round" fill="#efe0bf">
+          <text x="495" y="338">chain-of-thought + tool_call</text>
+          <text><tspan x="420" y="378">playwright executes</tspan><tspan x="420" y="395">click / type / scroll</tspan></text>
+        </g>
+        <text fill="#efe0bf"><tspan x="420" y="442">loop repeats ~3s per step</tspan><tspan x="420" y="459">until done</tspan></text>
+        <g paint-order="stroke" stroke="#0c0a07" stroke-width="5" stroke-linejoin="round" fill="#efe0bf">
+          <text x="495" y="497">terminate (final answer)</text>
+          <text><tspan x="190" y="537">answer + full trajectory</tspan><tspan x="190" y="554">+ screenshots</tspan></text>
+        </g>
+        <text fill="#efe0bf"><tspan x="660" y="601">critical point? sign-in,</tspan><tspan x="660" y="618">payment, submit → PAUSES</tspan><tspan x="660" y="635">and asks the human first</tspan></text>
+      </svg>
+    </div>
+  </div>
+
+  <p class="label">03</p>
+  <h2>Anatomy of one step</h2>
+  <div class="steps">
+    <div class="box">
+      <span class="box-h">OBSERVE</span>
+      <h4>Screenshot in</h4>
+      <p>The harness captures the viewport at 1440×900 — the resolution Fara was trained on. Only the last 3 screenshots ride along; older ones drop out of context.</p>
+    </div>
+    <div class="step-arrow" aria-hidden="true">→</div>
+    <div class="box">
+      <span class="box-h">THINK + DECIDE</span>
+      <h4>Model output</h4>
+      <p>Reasoning first, then exactly one grounded action:</p>
+      <pre tabindex="0">The top story is the first
+row under the site header...
+&lt;tool_call&gt;{"name": "<b>computer_use</b>",
+ "arguments": {"action": "<b>left_click</b>",
+  "x": 342, "y": 187}}&lt;/tool_call&gt;</pre>
+    </div>
+    <div class="step-arrow" aria-hidden="true">→</div>
+    <div class="box">
+      <span class="box-h">ACT</span>
+      <h4>Playwright executes</h4>
+      <p>The harness parses the XML, clicks those exact pixels in the real browser, waits for the page to settle, and the loop begins again with a fresh screenshot.</p>
+    </div>
+  </div>
+
+  <p class="label">04</p>
+  <h2>Two ways to give it a browser</h2>
+  <div class="box">
+    <span class="tag ok">default · safe</span>
+    <h3>Sandbox launch</h3>
+    <p>The harness spawns a <strong>fresh headless chromium</strong> — empty profile, no cookies, no auth.
+    This is what the smoke test used. Can't touch your accounts even if it wanted to.</p>
+    <p class="cmd-label">one command</p>
+    <pre class="cmd" tabindex="0"><span class="b">fara-cli</span> --task <span class="g">"..."</span> \
+  --endpoint_config endpoint_configs/vllm_config.json</pre>
+  </div>
+  <div class="box warn">
+    <span class="tag warn">our patch · authed sessions</span>
+    <h3>CDP attach — <em>drive your real session</em></h3>
+    <p>Attach to <strong>your already-logged-in browser</strong> over the DevTools protocol. <strong>No stored
+    credentials</strong>, no automation login to get flagged, and you watch every click live.</p>
+    <p class="cmd-label">two commands</p>
+    <pre class="cmd" tabindex="0"><span class="c"># 1 — relaunch your browser with a debug port</span>
+<span class="b">brave</span> --remote-debugging-port=<span class="g">9222</span>
+
+<span class="c"># 2 — point Fara at it</span>
+<span class="b">fara-cli</span> --task <span class="g">"..."</span> --cdp_url http://localhost:<span class="g">9222</span> \
+  --endpoint_config endpoint_configs/vllm_config.json</pre>
+  </div>
+  <div class="box">
+    <p><strong>Why this matters:</strong> a huge share of real admin work lives in consoles and portals with
+    <strong>no API</strong>. CDP-attach plus a local model means those flows can be automated with zero cloud
+    spend — and no screenshot of an authed console ever leaves your network.</p>
+  </div>
+
+  <p class="label">05</p>
+  <h2>The action space</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th>Action</th><th>What it does</th><th>Group</th></tr></thead>
+      <tbody>
+        <tr><td><code>left_click</code> <code>right_click</code> <code>double_click</code> <code>triple_click</code></td><td>Mouse clicks at predicted <code>(x, y)</code> pixel coordinates</td><td><span class="tag">mouse</span></td></tr>
+        <tr><td><code>mouse_move</code> <code>left_click_drag</code></td><td>Cursor positioning and drag operations</td><td><span class="tag">mouse</span></td></tr>
+        <tr><td><code>type</code> <code>key</code></td><td>Keyboard input — text entry and key combos</td><td><span class="tag">keyboard</span></td></tr>
+        <tr><td><code>scroll</code> <code>hscroll</code></td><td>Vertical / horizontal page scrolling</td><td><span class="tag">navigate</span></td></tr>
+        <tr><td><code>visit_url</code> <code>history_back</code> <code>web_search</code></td><td>Direct navigation and search</td><td><span class="tag">navigate</span></td></tr>
+        <tr><td><code>pause_and_memorize_fact</code></td><td>Pins a fact so it survives even when old screenshots fall out of the window<small>used in our smoke run to hold the headline it read</small></td><td><span class="tag ok">memory</span></td></tr>
+        <tr><td><code>ask_user_question</code></td><td>Stops and surfaces a question to the human</td><td><span class="tag warn">human gate</span></td></tr>
+        <tr><td><code>wait</code> <code>terminate</code></td><td>Sleep N seconds / end the task with the final answer</td><td><span class="tag">control</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="label">06</p>
+  <h2>Guardrails &amp; the honest capability read</h2>
+  <div class="tbl">
+    <table>
+      <thead><tr><th style="width:34%">Task type</th><th>Verdict</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Read / navigate / report</strong><small>"list the users", "check this setting", "find the price"</small></td>
+          <td><span class="tag ok">good today</span></td>
+          <td>WebVoyager-tier work — the 9B scores 86.6% here. Our smoke run was this class: flawless.</td>
+        </tr>
+        <tr>
+          <td><strong>Multi-step writes on dense admin UIs</strong><small>wizards, multi-page config changes</small></td>
+          <td><span class="tag warn">watch it</span></td>
+          <td>Harder-benchmark tier (63.4% Online-Mind2Web). Misclicks compound. Run headful, human watching. Fara's critical-points training makes it pause before sign-ins, payments, and submits — but a watcher still catches the fumbles.</td>
+        </tr>
+        <tr>
+          <td><strong>Anything with an API</strong><small>official SDKs, CLIs, admin APIs…</small></td>
+          <td><span class="tag">use the API</span></td>
+          <td>Deterministic beats vision-clicking. Fara's lane is the long tail of UIs with <em>no</em> API.</td>
+        </tr>
+        <tr>
+          <td><strong>High-stakes records (legal / medical)</strong></td>
+          <td><span class="tag bad">not this</span></td>
+          <td>The model card marks legal/high-stakes domains out of scope — and that matches our own hard rules for records that matter.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="box warn">
+    <p><strong>Standing caution — prompt injection.</strong> Fara reads page content through its eyes. A malicious page
+    can embed instructions aimed at the agent. On an authed session that's a real surface: keep CDP-attach runs to
+    <strong>allow-listed destinations</strong> (admin.google, known consoles), the same defense-in-depth posture we apply to everything an agent reads.</p>
+  </div>
+
+  <div class="endnote">
+    <p><b>model</b> <a href="https://huggingface.co/microsoft/Fara1.5-9B">microsoft/Fara1.5-9B</a> (MIT) · community FP8 quant · served by vLLM on one workstation-class GPU</p>
+    <p><b>harness</b> <a href="https://github.com/microsoft/fara">github.com/microsoft/fara</a> + our small patches: CDP attach to the active tab, SPA-safe navigation waits</p>
+    <p><b>trajectories</b> every run saves screenshots + a full action log — a complete record of what it saw and did</p>
+    <p><b>ops</b> nothing stays resident — the server wakes on demand and self-expires; every number above measured on our own hardware</p>
+    <p><b><a href="/">ScrappyLabs</a></b> · Bring your own AI. We keep it wrangled.</p>
+  </div>
+</article>
+</main>
+
+<footer class="legal">
+  <p>© 2026 Loser.com LLC. ScrappyLabs is a d/b/a of Loser.com LLC. · Building since '93 ·
+    <a href="/privacy">privacy</a> · <a href="/tos">terms</a> · <a href="/sms">sms terms</a> · <a href="/feed.xml">rss</a></p>
+</footer>
+<nav class="tmux" aria-label="Contact">
+  <span class="tw">[scrappylabs] 1:fara-wrangled*</span>
+  <span class="tc"><a href="tel:+13362969877">call (336) 296-9877</a> <a href="mailto:brian@scrappylabs.ai"><span class="m-short">mail</span><span class="m-long">brian@scrappylabs.ai</span></a></span>
+  <a href="/">cd ~</a>
+</nav>
+<script>
+/* diagram zoom: buttons, ctrl/cmd + wheel, drag to pan when zoomed */
+(function () {
+  var MIN = 0.3, MAX = 5;
+  function getZoom(wrap) { return parseFloat(wrap.dataset.zoom || '1'); }
+  function setZoom(wrap, z) {
+    z = Math.min(Math.max(z, MIN), MAX);
+    wrap.dataset.zoom = String(z);
+    wrap.style.setProperty('--z', String(z));
+    wrap.classList.toggle('is-zoomed', z > 1);
+  }
+  document.querySelectorAll('.dgwrap').forEach(function (wrap) {
+    var scroller = wrap.querySelector('.dgscroll');
+    wrap.querySelectorAll('.zoom button').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var f = btn.dataset.zoom;
+        setZoom(wrap, f === 'reset' ? 1 : getZoom(wrap) * parseFloat(f));
+      });
+    });
+    scroller.addEventListener('wheel', function (e) {
+      if (!e.ctrlKey && !e.metaKey) return;
+      e.preventDefault();
+      setZoom(wrap, getZoom(wrap) * (e.deltaY < 0 ? 1.1 : 0.9));
+    }, { passive: false });
+    var sx, sy, sl, st;
+    scroller.addEventListener('mousedown', function (e) {
+      if (getZoom(wrap) <= 1) return;
+      wrap.classList.add('is-panning');
+      sx = e.clientX; sy = e.clientY;
+      sl = scroller.scrollLeft; st = scroller.scrollTop;
+    });
+    window.addEventListener('mousemove', function (e) {
+      if (!wrap.classList.contains('is-panning')) return;
+      scroller.scrollLeft = sl - (e.clientX - sx);
+      scroller.scrollTop = st - (e.clientY - sy);
+    });
+    window.addEventListener('mouseup', function () { wrap.classList.remove('is-panning'); });
+  });
+})();
+</script>
+</body>
+</html>
