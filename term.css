@@ -1,0 +1,213 @@
+/* ============================================================
+   scrappylabs.ai — the terminal (2026-10-08)
+   Amber phosphor on warm black. One font, one screen, no films.
+   Without JS the page is a plain transcript; term.js makes it a shell.
+   ============================================================ */
+@font-face{font-family:'JBM';src:url('/assets/fonts/jbmono-nl-regular.woff2') format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:'JBM';src:url('/assets/fonts/jbmono-nl-bold.woff2') format('woff2');font-weight:700;font-display:swap}
+
+:root{
+  --bg:#0c0a07;
+  --panel:#17120b;
+  --fg:#efe0bf;        /* body text     15.1:1 on --bg (measured) */
+  --amber:#ffb547;     /* prompt/links  11.3:1 */
+  --amber-hi:#ffd894;  /* hover         14.6:1 */
+  --dim:#b3a07a;       /* secondary      7.7:1 */
+  --green:#9fd88f;     /* ok            12.0:1 */
+  --red:#ff9a85;       /* errors         9.6:1 */
+  --rule:#3a2f1f;      /* decorative only */
+  --edge:#8a7654;      /* interactive borders 4.5:1 (needs 3:1) */
+  --mono:'JBM',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
+  --fs:clamp(14.5px, .82rem + .22vw, 16.5px);
+  --gut:16px;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+html{background:var(--bg);-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{
+  margin:0;min-height:100vh;min-height:100dvh;
+  background:
+    radial-gradient(120% 90% at 50% 0%, #19130b 0%, var(--bg) 60%) fixed,
+    var(--bg);
+  color:var(--fg);
+  font:400 var(--fs)/1.6 var(--mono);
+  padding-bottom:3rem; /* room for the tmux bar */
+}
+/* scanlines + a soft vignette. Purely decorative; never over text contrast-critical UI */
+body::after{
+  content:"";position:fixed;inset:0;pointer-events:none;z-index:50;
+  background:
+    repeating-linear-gradient(to bottom, rgba(0,0,0,.16) 0 1px, transparent 1px 3px),
+    radial-gradient(140% 100% at 50% 50%, transparent 60%, rgba(0,0,0,.45) 100%);
+}
+::selection{background:var(--amber);color:var(--bg)}
+
+a{color:var(--amber);text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{color:var(--amber-hi)}
+a[href^="tel:"]{white-space:nowrap}
+:focus-visible{outline:2px solid var(--amber-hi);outline-offset:3px;border-radius:2px}
+b,strong{font-weight:700;color:var(--fg)}
+pre,code,kbd,samp{font-family:var(--mono)} /* UA sets pre to bare `monospace` */
+p{margin:0 0 .7em}
+kbd{font:inherit;color:var(--amber);padding:0 .25em;border:1px solid var(--edge);border-radius:3px;white-space:nowrap}
+.dim{color:var(--dim)}
+.ok{color:var(--green)}
+.err{color:var(--red)}
+.sr{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.skip{position:absolute;left:var(--gut);top:-100px;z-index:60;background:var(--amber);color:var(--bg);padding:.4em .8em;text-decoration:none}
+.skip:focus{top:8px}
+
+.tty{max-width:min(100ch, 100%);margin:0 auto;padding:clamp(18px, 4vw, 44px) var(--gut) 1rem}
+
+/* ── boot ─────────────────────────────────────────────── */
+.boot{color:var(--dim);margin-bottom:1.2rem}
+.boot:empty{display:none}
+.boot .ln{display:flex;gap:.6ch;white-space:nowrap;overflow:hidden}
+.boot .ln .lbl{flex:none}
+.boot .ln .dots{flex:1;overflow:hidden;color:var(--rule)}
+.boot .ln .dots::before{content:"......................................................................................................"}
+.boot .ln .st{flex:none;color:var(--green)}
+.boot .ln.hd{color:var(--fg)}
+
+/* ── motd / banner ─────────────────────────────────────── */
+.banner{
+  margin:0 0 1.1rem;color:var(--fg);line-height:1.08;font-weight:400;
+  text-shadow:0 0 10px rgba(255,181,71,.25);
+  overflow:hidden;white-space:pre;
+}
+.banner b{color:var(--amber);font-weight:400;text-shadow:0 0 12px rgba(255,181,71,.55)}
+/* JetBrains Mono advance = .6em. Fit 89 cols (wide) / 57 cols (tall) to the column. */
+.banner.wide{font-size:min(15px, calc((min(100vw, 100ch) - 2 * var(--gut)) / 89 / .6))}
+.banner.tall{display:none;font-size:min(15px, calc((100vw - 2 * var(--gut)) / 57 / .6))}
+@media (max-width:600px){.banner.wide{display:none}.banner.tall{display:block}}
+
+.motd .tag{font-size:1.08em;margin-bottom:.5em}
+.motd .tag b{color:var(--amber);text-shadow:0 0 8px rgba(255,181,71,.35)}
+.reach{display:grid;grid-template-columns:max-content 1fr;gap:.25em 2ch;margin:1em 0 0}
+.reach dt{color:var(--dim)}
+.reach dd{margin:0}
+.reach a{font-weight:700}
+
+/* ── output log ────────────────────────────────────────── */
+.out{margin-top:1.2rem}
+.out:empty{margin-top:0}
+.block{margin:0 0 1.3rem}
+.echo{font:inherit;font-weight:400;margin:1.4rem 0 .6rem;color:var(--fg);word-break:break-word}
+.block > .echo:first-child{margin-top:0}
+.ps1{color:var(--amber)}
+.ps1::after{content:" "}
+.reply{white-space:pre-wrap;word-break:break-word}
+.reply .who{color:var(--green)}
+.spin{color:var(--dim)}
+
+/* definition tables: services, contact */
+.svc,.kv{display:grid;grid-template-columns:max-content 1fr;gap:.55em 2.5ch;margin:0 0 1em}
+.svc dt,.kv dt{color:var(--amber);text-transform:lowercase}
+.svc dt::after{content:" /"; color:var(--rule)}
+.svc dd,.kv dd{margin:0}
+@media (max-width:600px){
+  .svc,.kv{grid-template-columns:1fr;gap:.1em}
+  .svc dd,.kv dd{margin-bottom:.8em}
+}
+
+/* ls listings: blog, demos, github */
+.ls{list-style:none;margin:0 0 1em;padding:0}
+.ls li{
+  display:grid;grid-template-columns:4.5ch 10.5ch 11ch 1fr;column-gap:1.2ch;
+  padding:.28em 0;border-bottom:1px dashed var(--rule)
+}
+.ls li:last-child{border-bottom:0}
+.ls .n{color:var(--dim)}
+.ls time,.ls .k{color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ls .k{color:var(--green)}
+.ls a{grid-column:4}
+.ls .sum{grid-column:4;color:var(--dim);font-size:.9em;line-height:1.5}
+.ls .sum a{grid-column:auto}
+.ls.live .k{color:var(--amber)}
+.ls.live li{grid-template-columns:4.5ch 22.7ch 1fr}
+.ls.live a,.ls.live .sum{grid-column:3}
+@media (max-width:700px){
+  .ls li,.ls.live li{grid-template-columns:4.5ch 1fr;row-gap:.05em}
+  .ls time,.ls .k{grid-column:2;display:inline}
+  .ls li > time{grid-row:1}
+  .ls li > .k{grid-row:1;justify-self:end}
+  .ls a,.ls .sum,.ls.live a,.ls.live .sum{grid-column:2}
+}
+
+/* ── the dock: hint, chips, prompt ─────────────────────── */
+.dock{margin-top:1.4rem}
+.hint{color:var(--dim)}
+.chips{display:flex;flex-wrap:wrap;gap:.5em .6em;margin:.4em 0 1em}
+.chips a{
+  display:inline-block;padding:.22em .7em;color:var(--amber);text-decoration:none;
+  border:1px solid var(--edge);border-radius:3px;background:var(--panel);
+  min-height:44px;line-height:calc(44px - .44em - 2px);
+}
+.chips a::before{content:"["; color:var(--dim)}
+.chips a::after{content:"]"; color:var(--dim)}
+.chips a:hover{color:var(--bg);background:var(--amber);border-color:var(--amber)}
+.chips a:hover::before,.chips a:hover::after{color:var(--bg)}
+@media (pointer:fine){.chips a{min-height:0;line-height:1.6}}
+
+.cli{display:none}
+.js .cli{display:flex;align-items:baseline;gap:0;flex-wrap:wrap;cursor:text}
+.cli label{flex:none;white-space:nowrap;margin-right:1ch}
+.cli .ps1::after{content:none} /* trailing space collapses in a flex item */
+.field{position:relative;flex:1 1 12ch;min-width:12ch;display:block}
+.field input{
+  position:absolute;inset:0;width:100%;height:100%;
+  font:inherit;font-size:max(16px, 1em); /* ≥16px or iOS zooms on focus */
+  color:transparent;caret-color:transparent;background:transparent;border:0;outline:0;padding:0;margin:0;
+}
+.field input::selection{background:rgba(255,181,71,.35)}
+.mirror{display:block;white-space:pre-wrap;word-break:break-all;min-height:1.6em;color:var(--fg);pointer-events:none}
+.mirror .cur{background:var(--amber);color:var(--bg);animation:blink 1.06s steps(1) infinite}
+.mirror .ghost{color:var(--dim)}
+.cli:not(.focus) .mirror .cur{background:transparent;color:inherit;outline:1px solid var(--amber);outline-offset:-1px;animation:none}
+.cli.focus{outline:none}
+.cli.focus .ps1{text-shadow:0 0 8px rgba(255,181,71,.6)}
+.cli:focus-within{box-shadow:0 2px 0 0 var(--amber)}  /* visible focus for the hidden-text input */
+@keyframes blink{50%{background:transparent;color:inherit}}
+
+/* ── the files ─────────────────────────────────────────── */
+.files .file{margin:2rem 0 0}
+.js .files{display:none}
+.nojs{display:inline}
+.js .nojs{display:none}
+.no-js-only{display:block}
+
+/* sl (yes, the train) */
+.train{overflow:hidden;margin:0 0 .6rem}
+.train pre{margin:0;color:var(--amber);line-height:1.15;display:inline-block;animation:choo 5.5s linear forwards;white-space:pre}
+@keyframes choo{from{transform:translateX(100vw)}to{transform:translateX(-110%)}}
+
+/* ── legal footer + tmux bar ───────────────────────────── */
+.legal{max-width:min(100ch, 100%);margin:0 auto;padding:1.4rem var(--gut) 1.6rem;color:var(--dim)}
+.legal p{font-size:.86em;margin:0}
+.legal a{color:var(--dim)}
+.legal a:hover{color:var(--amber-hi)}
+
+.tmux{
+  position:fixed;left:0;right:0;bottom:0;z-index:40;
+  display:flex;gap:1.5ch;align-items:center;justify-content:space-between;
+  padding:.3em var(--gut) calc(.3em + env(safe-area-inset-bottom));
+  background:var(--amber);color:var(--bg);font-size:.86em;white-space:nowrap
+}
+.tmux a{color:var(--bg);text-decoration:none;font-weight:700}
+.tmux a:hover{text-decoration:underline}
+.tmux .tc{display:flex;gap:2ch;overflow:hidden}
+.tmux .m-long{display:none}
+@media (min-width:900px){.tmux .m-long{display:inline}.tmux .m-short{display:none}}
+@media (max-width:520px){.tmux .tw{display:none}.tmux{justify-content:space-between}}
+
+/* ── motion ────────────────────────────────────────────── */
+@media (prefers-reduced-motion:reduce){
+  .mirror .cur{animation:none}
+  .train pre{animation:none;transform:none}
+}
+
+/* boot gate: set by the inline head script on a first visit, cleared by term.js
+   (or by the head script's 3.5 s failsafe if term.js never arrives) */
+.booting .motd,.booting .dock{visibility:hidden}
+.block{scroll-margin-top:14px}
+.dock{scroll-margin-bottom:3.6rem}

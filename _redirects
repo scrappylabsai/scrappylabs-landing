@@ -16,3 +16,12 @@
 # CV / resume — the page lives at /cv (2026-08-24).
 /resume                 /cv          301
 /resume.html            /cv          301
+
+# Terminal homepage (2026-10-08): short paths open the terminal on that command.
+# 200 = rewrite (URL stays /blog); term.js reads the path and runs the command.
+/blog                   /            200
+/demos                  /            200
+/contact                /            200
+/services               /            200
+/about                  /            200
+/github                 https://github.com/scrappylabsai  302

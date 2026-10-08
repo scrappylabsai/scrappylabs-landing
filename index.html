@@ -2,826 +2,222 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>ScrappyLabs — AI consulting &amp; engineering. We build AI staff for the shifts you can't cover.</title>
-<meta name="description" content="AI consulting, development, and forward-deployed engineering in Asheville, NC. We build custom agents — phone desks, document intelligence, system bridges — and run them in production. Interview our AI: (336) 296-9877.">
-<meta property="og:title" content="ScrappyLabs — AI consulting &amp; engineering. We build AI staff for the shifts you can't cover.">
-<meta property="og:description" content="Custom agents built, fitted to your systems, and run in production. Our AI answers the phone: (336) 296-9877. Say whatever you'd say to a person.">
-<meta property="og:image" content="https://scrappylabs.ai/assets/films/poster-4.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23f6f1e3'/%3E%3Ccircle cx='16' cy='16' r='7' fill='%231c6a49'/%3E%3C/svg%3E">
-<style>
-/* ============================================================
-   NIGHT SHIFT — the new face of scrappylabs.ai
-   Commit sheet: design/COMMIT-SHEET.md. Target page mean L: 0.80.
-   One night of film inside a daylight page of paperwork.
-   ============================================================ */
-
-@font-face{
-  font-family:'Fraunces';
-  src:url('assets/fonts/Fraunces-600.woff2') format('woff2');
-  font-weight:100 900; font-display:swap;
-}
-@font-face{
-  font-family:'Public Sans';
-  src:url('assets/fonts/PublicSans-400.woff2') format('woff2');
-  font-weight:400; font-display:swap;
-}
-@font-face{
-  font-family:'Public Sans';
-  src:url('assets/fonts/PublicSans-600.woff2') format('woff2');
-  font-weight:600; font-display:swap;
-}
-
-/* slop-allow: CREAM_DEFAULT -- cream is not a warmth reflex here, it is the concept's
-   material: the whole design system is employment paperwork (job cards, a shift report,
-   exit terms printed at the entrance) and the paper is the metaphor. Argued in
-   design/COMMIT-SHEET.md section 2 and gated by chromagate --target-l 0.80. */
-:root{
-  --paper:#f6f1e3;      --paper:oklch(0.96 0.02 85);
-  --paper-dim:#efe8d5;  --paper-dim:oklch(0.93 0.025 85);
-  --kraft:#e7dcc0;      --kraft:oklch(0.90 0.04 85);
-  --ink:#332d21;        --ink:oklch(0.30 0.02 85);
-  --ink-soft:#575038;   --ink-soft:oklch(0.44 0.025 85);
-  --pine:#1c6a49;       --pine:oklch(0.45 0.09 155);
-  --pine-deep:#14523a;  --pine-deep:oklch(0.38 0.08 155);
-  --rule:#c9bd9c;       --rule:oklch(0.80 0.04 85);
-  --plate:rgba(246,241,227,.94);
-  --serif:'Fraunces',Georgia,serif;
-  --sans:'Public Sans',system-ui,sans-serif;
-}
-
-*{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth}
-html,body{overflow-x:clip}  /* clip, never hidden: hidden kills position:sticky */
-body{
-  background:var(--paper);
-  color:var(--ink);
-  font-family:var(--sans);
-  font-size:1.0625rem;
-  line-height:1.6;
-}
-
-::selection{background:var(--pine);color:var(--paper)}
-
-a{color:var(--pine);text-decoration-thickness:1px;text-underline-offset:3px}
-a:hover{color:var(--pine-deep)}
-:focus-visible{outline:3px solid var(--pine);outline-offset:3px;border-radius:2px}
-
-.skip{position:absolute;left:-9999px;top:0;background:var(--ink);color:var(--paper);padding:.7rem 1.2rem;z-index:100}
-.skip:focus{left:.5rem;top:.5rem}
-
-/* ---- letterhead ---- */
-header.letterhead{
-  position:sticky;top:0;z-index:40;
-  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
-  padding:.65rem clamp(1rem,4vw,2.5rem);
-  background:var(--plate);
-  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--rule);
-}
-.letterhead .name{font-family:var(--serif);font-weight:700;font-size:1.05rem;letter-spacing:.01em;color:var(--ink)}
-.letterhead .name span{color:var(--pine)}
-.letterhead .place{font-size:.85rem;color:var(--ink-soft)}
-.letterhead a.desk{font-size:.9rem;font-weight:600;white-space:nowrap}
-@media(max-width:640px){.letterhead .place{display:none}}
-
-/* ---- film acts ---- */
-.act{position:relative;min-height:200svh}
-.act .stage{
-  position:sticky;top:0;height:100svh;overflow:hidden;
-  background:var(--ink) center/cover no-repeat; /* poster set inline per act: black is never the floor */
-}
-.act .stage video{width:100%;height:100%;object-fit:cover;display:block}
-.act .chapters{margin-top:-100svh;padding-bottom:100svh} /* trailing hold: film plays out on a held beat */
-.chap{min-height:100svh;display:flex;align-items:center;padding:2rem clamp(1rem,5vw,4rem)}
-.chap.low{align-items:flex-end;padding-bottom:14svh}
-
-/* paper plates over film: the plate carries the contrast, the footage stays bright */
-.plate{
-  max-width:34rem;
-  background:var(--plate);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  border:1px solid var(--rule);
-  border-radius:4px;
-  padding:1.6rem 1.8rem 1.7rem;
-  box-shadow:0 1px 2px rgba(51,45,33,.14),0 12px 32px rgba(51,45,33,.18);
-}
-.timechip{
-  display:inline-block;
-  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
-  letter-spacing:.04em;font-size:1.05rem;color:var(--pine);
-  border-bottom:2px solid var(--pine);
-  margin-bottom:.7rem;
-}
-.plate p{font-size:1.1rem;max-width:65ch}
-.plate .quiet{font-size:.95rem;color:var(--ink-soft);margin-top:.6rem}
-
-/* hero plate */
-.hero-plate{max-width:44rem}
-h1{
-  font-family:var(--serif);font-weight:700;
-  font-size:clamp(2.1rem,5.2vw,3.6rem);
-  line-height:1.08;letter-spacing:-.015em;
-  margin:.2rem 0 .9rem;
-}
-.hero-plate .sub{font-size:clamp(1.05rem,1.6vw,1.2rem);max-width:60ch}
-.hero-plate .call{
-  margin-top:1.1rem;padding-top:1rem;border-top:1px dashed var(--rule);
-  font-size:1.05rem;
-}
-.hero-plate .call a.tel{
-  font-family:var(--serif);font-weight:700;font-size:clamp(1.4rem,3vw,1.9rem);
-  color:var(--pine);text-decoration:none;white-space:nowrap;
-}
-.hero-plate .call a.tel:hover{color:var(--pine-deep);text-decoration:underline}
-.hero-plate .script{font-size:.95rem;color:var(--ink-soft);margin-top:.35rem}
-
-/* the shift report: Act II's paper seeded inside the film */
-.report{
-  max-width:26rem;
-  background:var(--paper);
-  border:1px solid var(--rule);border-radius:3px;
-  padding:1.5rem 1.6rem;
-  transform:rotate(-1.1deg);
-  box-shadow:0 2px 3px rgba(51,45,33,.15),0 16px 40px rgba(51,45,33,.22);
-  font-size:1.02rem;
-}
-.report .rhead{
-  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
-  letter-spacing:.05em;font-size:1.1rem;
-  border-bottom:2px solid var(--ink);padding-bottom:.4rem;margin-bottom:.8rem;
-  display:flex;justify-content:space-between;
-}
-.report ul{list-style:none}
-.report li{padding:.3rem 0;border-bottom:1px dotted var(--rule)}
-.report li:last-child{border-bottom:none}
-.report .gate{color:var(--pine);font-weight:600}
-.report .foot{margin-top:.7rem;font-size:.92rem;color:var(--ink-soft)}
-
-/* ---- Act II: the paperwork ---- */
-main.paper{position:relative;z-index:2;background:var(--paper)}
-.sheet{max-width:72rem;margin:0 auto;padding:clamp(3rem,7vw,5.5rem) clamp(1rem,4vw,2.5rem)}
-.ledger{
-  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
-  letter-spacing:.06em;font-size:1.1rem;color:var(--pine);
-  display:flex;align-items:center;gap:.8rem;margin-bottom:1.4rem;
-}
-.ledger::after{content:'';flex:1;border-top:1px solid var(--rule)}
-h2{
-  font-family:var(--serif);font-weight:700;
-  font-size:clamp(1.7rem,3.4vw,2.5rem);
-  line-height:1.12;letter-spacing:-.01em;
-  margin-bottom:1rem;max-width:24ch;
-}
-.sheet>p.lead{font-size:1.15rem;max-width:62ch;margin-bottom:2rem}
-
-/* job cards: paper artifacts, slightly rotated, settling on reveal */
-.roles{display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:1.6rem;margin-top:2.2rem}
-.role{
-  background:var(--paper-dim);
-  border:1px solid var(--rule);border-radius:3px;
-  padding:1.5rem 1.5rem 1.4rem;
-  position:relative;
-  box-shadow:0 1px 2px rgba(51,45,33,.12),0 8px 22px rgba(51,45,33,.12);
-}
-.role:nth-child(odd){transform:rotate(-.7deg)}
-.role:nth-child(even){transform:rotate(.5deg)}
-.role .tab{
-  position:absolute;top:-13px;left:1.2rem;
-  background:var(--kraft);border:1px solid var(--rule);border-bottom:none;
-  border-radius:3px 3px 0 0;
-  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
-  letter-spacing:.05em;font-size:.95rem;color:var(--ink-soft);
-  padding:.15rem .7rem;
-}
-.role h3{font-family:var(--serif);font-weight:700;font-size:1.35rem;margin:.4rem 0 .6rem}
-.role p{font-size:1rem}
-.role .limit{
-  margin-top:.9rem;padding:.7rem .9rem;
-  background:var(--paper);border-left:none;border:1px dashed var(--pine);border-radius:3px;
-  color:var(--pine-deep);font-size:.95rem;
-}
-.role .limit b{font-variant-caps:all-small-caps;font-family:var(--serif);letter-spacing:.04em;font-weight:600}
-.role .ref{margin-top:.9rem;font-size:.92rem;color:var(--ink-soft)}
-.role .ref b{color:var(--ink);font-weight:600}
-.role.open-req{background:var(--paper);border-style:dashed}
-.role.open-req .tab{background:var(--paper);border-style:dashed;border-bottom:none}
-
-/* contact card (opens on any phone-number click — no OS dialer) */
-.ccard{
-  border:1px solid var(--rule);border-radius:3px;background:var(--paper);color:var(--ink);
-  padding:1.6rem 1.8rem 1.4rem;max-width:22rem;width:calc(100% - 2.4rem);
-  overflow:visible;position:relative;
-  box-shadow:0 1px 2px rgba(51,45,33,.12),0 8px 22px rgba(51,45,33,.18);
-}
-.ccard::backdrop{background:rgba(51,45,33,.55)}
-.ccard .tab{
-  position:absolute;top:-13px;left:1.2rem;
-  background:var(--kraft);border:1px solid var(--rule);border-bottom:none;
-  border-radius:3px 3px 0 0;
-  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
-  letter-spacing:.05em;font-size:.95rem;color:var(--ink-soft);
-  padding:.15rem .7rem;
-}
-.ccard h3{font-family:var(--serif);font-weight:700;font-size:1.3rem;margin:.3rem 0 .8rem}
-.ccard p{margin:.45rem 0;font-size:1.02rem}
-.ccard a{color:var(--pine-deep);text-decoration:underline}
-.ccard .ccnote{font-size:.92rem;color:var(--ink-soft);margin-top:.8rem}
-.ccard .ccclose{
-  margin-top:1rem;font:inherit;background:var(--paper-dim);
-  border:1px solid var(--rule);border-radius:3px;padding:.45rem 1.1rem;
-  cursor:pointer;color:var(--ink);
-}
-.ccard .ccclose:hover{background:var(--kraft)}
-.ccard a:focus-visible,.ccard .ccclose:focus-visible{outline:2px solid var(--pine-deep);outline-offset:2px}
-
-/* interview block */
-.interview{
-  background:var(--kraft);
-  border:1px solid var(--rule);border-radius:4px;
-  padding:clamp(1.8rem,4vw,3rem);
-  text-align:center;
-  transform:rotate(-.4deg);
-  box-shadow:0 2px 3px rgba(51,45,33,.13),0 14px 36px rgba(51,45,33,.15);
-}
-.interview .biglink{
-  display:inline-block;
-  font-family:var(--serif);font-weight:700;
-  font-size:clamp(2rem,6vw,3.4rem);letter-spacing:.01em;
-  color:var(--pine-deep);text-decoration:none;
-  border-bottom:3px solid var(--pine-deep);
-  margin:.4rem 0 .8rem;
-}
-.interview .biglink:hover{color:var(--pine)}
-.interview .script{max-width:46ch;margin:0 auto;font-size:1.02rem}
-.interview .alt{margin-top:1.2rem;font-size:1rem}
-.interview .alt a{font-weight:600}
-
-/* references */
-.refs{display:grid;grid-template-columns:repeat(auto-fit,minmax(19rem,1fr));gap:1.6rem;margin-top:2.2rem}
-.refcard{
-  background:var(--paper-dim);border:1px solid var(--rule);border-radius:3px;
-  padding:1.4rem 1.5rem;
-  box-shadow:0 1px 2px rgba(51,45,33,.12),0 8px 22px rgba(51,45,33,.12);
-}
-.refcard:nth-child(odd){transform:rotate(.5deg)}
-.refcard:nth-child(even){transform:rotate(-.6deg)}
-.refcard h3{font-family:var(--serif);font-weight:700;font-size:1.15rem;margin-bottom:.5rem}
-.refcard p{font-size:.98rem}
-.refcard .num{font-family:var(--serif);font-weight:700;color:var(--pine-deep)}
-.refcard .see{display:inline-block;margin-top:.7rem;font-weight:600;font-size:.95rem}
-
-/* files / trust gate */
-.files{display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:start}
-@media(max-width:820px){.files{grid-template-columns:1fr}}
-.files p{max-width:62ch;margin-bottom:1rem;font-size:1.05rem}
-.story{
-  background:var(--paper-dim);border:1px solid var(--rule);border-radius:3px;
-  padding:1.5rem 1.6rem;transform:rotate(.6deg);
-  box-shadow:0 1px 2px rgba(51,45,33,.12),0 10px 26px rgba(51,45,33,.13);
-}
-.story .tab2{
-  font-family:var(--serif);font-weight:600;font-variant-caps:all-small-caps;
-  letter-spacing:.05em;color:var(--pine);font-size:1rem;margin-bottom:.5rem;display:block;
-}
-.story p{font-size:1rem;margin-bottom:.8rem}
-.story p:last-child{margin-bottom:0}
-
-/* hiring ticket */
-.ticket{
-  background:var(--paper-dim);border:1px solid var(--rule);border-radius:4px;
-  max-width:46rem;padding:clamp(1.6rem,4vw,2.4rem);
-  transform:rotate(-.5deg);
-  box-shadow:0 2px 3px rgba(51,45,33,.13),0 12px 30px rgba(51,45,33,.14);
-}
-.ticket ol{list-style:none;counter-reset:step}
-.ticket li{
-  counter-increment:step;
-  padding:1rem 0 1rem 3.4rem;position:relative;
-  border-bottom:1px dotted var(--rule);
-}
-.ticket li::before{
-  content:counter(step);
-  position:absolute;left:0;top:.9rem;
-  width:2.3rem;height:2.3rem;border-radius:50%;
-  background:var(--pine);color:var(--paper);
-  font-family:var(--serif);font-weight:700;font-size:1.2rem;
-  display:flex;align-items:center;justify-content:center;
-}
-.ticket li b{font-family:var(--serif);font-size:1.12rem}
-.ticket .exit{
-  margin-top:1.2rem;padding:1rem 1.2rem;
-  background:var(--paper);border:1px dashed var(--pine);border-radius:3px;
-}
-.ticket .exit b{
-  font-family:var(--serif);font-variant-caps:all-small-caps;letter-spacing:.05em;
-  color:var(--pine-deep);font-weight:600;
-}
-.ticket .exit p{font-size:.98rem;margin-top:.3rem}
-
-/* the person */
-.person{display:flex;gap:2rem;align-items:start;flex-wrap:wrap}
-.person .bio{max-width:56ch}
-.person .bio p{margin-bottom:.9rem;font-size:1.05rem}
-.person .sig{font-family:var(--serif);font-weight:600;font-size:1.3rem;margin-top:.4rem}
-
-/* footer */
-footer{
-  border-top:1px solid var(--rule);
-  background:var(--paper-dim);
-  padding:2.2rem clamp(1rem,4vw,2.5rem) 6.5rem;
-  font-size:.95rem;color:var(--ink-soft);
-}
-footer .cols{max-width:72rem;margin:0 auto;display:flex;flex-wrap:wrap;gap:2rem;justify-content:space-between}
-footer a{color:var(--pine-deep)}
-footer .fine{margin-top:1.2rem;font-size:.85rem}
-
-/* receipt chip: the standing dare, pinned through film and paper */
-.chip{
-  position:fixed;right:1rem;bottom:1rem;z-index:50;
-  display:flex;align-items:center;gap:.55rem;
-  background:var(--paper);
-  border:1px solid var(--pine);border-radius:999px;
-  padding:.5rem 1rem .5rem .8rem;
-  box-shadow:0 2px 4px rgba(51,45,33,.18),0 10px 26px rgba(51,45,33,.2);
-  text-decoration:none;font-size:.92rem;font-weight:600;color:var(--pine-deep);
-  white-space:nowrap;
-}
-.chip .dot{width:.6rem;height:.6rem;border-radius:50%;background:var(--pine);animation:pulse 2.2s ease-out infinite}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(28,106,73,.45)}70%{box-shadow:0 0 0 9px rgba(28,106,73,0)}100%{box-shadow:0 0 0 0 rgba(28,106,73,0)}}
-.chip:hover{background:var(--kraft)}
-@media(max-width:640px){.chip span.long{display:none}}
-
-/* reveals: enhance an already-visible default; never gate visibility */
-.rv{transition:opacity .5s ease-out,transform .5s ease-out}
-.js .rv{opacity:0;transform:translateY(14px)}
-.js .rv.in{opacity:1;transform:none}
-.js .role.rv,.js .refcard.rv{transform:translateY(14px) rotate(0)}
-.js .role.rv.in:nth-child(odd){transform:rotate(-.7deg)}
-.js .role.rv.in:nth-child(even){transform:rotate(.5deg)}
-.js .refcard.rv.in:nth-child(odd){transform:rotate(.5deg)}
-.js .refcard.rv.in:nth-child(even){transform:rotate(-.6deg)}
-
-@media (prefers-reduced-motion: reduce){
-  html{scroll-behavior:auto}
-  .act .stage video{display:none}   /* posters carry the scene; gentler, not zero */
-  .js .rv{opacity:1;transform:none;transition:none}
-  .js .role.rv.in:nth-child(odd),.js .role.rv:nth-child(odd){transform:rotate(-.7deg)}
-  .js .role.rv.in:nth-child(even),.js .role.rv:nth-child(even){transform:rotate(.5deg)}
-  .chip .dot{animation:none}
-}
-</style>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ScrappyLabs: AI consulting that actually ships</title>
+<meta name="description" content="ScrappyLabs is an AI consulting shop in Asheville, NC. We build agents, AI phone desks, private knowledge bases and automation, then run them in production. Call (336) 296-9877 or email brian@scrappylabs.ai.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0c0a07">
+<link rel="canonical" href="https://scrappylabs.ai/">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://scrappylabs.ai/">
+<meta property="og:title" content="ScrappyLabs: AI consulting that actually ships">
+<meta property="og:description" content="Agents, AI phone desks, private knowledge bases and automation. Built, wired in, and run in production. Our AI answers the phone: (336) 296-9877.">
+<meta property="og:image" content="https://scrappylabs.ai/og-terminal.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="alternate" type="application/rss+xml" title="ScrappyLabs" href="/feed.xml">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='5' fill='%230c0a07'/%3E%3Cpath d='M7 10l6 6-6 6' stroke='%23ffb547' stroke-width='3' fill='none' stroke-linecap='square'/%3E%3Crect x='16' y='20' width='10' height='3' fill='%23ffb547'/%3E%3C/svg%3E">
+<link rel="preload" href="/assets/fonts/jbmono-nl-regular.woff2" as="font" type="font/woff2" crossorigin>
+<script>(function(d){d.classList.add('js');try{if(!sessionStorage.getItem('sl-booted')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)d.classList.add('booting')}catch(e){}setTimeout(function(){if(!window.__term)d.classList.remove('js');d.classList.remove('booting')},3500)})(document.documentElement)</script>
+<link rel="stylesheet" href="/term.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"ScrappyLabs",
+ "url":"https://scrappylabs.ai","telephone":"+1-336-296-9877","email":"brian@scrappylabs.ai",
+ "description":"AI consulting and engineering: agents, AI phone desks, private knowledge bases, automation and migrations.",
+ "address":{"@type":"PostalAddress","addressLocality":"Asheville","addressRegion":"NC","addressCountry":"US"},
+ "founder":{"@type":"Person","name":"Brian Connelly"},
+ "sameAs":["https://github.com/scrappylabsai"]}
+</script>
 </head>
 <body>
-<a class="skip" href="#staff">Skip the film, meet the staff</a>
+<a class="skip" href="#contact" data-cmd="contact">Skip to contact details</a>
 
-<header class="letterhead">
-  <div>
-    <span class="name">Scrappy<span>Labs</span></span>
-    <span class="place">&nbsp;· Asheville, North Carolina</span>
+<main id="tty" class="tty">
+  <div id="boot" class="boot" aria-hidden="true"></div>
+
+  <header class="motd">
+    <h1 class="sr">ScrappyLabs</h1>
+    <pre class="banner wide" aria-hidden="true">███████╗ ██████╗██████╗  █████╗ ██████╗ ██████╗ ██╗   ██╗<b>██╗      █████╗ ██████╗ ███████╗</b>
+██╔════╝██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝<b>██║     ██╔══██╗██╔══██╗██╔════╝</b>
+███████╗██║     ██████╔╝███████║██████╔╝██████╔╝ ╚████╔╝ <b>██║     ███████║██████╔╝███████╗</b>
+╚════██║██║     ██╔══██╗██╔══██║██╔═══╝ ██╔═══╝   ╚██╔╝  <b>██║     ██╔══██║██╔══██╗╚════██║</b>
+███████║╚██████╗██║  ██║██║  ██║██║     ██║        ██║   <b>███████╗██║  ██║██████╔╝███████║</b>
+╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝        ╚═╝   <b>╚══════╝╚═╝  ╚═╝╚═════╝ ╚══════╝</b></pre>
+    <pre class="banner tall" aria-hidden="true">███████╗ ██████╗██████╗  █████╗ ██████╗ ██████╗ ██╗   ██╗
+██╔════╝██╔════╝██╔══██╗██╔══██╗██╔══██╗██╔══██╗╚██╗ ██╔╝
+███████╗██║     ██████╔╝███████║██████╔╝██████╔╝ ╚████╔╝
+╚════██║██║     ██╔══██╗██╔══██║██╔═══╝ ██╔═══╝   ╚██╔╝
+███████║╚██████╗██║  ██║██║  ██║██║     ██║        ██║
+╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝        ╚═╝
+<b>██╗      █████╗ ██████╗ ███████╗</b>
+<b>██║     ██╔══██╗██╔══██╗██╔════╝</b>
+<b>██║     ███████║██████╔╝███████╗</b>
+<b>██║     ██╔══██║██╔══██╗╚════██║</b>
+<b>███████╗██║  ██║██████╔╝███████║</b>
+<b>╚══════╝╚═╝  ╚═╝╚═════╝ ╚══════╝</b></pre>
+    <p class="tag"><b>AI consulting that actually ships.</b></p>
+    <p>We build agents, AI phone desks, private knowledge bases and automation, wire them
+      into the systems you already run, and keep them running in production.</p>
+    <p class="dim">Asheville, NC · building since '93</p>
+    <dl class="reach">
+      <dt>call</dt><dd><a href="tel:+13362969877">(336) 296-9877</a> <span class="dim">our AI desk answers 24/7; Brian calls back</span></dd>
+      <dt>mail</dt><dd><a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a> <span class="dim">goes straight to Brian</span></dd>
+    </dl>
+  </header>
+
+  <div id="out" class="out" role="log" aria-live="polite" aria-label="Terminal output"></div>
+
+  <div class="dock">
+    <p class="hint" id="hint">Tap a command, type <kbd>help</kbd>, or ask a question in plain English.</p>
+    <nav class="chips" aria-label="Commands">
+      <a href="#services" data-cmd="services">services</a>
+      <a href="#contact" data-cmd="contact">contact</a>
+      <a href="#about" data-cmd="about">about</a>
+      <a href="#blog" data-cmd="blog">blog</a>
+      <a href="#demos" data-cmd="demos">demos</a>
+      <a href="#github" data-cmd="github">github</a>
+      <a href="#ask" data-cmd="ask">ask scrappy</a>
+    </nav>
+    <form id="cli" class="cli" autocomplete="off">
+      <label for="cmd"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$</span><span class="sr">Command or question</span></label>
+      <span class="field">
+        <input id="cmd" name="cmd" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" enterkeyhint="send" maxlength="500">
+        <span class="mirror" aria-hidden="true"></span>
+      </span>
+    </form>
   </div>
-  <a class="desk" href="tel:+13362969877">Call the desk</a>
-</header>
 
-<!-- ============ ACT I — ONE NIGHT ============ -->
+  <!-- The files. Without JavaScript this is the whole site, read top to bottom.
+       With it, term.js hides them and prints each one when its command runs. -->
+  <div id="files" class="files">
 
-<!-- 5:12 PM -->
-<section class="act" aria-label="5:12 PM, the missed call">
-  <div class="stage" style="background-image:url('assets/films/poster-1.jpg')">
-    <video muted playsinline preload="auto" poster="assets/films/poster-1.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f1.mp4"></video>
-  </div>
-  <div class="chapters">
-    <div class="chap">
-      <div class="plate hero-plate">
-        <span class="timechip">5:12 PM</span>
-        <h1>We build AI staff for the shifts you can't cover.</h1>
-        <p class="sub">ScrappyLabs is an AI consulting, development, and forward&#8209;deployed
-        engineering group. A receptionist that answers your phone at 9pm. A file clerk that read
-        every job you ever did. When one isn't sure, it says so and gets a human.</p>
-        <p class="call">Interview our AI right now:<br>
-          <a class="tel" href="tel:+13362969877">(336)&nbsp;296&#8209;9877</a></p>
-        <p class="script">Our AI answers. Say whatever you'd say to a person.
-        Brian reads every transcript and calls you back.</p>
-      </div>
-    </div>
-    <div class="chap low">
-      <div class="plate rv">
-        <span class="timechip">Still 5:12 PM</span>
-        <p>You're on a ladder. The phone rings twice and gives up.
-        That lead is already calling the next name on Google.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <section id="services" class="file" data-file="services.txt">
+      <h2 class="echo"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$ cat </span>services<span aria-hidden="true">.txt</span></h2>
+      <dl class="svc">
+        <dt>agents</dt>
+        <dd>AI agents wired into your systems that take real action, hand off to a person when
+          they should, and stay inside guardrails you set.</dd>
+        <dt>phone desks</dt>
+        <dd>An AI receptionist that answers, greets, takes messages, routes by urgency and follows
+          up, day and night, in more than one language. Ours is live:
+          <a href="tel:+13362969877">(336) 296-9877</a>.</dd>
+        <dt>private rag</dt>
+        <dd>Your documents and data turned into a knowledge base your team and your agents can
+          query. Answers come from your material, and it stays private.</dd>
+        <dt>automation</dt>
+        <dd>The repetitive work: chasing unpaid invoices, triaging the inbox, searching old
+          archives, moving data between systems that were never meant to talk.</dd>
+        <dt>migrations</dt>
+        <dd>Cloud, email and legacy-system moves without losing a file or dropping a call,
+          including the ones other vendors turned down.</dd>
+        <dt>safety layer</dt>
+        <dd>Every agent we ship is watched. A check reviews what it is about to do and flags
+          anything risky before it happens. People step in by exception.</dd>
+        <dt>your own ai</dt>
+        <dd>Use your model or ours. No lock-in. We train your team to run it.</dd>
+      </dl>
+      <p class="dim">also: fractional CTO · infrastructure · always-on ops monitoring</p>
+      <p>The first step is a free working session: a real conversation about your problem, not a
+        sales pitch. <a href="#contact" data-cmd="contact">contact</a></p>
+    </section>
 
-<!-- 9:14 PM -->
-<section class="act" aria-label="9:14 PM, the admin shift">
-  <div class="stage" style="background-image:url('assets/films/poster-2.jpg')">
-    <video muted playsinline preload="none" poster="assets/films/poster-2.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f2.mp4"></video>
-  </div>
-  <div class="chapters">
-    <div class="chap">
-      <div class="plate rv">
-        <span class="timechip">9:14 PM</span>
-        <p>Quotes. Invoices. The inbox. The shift nobody pays you for,
-        worked at the kitchen table after the real work is done.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <section id="contact" class="file" data-file="contact.vcf">
+      <h2 class="echo"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$ cat </span>contact<span aria-hidden="true">.vcf</span></h2>
+      <dl class="kv">
+        <dt>phone</dt>
+        <dd><a href="tel:+13362969877" data-dial>(336) 296-9877</a><br>
+          <span class="dim">An AI desk answers any hour. Say what you'd say to a person and it takes a
+          proper message. Brian reads every transcript and calls back within one business day.</span></dd>
+        <dt>email</dt>
+        <dd><a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a><br>
+          <span class="dim">Straight to Brian.</span></dd>
+        <dt>chat</dt>
+        <dd>Type a question at the prompt and Scrappy, our AI rep, answers here.
+          <a href="/scrappy/">Talk to it out loud</a> if you prefer voice.</dd>
+        <dt>where</dt>
+        <dd>Asheville, North Carolina. We work with clients anywhere.</dd>
+      </dl>
+    </section>
 
-<!-- Sunday 2:40 PM -->
-<section class="act" aria-label="Sunday afternoon, the unsearchable pile">
-  <div class="stage" style="background-image:url('assets/films/poster-3.jpg')">
-    <video muted playsinline preload="none" poster="assets/films/poster-3.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f3.mp4"></video>
-  </div>
-  <div class="chapters">
-    <div class="chap">
-      <div class="plate rv">
-        <span class="timechip">Sunday, 2:40 PM</span>
-        <p>Somewhere in these boxes: what you bid the Hendersons in 2019.
-        You know it's in here. The afternoon is gone either way.</p>
-      </div>
-    </div>
-  </div>
-</section>
+    <section id="about" class="file" data-file="about.md">
+      <h2 class="echo"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$ cat </span>about<span aria-hidden="true">.md</span></h2>
+      <p><b>Brian Connelly</b>, founder. Title on the business card: Bot Wrangler.</p>
+      <p>Building since '93, from strategy down to 3 a.m. operations, across healthcare,
+        telecom and infrastructure. He's the one who does the work.</p>
+      <p>ScrappyLabs takes the whole problem: one team on the hook, no finger-pointing, working
+        software in weeks. We skip the six-month deck and start on your data.</p>
+      <p class="dim">ScrappyLabs is a d/b/a of Loser.com LLC.</p>
+    </section>
 
-<!-- 2:03 AM — the turn -->
-<section class="act" aria-label="2:03 AM, something clocks in">
-  <div class="stage" style="background-image:url('assets/films/poster-4.jpg')">
-    <video muted playsinline preload="none" poster="assets/films/poster-4.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f4.mp4"></video>
-  </div>
-  <div class="chapters">
-    <div class="chap">
-      <div class="plate rv">
-        <span class="timechip">2:03 AM</span>
-        <p>Your phone rings. Something picks up on the first ring.
-        It sounds like somebody who works there.</p>
-        <p class="quiet">Because now, something does.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 7:00 AM — the shift report -->
-<section class="act" aria-label="7:00 AM, the morning report">
-  <div class="stage" style="background-image:url('assets/films/poster-5.jpg')">
-    <video muted playsinline preload="none" poster="assets/films/poster-5.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f5.mp4"></video>
-  </div>
-  <div class="chapters">
-    <div class="chap">
-      <div class="report rv" role="note" aria-label="Night shift report">
-        <div class="rhead"><span>Night shift report</span><span>7:00 AM</span></div>
-        <ul>
-          <li>4 calls answered.</li>
-          <li>3 messages taken, waiting in your inbox.</li>
-          <li class="gate">1 caller heard: &ldquo;I'm not sure. A human will call you back.&rdquo;</li>
-        </ul>
-        <p class="foot">That last line is the point. It does not guess.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- 8:00 AM -->
-<section class="act" aria-label="8:00 AM, the day is yours">
-  <div class="stage" style="background-image:url('assets/films/poster-6.jpg')">
-    <video muted playsinline preload="none" poster="assets/films/poster-6.jpg" disablepictureinpicture aria-hidden="true" data-film="assets/films/f6.mp4"></video>
-  </div>
-  <div class="chapters">
-    <div class="chap">
-      <div class="plate rv">
-        <span class="timechip">8:00 AM</span>
-        <p>You do the work only you can do. Your new hire covers the rest.</p>
-        <p class="quiet"><a href="#staff">Meet the staff ↓</a></p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ============ ACT II — THE PAPERWORK ============ -->
-<main class="paper" id="staff">
-
-  <section class="sheet" aria-labelledby="roles-h">
-    <div class="ledger">What we build · engage for any or all</div>
-    <h2 id="roles-h">Four builds we deliver most often. Every one working somewhere real.</h2>
-    <p class="lead">No feature lists. Each build is scoped like a job: clear duties,
-    a printed limit, and a reference you can check.
-    What the industry calls <em>AI agents</em>, we treat as employees: hired for one job,
-    held to its limits, supervised by a human.</p>
-
-    <div class="roles">
-      <article class="role rv">
-        <span class="tab">Role No. 01</span>
-        <h3>The Receptionist</h3>
-        <p>Answers your line on the first ring. Every call, all night, all weekend.
-        Takes messages, answers the questions you approve, and sends a summary
-        you can read in ten seconds.</p>
-        <p class="limit"><b>One limit, printed on purpose:</b> when it isn't sure, it says so
-        and takes a message for a human. No guessing. Ever.</p>
-        <p class="ref"><b>Reference:</b> answers our own line, (336)&nbsp;296&#8209;9877,
-        right now. Call it. That's the reference.</p>
-      </article>
-
-      <article class="role rv">
-        <span class="tab">Role No. 02</span>
-        <h3>The File Clerk</h3>
-        <p>Reads everything you have. Twenty years of quotes, contracts, emails,
-        job photos. Then answers in plain words and shows you the exact page
-        the answer came from.</p>
-        <p class="limit"><b>One limit:</b> if it isn't in your files, it says it isn't there.</p>
-        <p class="ref"><b>Reference:</b> working inside an e&#8209;commerce company's stack
-        today, reading years of tickets and records so every answer arrives with
-        the page it came from.</p>
-      </article>
-
-      <article class="role rv">
-        <span class="tab">Role No. 03</span>
-        <h3>The Bridge</h3>
-        <p>Carries data between the two systems that refuse to talk, so nobody
-        retypes numbers from one screen into another. Daily. For years.</p>
-        <p class="limit"><b>One limit:</b> a human approves anything it writes. If it can't
-        verify a match, it queues the record for a person instead of forcing it.</p>
-        <p class="ref"><b>Reference:</b> keeps an e&#8209;commerce company's orders, books,
-        and support desk in step, every day. A person reviews every match before it lands.</p>
-      </article>
-
-      <article class="role rv">
-        <span class="tab">Role No. 04</span>
-        <h3>The Web Front Desk</h3>
-        <p>A site like this one. A film of your business, rendered on our own
-        machines, with an estimator that gives honest ballparks and a desk
-        that books the visit.</p>
-        <p class="limit"><b>One limit:</b> the estimates it quotes are ranges you set.
-        It never invents a price.</p>
-        <p class="ref"><b>Reference:</b> we built a painting contractor his whole new site,
-        with a working estimator, before he agreed to anything. You're reading
-        another one right now.</p>
-      </article>
-
-      <article class="role open-req rv">
-        <span class="tab">Role No. 05 · open</span>
-        <h3>The Open Requisition</h3>
-        <p>The four above are what we build most often — not the only things
-        we build. Dispatch, scheduling, estimating, the books — describe the
-        shift that eats your evenings and we'll design the job, build the
-        agent, and fit it to the systems you already run.</p>
-        <p class="limit"><b>One limit:</b> every custom hire gets one, written down
-        before it clocks in. If we can't print the limit, we don't build the job.</p>
-        <p class="ref"><b>Reference:</b> every position on this page started here —
-        as a job nobody had built yet.</p>
-      </article>
-    </div>
-  </section>
-
-  <section class="sheet" aria-labelledby="interview-h">
-    <div class="ledger">The interview</div>
-    <h2 id="interview-h">Don't take our word. Interview the candidate.</h2>
-    <div class="interview rv">
-      <p>The number below is our real line. The thing that answers is the thing we sell.</p>
-      <a class="biglink" href="tel:+13362969877">(336)&nbsp;296&#8209;9877</a>
-      <p class="script">Say whatever you'd say to a person. Ask it something it shouldn't know,
-      and listen to it decline to guess. Brian reads every transcript and calls
-      you back within one business day.</p>
-      <p class="alt">Rather type? <a href="https://scrappylabs.ai/scrappy/">Talk to it in your
-      browser</a> instead.</p>
-    </div>
-  </section>
-
-  <section class="sheet" aria-labelledby="refs-h">
-    <div class="ledger">References</div>
-    <h2 id="refs-h">In production right now.</h2>
-    <p class="lead">We keep our clients private. The reference you can check is
-    the one that answers the phone.</p>
-    <div class="refs">
-      <article class="refcard rv">
-        <h3>An e&#8209;commerce company</h3>
-        <p>Forward&#8209;deployed as their fractional CTO — storefront, support desk,
-        accounting, dev — <span class="num">with agents built into the flow</span>
-        so orders, books, and systems finally talk to each other.</p>
-        <p>No numbers on this card on purpose. Their books
-        are their business. That restraint is part of what you're hiring.</p>
-      </article>
-      <article class="refcard rv">
-        <h3>Baltinglass Brewing Co., Waynesville NC</h3>
-        <p>Our own venture, opening this fall. Brand film, identity, and site,
-        <span class="num">all made in&#8209;house.</span>
-        Zero vendor render credits.</p>
-        <a class="see" href="https://baltinglassbrewing.com">Visit the brewery site →</a>
-      </article>
-    </div>
-  </section>
-
-  <section class="sheet" aria-labelledby="files-h">
-    <div class="ledger">Where your files work</div>
-    <h2 id="files-h">Your data stays yours.</h2>
-    <div class="files">
-      <div>
-        <p>Machines in North Carolina that we physically own and run. For most jobs
-        your files go there. Not to a big AI company's cloud. Nothing you give us
-        ever trains anyone's model.</p>
-        <p>When a job genuinely needs a cloud model, we say so first. You decide.
-        Where your data lives is a design decision we make with you, not fine print.</p>
-      </div>
-      <aside class="story rv">
-        <span class="tab2">Why we built the trust gate</span>
-        <p>In an early test, our own AI confidently invented a caller's email address.
-        It sounded completely sure. It was completely wrong.</p>
-        <p>So we rebuilt the system so that can't happen: what you said is the record,
-        and the AI is never allowed to &ldquo;correct&rdquo; it. When it isn't sure,
-        it flags a human instead of guessing.</p>
-        <p>Every receptionist we ship carries that gate. It's why we trust one
-        with our own front line.</p>
-      </aside>
-    </div>
-  </section>
-
-  <section class="sheet" aria-labelledby="hiring-h">
-    <div class="ledger">How hiring works</div>
-    <h2 id="hiring-h">Three steps. The exit is printed at the entrance.</h2>
-    <div class="ticket rv">
-      <ol>
-        <li><b>Interview. Today.</b><br>Call the number or talk in your browser.
-        Five minutes. No commitment, no form, no deck.</li>
-        <li><b>We go first.</b><br>Before you commit, we build it working on
-        <em>your</em> business. Your hours, your services, your files.
-        You judge the work, not the pitch.</li>
-        <li><b>Then you decide.</b><br>With the work already in front of you and
-        one clear number, settled before anything starts. It doesn't wobble
-        afterward.</li>
+    <section id="blog" class="file" data-file="blog/">
+      <h2 class="echo"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$ ls </span>blog<span aria-hidden="true">/</span></h2>
+      <p class="dim">Field notes, teardowns and long reads, newest first.</p>
+      <!-- SL:TERM:BLOG:START -->
+      <ol class="ls">
+        <li><span class="n" aria-hidden="true">[1]</span><time datetime="2026-07-29">2026-07-29</time><span class="k">explainer</span><a href="https://stuff.scrappylabs.ai/public/moya/fara-wrangled-20260729.html" target="_blank" rel="noopener">Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">Microsoft&#x27;s open browser-driving model, running on one GPU in our rack. How the observe-think-act loop works, the two ways to hand it a browser, what…</span></li>
+        <li><span class="n" aria-hidden="true">[2]</span><time datetime="2026-07-27">2026-07-27</time><span class="k">publication</span><a href="/memory-invocation">The Retrieval Was Fine. The Agent Never Looked.</a><span class="sum">We built a four-tier memory system for our coding agents, then instrumented it to find what was still failing. It wasn&#x27;t the retriever — every…</span></li>
+        <li><span class="n" aria-hidden="true">[3]</span><time datetime="2026-07-25">2026-07-25</time><span class="k">long-read</span><a href="https://stuff.scrappylabs.ai/public/k3-review/fear-segment.html" target="_blank" rel="noopener">Anatomy of an AI Fear Segment<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">A good argument about open-weight economics, and the exact moment it turns into something else. Four tells that a technical explainer has stopped…</span></li>
+        <li><span class="n" aria-hidden="true">[4]</span><time datetime="2026-07-22">2026-07-22</time><span class="k">explainer</span><a href="https://stuff.scrappylabs.ai/public/moya/watch-skill-guide-20260722.html" target="_blank" rel="noopener">Giving an AI Eyes on Video<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">How we let an AI actually watch a video instead of guessing from the title — scene-aware frame extraction, deduplicated shots, transcript from…</span></li>
+        <li><span class="n" aria-hidden="true">[5]</span><time datetime="2026-07-10">2026-07-10</time><span class="k">field-note</span><a href="/babysitter">We Gave the Robots a Babysitter</a><span class="sum">An autonomous agent with a terminal will happily run rm -rf if a poisoned web page tells it to. So before any of ours runs a command, a world model…</span></li>
+        <li><span class="n" aria-hidden="true">[6]</span><time datetime="2026-07-10">2026-07-10</time><span class="k">field-note</span><a href="/specvoice">SPECVOICE — Speculative Execution at the Dialog Layer</a><span class="sum">Borrowing a trick from CPU design and applying it to conversation: start computing the likely answer before the caller has finished asking. What…</span></li>
+        <li><span class="n" aria-hidden="true">[7]</span><time datetime="2026-07-08">2026-07-08</time><span class="k">long-read</span><a href="/two-years">Two Years to the Taste of the Stew</a><span class="sum">The honest arc — from fighting Windows to a fleet of local models that finally feel real. The MCP tool-use moment, a memory layer a frontier model…</span></li>
+        <li><span class="n" aria-hidden="true">[8]</span><time datetime="2026-03-20">2026-03-20</time><span class="k">field-note</span><a href="/scrappy-tools">Scrappy Tools — Teaching Small Models to Use CLI Tools</a><span class="sum">Small local models can drive real command-line tools if you teach them properly. What worked, what didn&#x27;t, and why tool-use is the capability that…</span></li>
       </ol>
-      <div class="exit">
-        <b>Exit terms, up front</b>
-        <p>Your phone number stays yours. Your domain stays yours. Your data leaves
-        with you. No long contract on the first project. Walk away clean.</p>
-      </div>
-    </div>
-  </section>
+      <!-- SL:TERM:BLOG:END -->
+      <p class="dim">More: <a href="/log">the log</a> · <a href="/lab">the lab</a> · <a href="/feed.xml">rss</a></p>
+    </section>
 
-  <section class="sheet" aria-labelledby="person-h">
-    <div class="ledger">The person who builds it</div>
-    <h2 id="person-h">You talk to the builder. There is no account manager.</h2>
-    <div class="person">
-      <div class="bio rv">
-        <p>ScrappyLabs is Brian Connelly's AI consulting and engineering shop in
-        Asheville, North Carolina. Building since '93. The AI answering the phone
-        on this page is his work, and so is the page.</p>
-        <p>Small on purpose: you get the person who builds it, and the machines
-        it runs on sit in the building.</p>
-        <p class="sig">— Brian</p>
-      </div>
-    </div>
-  </section>
+    <section id="demos" class="file" data-file="demos/">
+      <h2 class="echo"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$ ls </span>demos<span aria-hidden="true">/</span></h2>
+      <p class="dim">Things you can poke at. Live first, then experiments.</p>
+      <ol class="ls live">
+        <li><span class="n" aria-hidden="true">[*]</span><span class="k">live</span><a href="#ask" data-cmd="ask">Scrappy, our AI rep</a><span class="sum">Ask it anything right here at the prompt, or <a href="/scrappy/">by voice</a>.</span></li>
+        <li><span class="n" aria-hidden="true">[*]</span><span class="k">live</span><a href="tel:+13362969877">The phone desk: (336) 296-9877</a><span class="sum">Call it. It's the same kind of AI receptionist we build for clients.</span></li>
+      </ol>
+      <!-- SL:TERM:DEMOS:START -->
+      <ol class="ls">
+        <li><span class="n" aria-hidden="true">[1]</span><time datetime="2026-07-23">2026-07-23</time><span class="k">test</span><a href="/mage-flow">Mage-Flow, First Light</a><span class="sum">Microsoft shipped a 4B image model that does generation and instruction editing under an MIT licence — the licence being the part that usually kills…</span></li>
+        <li><span class="n" aria-hidden="true">[2]</span><time datetime="2026-07-23">2026-07-23</time><span class="k">gallery</span><a href="https://stuff.scrappylabs.ai/public/moya/mage-flow-gallery.html" target="_blank" rel="noopener">Mage-Flow — The Full Sample Set<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">Every frame we generated while evaluating Mage-Flow: embroidered patches, cyanotype blueprints, risograph prints, a neon-noir alley, stained glass…</span></li>
+        <li><span class="n" aria-hidden="true">[3]</span><time datetime="2026-02-10">2026-02-10</time><span class="k">build</span><a href="/qb-agent">Agentic Accounting</a><span class="sum">Bookkeeping by conversation instead of by form. Invoices, expenses, reports and purchase orders handled in plain English, wired straight into the…</span></li>
+      </ol>
+      <!-- SL:TERM:DEMOS:END -->
+    </section>
 
+    <section id="github" class="file" data-file="github@">
+      <h2 class="echo"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$ ls </span>github<span aria-hidden="true">/</span></h2>
+      <p>Open source lives at <a href="https://github.com/scrappylabsai" target="_blank" rel="noopener">github.com/scrappylabsai<span class="sr"> (opens in a new tab)</span></a>.</p>
+      <!-- SL:TERM:CODE:START -->
+      <ol class="ls">
+        <li><span class="n" aria-hidden="true">[1]</span><time datetime="2026-07-28">2026-07-28</time><span class="k">release</span><a href="/scrappy-voice">Scrappy: a voice in 37 megabytes</a><span class="sum">We gave our AI a voice in one day — distilled a cloud narrator into a 9M-param CPU-only model, raced the GPUs, gated the data, and published it open…</span></li>
+        <li><span class="n" aria-hidden="true">[2]</span><time datetime="2026-07-16">2026-07-16</time><span class="k">release</span><a href="https://github.com/scrappylabsai/audhd" target="_blank" rel="noopener">audhd — Divergent Ideation for Coding Agents<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">Open source. Spawns isolated parallel agents under distorted cognitive frames to fight premature convergence, then scores and clusters what comes…</span></li>
+        <li><span class="n" aria-hidden="true">[3]</span><time datetime="2026-07-12">2026-07-12</time><span class="k">release</span><a href="https://github.com/scrappylabsai/watch" target="_blank" rel="noopener">watch — Give Claude the Ability to Watch Video<span class="sr"> (opens in a new tab)</span><span aria-hidden="true"> ↗</span></a><span class="sum">Open source. Scene-aware frame extraction plus local-first speech recognition, so an agent can actually answer questions about a video instead of…</span></li>
+      </ol>
+      <!-- SL:TERM:CODE:END -->
+    </section>
+
+    <section id="ask" class="file" data-file="ask">
+      <h2 class="echo"><span class="ps1" aria-hidden="true">guest@scrappylabs:~$ </span>ask scrappy</h2>
+      <p>Scrappy is our AI rep. Type any question at the prompt, like
+        <kbd>can you answer my phones after hours?</kbd>, and it answers here.</p>
+      <p class="dim">It's an AI, so treat it like a well-briefed receptionist, not a contract.
+        Chats are logged so Brian can follow up.
+        <span class="nojs">This page needs JavaScript for that. <a href="/scrappy/">Open Scrappy</a> instead.</span></p>
+    </section>
+
+  </div>
 </main>
 
-<footer>
-  <div class="cols">
-    <div>
-      <strong style="font-family:var(--serif);color:var(--ink)">ScrappyLabs</strong><br>
-      Asheville, North Carolina<br>
-      <a href="tel:+13362969877">(336) 296-9877</a> ·
-      <a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a>
-    </div>
-    <div>
-      <a href="https://scrappylabs.ai/scrappy/">Talk to Scrappy</a><br>
-      <a href="https://scrappylabs.ai/lab">The Lab</a> · <a href="https://scrappylabs.ai/log">The Log</a><br>
-      <a href="https://github.com/scrappylabsai">GitHub</a>
-    </div>
-    <div>
-      <a href="https://scrappylabs.ai/privacy">Privacy</a> ·
-      <a href="https://scrappylabs.ai/tos">Terms</a> ·
-      <a href="https://scrappylabs.ai/sms">SMS Terms</a>
-    </div>
-  </div>
-  <p class="fine">© 2026 ScrappyLabs, a d/b/a of Loser.com LLC. Building since '93.
-  This page, its films, and the AI answering its phone were all made on our own machines.</p>
+<footer class="legal">
+    <p>© 2026 ScrappyLabs, a d/b/a of Loser.com LLC ·
+      <a href="/privacy">privacy</a> · <a href="/tos">terms</a> · <a href="/sms">sms terms</a> ·
+      <a href="/feed.xml">rss</a></p>
 </footer>
 
-<a class="chip" href="tel:+13362969877" aria-label="Call the ScrappyLabs desk, our AI answers now">
-  <span class="dot" aria-hidden="true"></span>
-  <span class="long">(336) 296-9877 ·&nbsp;</span><span>answering now</span>
-</a>
+<div class="tmux" aria-hidden="true">
+  <span class="tw">[scrappylabs] 0:tty*</span>
+  <span class="tc"><a href="tel:+13362969877" tabindex="-1">call (336) 296-9877</a> <a href="mailto:brian@scrappylabs.ai" tabindex="-1"><span class="m-short">mail</span><span class="m-long">brian@scrappylabs.ai</span></a></span>
+  <span class="tt" id="clock">AVL --:--</span>
+</div>
 
-<dialog class="ccard" id="contact-card" aria-labelledby="ccard-h">
-  <span class="tab" aria-hidden="true">Contact</span>
-  <h3 id="ccard-h">Reach the shop</h3>
-  <p><b>Phone:</b> <a href="tel:+13362969877">(336)&nbsp;296&#8209;9877</a></p>
-  <p><b>Email:</b> <a href="mailto:brian@scrappylabs.ai">brian@scrappylabs.ai</a></p>
-  <p class="ccnote">The AI answers the phone, any hour. Email goes straight to Brian.</p>
-  <button class="ccclose" type="button">Close</button>
-</dialog>
-
-<script>
-(function(){
-  var card=document.getElementById('contact-card');
-  if(!card||!card.showModal)return;
-  document.addEventListener('click',function(e){
-    var a=e.target.closest?e.target.closest('a[href^="tel:"]'):null;
-    if(!a||card.contains(a))return;
-    e.preventDefault();
-    card.showModal();
-  });
-  card.addEventListener('click',function(e){if(e.target===card)card.close();});
-  card.querySelector('.ccclose').addEventListener('click',function(){card.close();});
-})();
-</script>
-
-<script>
-document.documentElement.classList.add('js');
-
-/* ---- per-act scroll-scrub engine (house pattern, cinematic-scrollytelling) ---- */
-(function(){
-  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var acts = [].slice.call(document.querySelectorAll('.act'));
-  var state = acts.map(function(act){
-    return { act: act, video: act.querySelector('video'),
-             target: 0, current: 0, lastSeek: -1, ready: false, attached: false };
-  });
-
-  function readScroll(){
-    window.__nsCalls = (window.__nsCalls || 0) + 1;
-    var vh = innerHeight;
-    state.forEach(function(s){
-      var r = s.act.getBoundingClientRect();
-      var top = r.top + scrollY;                      /* .act offsetTop is unreliable: positioned ancestors */
-      var span = Math.max(1, s.act.offsetHeight - vh);
-      s.target = Math.min(1, Math.max(0, (scrollY - top) / span));
-      /* lazy attach/detach by distance: ~1.6 viewports keeps ≤2 films in memory */
-      var near = r.bottom > -1.6 * vh && r.top < 2.6 * vh;
-      if (near && !s.attached){
-        s.attached = true;
-        s.video.src = s.video.dataset.film;
-        s.video.load();
-      } else if (!near && s.attached){
-        s.attached = false; s.ready = false; s.primed = false; /* new src = cold decoder */
-        s.video.removeAttribute('src'); s.video.load();
-      }
-    });
-  }
-  /* slop-allow: RAW_SCROLL_LISTENER -- the handler only writes scrub targets and
-     attach flags; the rAF lerp loop below owns all motion. Decoupling them is what
-     makes the film scrub smooth. This is not scroll-driven animation. */
-  addEventListener('scroll', readScroll, {passive: true});
-  addEventListener('resize', readScroll);
-
-  /* Decode prime, PER VIDEO: a video element that has never played won't commit a seek
-     (iOS always; some desktop embeds too — measured here: currentTime writes snapped back
-     to 0 until first play()). Muted+playsinline play() is gesture-exempt in modern engines,
-     so prime on loadedmetadata; the gesture listeners below are the retry for engines that
-     refuse (iOS Low Power Mode). Poster-as-stage-background keeps black off the floor. */
-  function primeVideo(s){
-    if (s.primed || !s.video.src) return;
-    var v = s.video, pr;
-    try { pr = v.play(); } catch(e){ return; }
-    if (pr && pr.then) pr.then(function(){ s.primed = true; s.lastSeek = -1; try{ v.pause(); }catch(e){} })
-                         .catch(function(){ s.primed = false; });
-    else { s.primed = true; s.lastSeek = -1; try{ v.pause(); }catch(e){} }
-  }
-  state.forEach(function(s){
-    s.video.addEventListener('loadedmetadata', function(){
-      s.ready = true;
-      primeVideo(s);
-    });
-  });
-  ['touchstart','touchend','pointerdown','click','scroll','keydown'].forEach(function(ev){
-    addEventListener(ev, function(){ state.forEach(function(s){ if (s.attached) primeVideo(s); }); }, {passive: true});
-  });
-
-  var lastY = -1;
-  (function frame(){
-    /* scroll detection lives in the frame loop itself, not only in the event:
-       if scroll events are ever suppressed (embedders, odd UAs), the film still scrubs */
-    if (scrollY !== lastY){ lastY = scrollY; readScroll(); }
-    state.forEach(function(s){
-      s.current += (s.target - s.current) * (reduce ? 1 : 0.1);
-      if (Math.abs(s.target - s.current) < 0.0004) s.current = s.target;
-      if (s.ready && s.attached && s.video.duration){
-        var t = s.current * (s.video.duration - 0.05);
-        if (Math.abs(t - s.lastSeek) > 0.008){
-          try { s.video.currentTime = t; s.lastSeek = t; } catch(e){}
-        }
-      }
-    });
-    requestAnimationFrame(frame);
-  })();
-
-  readScroll();
-  window.__ns = state;  /* debug handle; harmless in production */
-})();
-
-/* ---- paper reveals: enhance the already-visible; IntersectionObserver, not scroll ---- */
-(function(){
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e, i){
-      if (e.isIntersecting){
-        setTimeout(function(){ e.target.classList.add('in'); }, (i % 4) * 55);
-        io.unobserve(e.target);
-      }
-    });
-  }, {threshold: 0.18});
-  document.querySelectorAll('.rv').forEach(function(el){ io.observe(el); });
-})();
-</script>
+<script src="/js/term.js" defer></script>
 </body>
 </html>
