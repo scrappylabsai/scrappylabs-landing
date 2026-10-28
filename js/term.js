@@ -27,8 +27,8 @@
   const fine = matchMedia('(pointer: fine)').matches;
   const PS1 = 'guest@scrappylabs:~$';
   const PHONE = '(336) 296-9877', TEL = 'tel:+13362969877', MAIL = 'brian@scrappylabs.ai';
-  const FILES = ['services', 'contact', 'about', 'blog', 'demos', 'github', 'ask'];
-  const GHOSTS = ['services', 'can you answer my phones after hours?', 'blog', 'demos',
+  const FILES = ['sev1', 'services', 'brand', 'contact', 'about', 'blog', 'demos', 'github', 'ask'];
+  const GHOSTS = ['services', 'sev1', 'someone cloned my store. can you help?', 'blog', 'demos',
                   'what would an AI receptionist cost me?', 'contact', 'help'];
 
   const ss = {
@@ -213,7 +213,11 @@
   }
   const fileCmd = (id) => (b) => showFile(b, id);
 
+  def(['sev1', 'sev', 'emergency', '911', 'urgent', 'outage', 'hacked', 'breach', 'incident'],
+    'something down, breached or on fire right now', fileCmd('sev1'));
   def(['services', 'svc'], 'what we build', fileCmd('services'));
+  def(['brand', 'clone', 'clones', 'impostor', 'fake', 'takedown'],
+    'a fake copy of your store, found and taken down', fileCmd('brand'));
   def(['contact', 'call', 'hire', 'email', 'phone'], 'phone, email, a free working session', fileCmd('contact'));
   def(['about', 'brian', 'founder'], "who's behind this", fileCmd('about'));
   def(['blog', 'posts', 'writing', 'log'], 'field notes, teardowns, long reads', fileCmd('blog'));
@@ -264,7 +268,8 @@
   });
 
   def(['ls', 'dir'], null, (b, args) => {
-    const items = [['services.txt', 'services'], ['contact.vcf', 'contact'], ['about.md', 'about'],
+    const items = [['sev1.txt', 'sev1'], ['services.txt', 'services'], ['brand-protection.txt', 'brand'],
+                   ['contact.vcf', 'contact'], ['about.md', 'about'],
                    ['blog/', 'blog'], ['demos/', 'demos'], ['github/', 'github']];
     if (args.some((a) => /^-\w*l/.test(a))) {
       for (const [name, cmd] of items) {
@@ -489,6 +494,7 @@
     ['', 'mounting /dev/agents', 'OK'],
     ['', 'phone desk on ' + PHONE, 'UP'],
     ['', 'babysitter (safety layer)', 'WATCHING'],
+    ['', 'brand watch (daily sweep)', 'SWEEPING'],
     ['hd', 'login: guest'],
   ];
   async function boot() {
