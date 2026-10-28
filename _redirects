@@ -26,6 +26,16 @@
 /about                  /            200
 /github                 https://github.com/scrappylabsai  302
 
+# Sev 1 + brand protection (2026-10-27): memorable short paths go to the real pages.
+/sev1                   /emergency          301
+/urgent                 /emergency          301
+/911                    /emergency          301
+/emergency.html         /emergency          301
+/brand                  /brand-protection   301
+/clones                 /brand-protection   301
+/brand-protection.html  /brand-protection   301
+/cloned-store.html      /cloned-store       301
+
 # Retired 2026-10-08 (older than ~3 months; Brian: "only recent shares needed").
 # Files archived in ~/scrappylabs-private/; manifest entries kept with public:false.
 /scrappy-tools          /            301

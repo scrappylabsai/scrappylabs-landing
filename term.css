@@ -147,6 +147,8 @@ kbd{font:inherit;color:var(--amber);padding:0 .25em;border:1px solid var(--edge)
 .chips a::after{content:"]"; color:var(--dim)}
 .chips a:hover{color:var(--bg);background:var(--amber);border-color:var(--amber)}
 .chips a:hover::before,.chips a:hover::after{color:var(--bg)}
+.chips a.hot{color:var(--red);border-color:var(--red)}
+.chips a.hot:hover{color:var(--bg);background:var(--red)}
 @media (pointer:fine){.chips a{min-height:0;line-height:1.6}}
 
 .cli{display:none}

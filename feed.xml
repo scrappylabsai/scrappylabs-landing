@@ -6,7 +6,7 @@
     <atom:link href="https://scrappylabs.ai/feed.xml" rel="self" type="application/rss+xml"/>
     <description>Experiments, publications, visual explainers, field notes and open source from ScrappyLabs. Built in the open.</description>
     <language>en</language>
-    <lastBuildDate>Thu, 08 Oct 2026 18:20:05 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 28 Oct 2026 02:09:28 +0000</lastBuildDate>
     <item>
       <title>We Gave the Robots a Babysitter</title>
       <link>https://scrappylabs.ai/babysitter</link>
@@ -17,6 +17,17 @@
       <category>agent safety</category>
       <category>predict-then-act</category>
       <category>prompt injection</category>
+    </item>
+    <item>
+      <title>Somebody Cloned the Store</title>
+      <link>https://scrappylabs.ai/cloned-store</link>
+      <guid isPermaLink="false">cloned-store</guid>
+      <pubDate>Tue, 27 Oct 2026 12:00:00 +0000</pubDate>
+      <description>The first sign wasn't a security alert. It was the phone. How fake copies of real online stores get built, how we followed one back to the crew running it, the tells, and a checklist for the morning you find yours.</description>
+      <category>security</category>
+      <category>brand protection</category>
+      <category>fraud</category>
+      <category>ecommerce</category>
     </item>
     <item>
       <title>Fara1.5, Wrangled — a Computer-Use Agent on Our Own GPU</title>
